@@ -1,0 +1,61 @@
+.trigger-test-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.run-test-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #ffcc00; /* Bee yellow */
+  color: #000; /* Bee black */
+  border: 2px solid #000; /* Black border for emphasis */
+  border-radius: 5px;
+  transition: opacity 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; /* Smooth transitions */
+}
+
+.run-test-button:disabled {
+  background-color: #f0e68c; /* Faded bee yellow */
+  color: #666; /* Faded black text */
+  border-color: #666; /* Faded black border */
+  cursor: not-allowed;
+  opacity: 0.6; /* Reduced opacity for loading state */
+}
+.status-message {
+  margin-top: 20px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.status-message.success {
+  color: green;
+}
+
+.status-message.error {
+  color: red;
+}
+
+.progress-container {
+  width: 100%;
+  max-width: 400px;
+  margin-top: 20px;
+  position: relative;
+}
+
+.progress-bar {
+  height: 20px;
+  background-color: #ffcc00; /* Bee yellow */
+  transition: width 0.5s ease;
+}
+
+.progress-text {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  top: 0;
+  left: 0;
+  line-height: 20px;
+  font-weight: bold;
+}
