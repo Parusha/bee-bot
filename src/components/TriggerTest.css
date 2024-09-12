@@ -1,61 +1,63 @@
 .trigger-test-container {
+  width: 100%; /* Make the container take full width of the sidebar */
+  padding: 10px; /* Adjust padding for the sidebar */
+  box-sizing: border-box; /* Ensure padding doesn't affect the width */
+}
+
+.run-test-link {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  padding: 20px;
-}
-
-.run-test-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  background-color: #ffcc00; /* Bee yellow */
-  color: #000; /* Bee black */
-  border: 2px solid #000; /* Black border for emphasis */
-  border-radius: 5px;
-  transition: opacity 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; /* Smooth transitions */
-}
-
-.run-test-button:disabled {
-  background-color: #f0e68c; /* Faded bee yellow */
-  color: #666; /* Faded black text */
-  border-color: #666; /* Faded black border */
-  cursor: not-allowed;
-  opacity: 0.6; /* Reduced opacity for loading state */
-}
-.status-message {
-  margin-top: 20px;
-  font-size: 16px;
+  font-size: 14px; /* Adjust font size for the sidebar */
   font-weight: bold;
+  text-decoration: none;
+  margin-bottom: 10px;
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden; /* Hide overflowing text */
+  text-overflow: ellipsis; /* Show ellipsis for overflowing text */
 }
 
-.status-message.success {
-  color: green;
+.play-button {
+  font-size: 20px; /* Adjust button size for the sidebar */
+  margin-right: 8px;
 }
 
-.status-message.error {
-  color: red;
+.loading-text {
+  font-size: 14px; /* Adjust font size for the sidebar */
 }
 
-.progress-container {
-  width: 100%;
-  max-width: 400px;
-  margin-top: 20px;
-  position: relative;
-}
-
-.progress-bar {
+.spinner {
+  width: 20px;
   height: 20px;
-  background-color: #ffcc00; /* Bee yellow */
-  transition: width 0.5s ease;
+  border: 3px solid rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  border-top: 3px solid #000;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  margin-right: 8px;
 }
 
-.progress-text {
-  position: absolute;
-  width: 100%;
-  text-align: center;
-  top: 0;
-  left: 0;
-  line-height: 20px;
-  font-weight: bold;
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.status-icon {
+  font-size: 20px; /* Adjust size for icons */
+  margin-right: 8px;
+}
+
+.success-icon {
+  color: #2ecc71; /* Green for success */
+}
+
+.error-icon {
+  color: #e74c3c; /* Red for errors */
+}
+
+.trigger-test-container.success .run-test-link .text {
+  color: #2ecc71; /* Green text for success */
+}
+
+.trigger-test-container.error .run-test-link .text {
+  color: #e74c3c; /* Red text for errors */
 }
