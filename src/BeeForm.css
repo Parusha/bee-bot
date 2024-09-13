@@ -1,0 +1,66 @@
+/* Fixed BeeForm on the right-hand side */
+.bee-form {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 250px;
+  background-color: #fffbee;
+  padding: 15px;
+  border-radius: 10px;
+  border: 2px solid #ffba00;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.bee-form h2 {
+  background-color: #ffba00; /* Yellow header */
+  color: white;
+  padding: 10px;
+  border-radius: 8px 8px 0 0; /* Rounded corners at the top, square at the bottom */
+  text-align: center;
+  margin: -15px -15px 10px -15px;
+}
+.bee-form .form-group {
+  margin-bottom: 10px;
+}
+
+.bee-form .form-group label {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.bee-form .form-group input[type="text"],
+.bee-form .form-group input[type="password"] {
+  width: 92%;
+  padding: 8px;
+  border: 1px solid #ffd740;
+  border-radius: 6px;
+}
+
+.bee-form .form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.bee-form .save-button {
+  background-color: #ffba00;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.bee-form .clear-button {
+  background-color: #ff4444;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.clear-button:hover {
+  background-color: #e53e3e;
+}

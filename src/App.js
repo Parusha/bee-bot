@@ -1,5 +1,6 @@
-import React, { useState } from 'react'; 
+import React, { useState } from 'react';
 import TriggerTest from './components/TriggerTest';
+import BeeForm from './BeeForm';
 import './App.css';
 
 const App = () => {
@@ -31,6 +32,7 @@ const App = () => {
               </p>
             </div>
           )}
+          <BeeForm />
         </main>
       </div>
     </div>
