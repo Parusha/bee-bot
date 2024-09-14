@@ -64,3 +64,22 @@
 .clear-button:hover {
   background-color: #e53e3e;
 }
+
+.bee-form-header {
+  border-radius: 8px 8px 0 0; /* Rounded top corners */
+  position: relative; /* Ensure the button can be positioned within */
+  text-align: center; /* Center the header label */
+  width: 100%; /* Make the header fill the width */
+}
+
+.minimize-button {
+  position: absolute;
+  top: 10px;
+  right: 10px; /* Align the button to the top-right */
+  background-color: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #000; /* Match button color with header text */
+}
+

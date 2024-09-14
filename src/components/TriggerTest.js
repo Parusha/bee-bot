@@ -3,50 +3,53 @@ import axios from 'axios';
 import './TriggerTest.css'; // Import the CSS file
 
 const TriggerTest = ({ onScreenshot }) => {
-  const [status, setStatus] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [screenshotUrl, setScreenshotUrl] = useState('');
+  const [status, setStatus] = useState(''); // To track success, error, or default state
+  const [loading, setLoading] = useState(false); // To manage the loading spinner
+  const [screenshotUrl, setScreenshotUrl] = useState(''); // To store the screenshot URL
 
   const handleRunTest = async () => {
-    setLoading(true);
-    setStatus('');
-    setScreenshotUrl('');
+    setLoading(true);  // Start the loading spinner
+    setStatus('');  // Reset the status before each test run
+    setScreenshotUrl(''); // Clear the previous screenshot URL
 
     try {
-      const response = await axios.post('http://localhost:3001/run-test');
-      setStatus('success');
-      setScreenshotUrl(response.data.screenshotUrl);
-      onScreenshot(response.data.screenshotUrl); // Pass the screenshot URL to the parent
+      const response = await axios.post('http://localhost:3001/run-test', {
+        testName: 'loginTest' // Pass the test name dynamically
+      });
+      
+      setStatus('success');  // Set the status to success when the test passes
+      setScreenshotUrl(response.data.screenshotUrl);  // Store the screenshot URL
+      onScreenshot(response.data.screenshotUrl);  // Pass the screenshot URL to the parent
     } catch (error) {
-      console.error('Error triggering test:', error);
-      setStatus('error');
+      console.error('Error triggering test:', error); // Handle any error from the test
+      setStatus('error');  // Set status to error on failure
     } finally {
-      setLoading(false);
+      setLoading(false);  // Stop the loading spinner once the test completes
     }
   };
 
   const getStatusIcon = () => {
     if (loading) {
-      return <span className="spinner"></span>;
+      return <span className="spinner"></span>;  // Show a spinner when loading
     }
     if (status === 'error') {
-      return <span className="status-icon error-icon">✘</span>;
+      return <span className="status-icon error-icon">✘</span>;  // Show error icon on failure
     }
     if (status === 'success') {
-      return <span className="status-icon success-icon">✔</span>;
+      return <span className="status-icon success-icon">✔</span>;  // Show success icon when successful
     }
-    return <span className="play-button">▶</span>;
+    return <span className="play-button">▶</span>;  // Show the play button by default
   };
 
   return (
     <div className={`trigger-test-container ${status}`}>
       <span
         className="run-test-link"
-        onClick={handleRunTest} // Clickable at all times
+        onClick={handleRunTest} // Always clickable, allowing the test to be rerun
         style={{ cursor: 'pointer' }}
       >
-        {getStatusIcon()}
-        <span className={`text ${status}`}>Login Process Test</span> {/* Test text */}
+        {getStatusIcon()}  {/* Show the correct icon based on status */}
+        <span className={`text ${status}`}>Login Process Test</span>  {/* Display the test name */}
       </span>
     </div>
   );
