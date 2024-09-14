@@ -83,3 +83,49 @@ html, body {
 .play-button:hover {
   transform: scale(1.2);
 }
+
+.default-content {
+  background-color: #fffbea; /* Light yellow for bee theme */
+  border: 2px solid #ffba00; /* Bee-themed yellow border */
+  border-radius: 12px; /* Rounded corners */
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.default-content h2 {
+  color: #ffba00; /* Bee-themed yellow */
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.default-content p {
+  color: #333; /* Dark text for contrast */
+  font-size: 16px;
+}
+
+.screenshot-container {
+  background-color: #fffbea;
+  border: 2px solid #ffba00;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.screenshot-image {
+  max-width: 100%;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center aligns the text and icon */
+}
+
+.bee-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px; /* Add space between the icon and the text */
+}
+
