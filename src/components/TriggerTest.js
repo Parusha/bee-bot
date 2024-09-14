@@ -12,9 +12,21 @@ const TriggerTest = ({ onScreenshot }) => {
     setStatus('');  // Reset the status before each test run
     setScreenshotUrl(''); // Clear the previous screenshot URL
 
+    // Retrieve form data from local storage
+    const formData = JSON.parse(localStorage.getItem('beeFormData'));
+
+    // Check if form data is available
+    if (!formData || !formData.url || !formData.username || !formData.password) {
+      setStatus('error');
+      setLoading(false);
+      alert('Please complete the form and save it before running the test.');
+      return;
+    }
+
     try {
       const response = await axios.post('http://localhost:3001/run-test', {
-        testName: 'loginTest' // Pass the test name dynamically
+        testName: 'loginTest', // Pass the test name dynamically
+        formData: formData // Include form data in the request
       });
       
       setStatus('success');  // Set the status to success when the test passes

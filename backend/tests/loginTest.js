@@ -1,13 +1,26 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer'); 
 const path = require('path');
 const fs = require('fs'); // Import the fs module
 
-const runLoginTest = async () => {
+const runLoginTest = async (formData) => {
+  // Validate required fields
+  const { url, username, password, device } = formData;
+
+  // Validate required fields
+  if (!url || !username || !password || !device) {
+    throw new Error('URL, username, password, and device are required');
+  }
+  const viewportDimensions = {
+    desktop: { width: 1920, height: 1080 },
+    mobile: { width: 1080, height: 1024 } 
+  };
+  const viewport = viewportDimensions[device] || viewportDimensions.desktop;
+
   try {
     const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
-    await page.goto('https://new.hollywoodbets.net/');
-    await page.setViewport({ width: 1080, height: 1024 });
+    await page.goto(url); 
+    await page.setViewport(viewport);
     await page.waitForSelector('div[role="presentation"]');
     await page.evaluate(() => {
       const button = Array.from(document.querySelectorAll('div[role="presentation"]'))
@@ -19,8 +32,8 @@ const runLoginTest = async () => {
       }
     });
     await page.waitForSelector('#Username');
-    await page.type('#Username', '0614694645');
-    await page.type('#password', 'David0000001$');
+    await page.type('#Username', username); 
+    await page.type('#password', password); 
     await page.click('#btnLogin');
     await page.waitForNavigation({ waitUntil: 'networkidle2' });
 

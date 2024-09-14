@@ -12,10 +12,14 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public'))); // Serve static files from the public directory
 
 app.post('/run-test', async (req, res) => {
-  const { testName } = req.body;
+  const { testName, formData } = req.body; // Extract testName and formData from the request body
 
   if (!testName) {
     return res.status(400).send('Test name is required');
+  }
+
+  if (!formData) {
+    return res.status(400).send('Form data is required');
   }
 
   try {
@@ -23,7 +27,7 @@ app.post('/run-test', async (req, res) => {
     
     switch (testName) {
       case 'loginTest':
-        result = await runLoginTest();
+        result = await runLoginTest(formData); // Pass formData to the runLoginTest function
         break;
 
       default:
