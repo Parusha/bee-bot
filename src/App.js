@@ -13,7 +13,6 @@ const App = () => {
   return (
     <div className="app-container">
       <header className="header">
-      <img src="/path/to/bee-icon.png" alt="Bee Icon" className="bee-icon" />
         <div>Bee Bot Dashboard</div>
       </header>
       <div className="main-container">
