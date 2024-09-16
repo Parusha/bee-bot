@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs'); // Import the fs module
-const runLoginTest = require('./tests/loginTest'); // Import the test script
+const runLoginTest = require('../src/tests/loginTest'); // Import the test script
 
 const app = express();
 const port = 3001;
