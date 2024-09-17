@@ -1,18 +1,34 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const fs = require('fs'); // Import the fs module
-const runLoginTest = require('../src/tests/loginTest'); // Import the test script
+const fs = require('fs');
+const http = require('http');
+const socketIO = require('socket.io');
+const runLoginTest = require('../src/tests/loginTest');
 
 const app = express();
 const port = 3001;
 
+// Create an HTTP server and pass the express app
+const server = http.createServer(app);
+
+// Set up Socket.IO
+const io = socketIO(server, {
+  cors: {
+    origin: "*", // Allow all origins (configure appropriately in production)
+    methods: ["GET", "POST"]
+  }
+});
+
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public'))); // Serve static files from the public directory
+app.use(express.static(path.join(__dirname, 'public'))); // Serve static files from the 'public' folder
+
+// Serve images from the 'testing' folder on your desktop
+app.use('/images', express.static(path.join('C:', 'Users', 'ParushaN', 'Desktop', 'testing')));
 
 app.post('/run-test', async (req, res) => {
-  const { testName, formData } = req.body; // Extract testName and formData from the request body
+  const { testName, formData } = req.body;
 
   if (!testName) {
     return res.status(400).send('Test name is required');
@@ -24,10 +40,12 @@ app.post('/run-test', async (req, res) => {
 
   try {
     let result;
-    
+
+    // Run the test and pass the socket instance to receive logs
     switch (testName) {
       case 'loginTest':
-        result = await runLoginTest(formData); // Pass formData to the runLoginTest function
+        io.emit('log', 'Starting login test...');
+        result = await runLoginTest(formData, io); // Pass Socket.IO to the runLoginTest function
         break;
 
       default:
@@ -36,11 +54,20 @@ app.post('/run-test', async (req, res) => {
 
     res.status(200).json(result);
   } catch (error) {
-    console.error('Error running Puppeteer test:', error.message);
+    io.emit('log', `Error running test: ${error.message}`);
     res.status(500).send(`Error running test: ${error.message}`);
   }
 });
 
-app.listen(port, () => {
+// Socket.IO connection handler
+io.on('connection', (socket) => {
+  console.log('A user connected');
+  socket.on('disconnect', () => {
+    console.log('User disconnected');
+  });
+});
+
+// Start the server
+server.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });

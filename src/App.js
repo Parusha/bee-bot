@@ -1,14 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import io from 'socket.io-client';
 import TriggerTest from './components/TriggerTest';
 import BeeForm from './BeeForm';
-import './App.css'; 
+import './App.css';
+
+// Connect to the Socket.IO server
+const socket = io('http://localhost:3001');
 
 const App = () => {
   const [screenshotUrl, setScreenshotUrl] = useState('');
+  const [logMessages, setLogMessages] = useState([]);
 
   const handleScreenshot = (url) => {
-    setScreenshotUrl(url); 
+    setScreenshotUrl(url);
   };
+
+  useEffect(() => {
+    // Listen for log messages from the server
+    socket.on('log', (message) => {
+      setLogMessages((prevMessages) => [...prevMessages, message]);
+    });
+
+    return () => {
+      socket.off('log');
+    };
+  }, []);
 
   return (
     <div className="app-container">
@@ -24,7 +40,8 @@ const App = () => {
           {screenshotUrl ? (
             <div className="screenshot-container">
               <h2>Screenshot</h2>
-              <img src={screenshotUrl} alt="Test Screenshot" className="screenshot-image" />
+              {/* Display the dynamically accessed image */}
+              <img src={`/images/${screenshotUrl}`} alt="Test Screenshot" className="screenshot-image" />
               <p>
                 <a href={screenshotUrl} target="_blank" rel="noopener noreferrer">
                   View Screenshot
@@ -40,6 +57,16 @@ const App = () => {
             </div>
           )}
           <BeeForm />
+
+          {/* Display log messages */}
+          <div className="log-container">
+            <h3>Log Messages</h3>
+            <ul>
+              {logMessages.map((msg, index) => (
+                <li key={index}>{msg}</li>
+              ))}
+            </ul>
+          </div>
         </main>
       </div>
     </div>
