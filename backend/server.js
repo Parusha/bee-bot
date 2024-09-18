@@ -22,11 +22,10 @@ const io = socketIO(server, {
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public'))); // Serve static files from the 'public' folder
+const imagesDir = process.env.IMAGES_DIR || path.resolve(__dirname, 'images'); // Default to local 'images' folder
 
-// Serve images from the 'testing' folder on your desktop
-app.use('/images', express.static(path.join('C:', 'Users', 'ParushaN', 'Desktop', 'testing')));
-
+// Serve images from dynamic directory
+app.use('/images', express.static(imagesDir));
 app.post('/run-test', async (req, res) => {
   const { testName, formData } = req.body;
 
