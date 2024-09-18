@@ -58,12 +58,15 @@ const App = () => {
           )}
           <BeeForm />
 
-          {/* Display log messages */}
+          {/* Display log messages with bee icon */}
           <div className="log-container">
             <h3>Log Messages</h3>
-            <ul>
+            <ul className="log-list">
               {logMessages.map((msg, index) => (
-                <li key={index}>{msg}</li>
+                <li key={index} className="log-message">
+                  <img src="/bee-icon.png" alt="Bee Icon" className="bee-icon" />
+                  <span className="message-text">{msg}</span>
+                </li>
               ))}
             </ul>
           </div>

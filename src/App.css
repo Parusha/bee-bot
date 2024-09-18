@@ -129,3 +129,57 @@ html, body {
   margin-right: 10px; /* Add space between the icon and the text */
 }
 
+/* Styling the container */
+.log-container {
+  background-color: #fffbea; /* Light bee-yellow background */
+  border: 2px solid #ffba00; /* Bee-orange border */
+  border-radius: 12px; /* Rounded corners */
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.log-container h3 {
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Remove bullet points */
+.log-list {
+  list-style-type: none;
+  padding-left: 0;
+
+}
+
+/* Flexbox for icon and text alignment */
+.log-message {
+  display: flex;
+  align-items: center; /* Vertically center icon and text */
+  background-color: #fff;
+  border: 1px solid #ffba00;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 8px;
+  color: #333;
+  font-family: 'Courier New', monospace; /* Log-like appearance */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow */
+}
+
+/* Bee icon styling */
+.bee-icon {
+  width: 24px; /* Adjust size for appropriate look */
+  height: 24px;
+  margin-right: 10px; /* Space between icon and text */
+}
+
+/* Message text styling */
+.message-text {
+  flex-grow: 1; /* Allow text to take up remaining space */
+  color: #333;
+  font-size: 1em;
+}
+
+.log-message:last-child {
+  margin-bottom: 0;
+}
+
