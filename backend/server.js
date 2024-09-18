@@ -5,6 +5,7 @@ const fs = require('fs');
 const http = require('http');
 const socketIO = require('socket.io');
 const runLoginTest = require('../src/tests/loginTest');
+const os = require('os'); // Import os module to get the home directory
 
 const app = express();
 const port = 3001;
@@ -22,10 +23,14 @@ const io = socketIO(server, {
 
 app.use(cors());
 app.use(express.json());
-const imagesDir = process.env.IMAGES_DIR || path.resolve(__dirname, 'images'); // Default to local 'images' folder
+// Get the user's home directory dynamically
+const userHomeDir = os.homedir();
 
-// Serve images from dynamic directory
-app.use('/images', express.static(imagesDir));
+// Point to a folder on the user's Desktop (or any directory inside their home directory)
+const desktopImagesDir = path.join(userHomeDir, 'Desktop', 'testing');
+
+app.use('/images', express.static(desktopImagesDir));
+
 app.post('/run-test', async (req, res) => {
   const { testName, formData } = req.body;
 
