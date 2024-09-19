@@ -3,16 +3,14 @@ const path = require('path');
 const fs = require('fs');
 
 // Helper function to get the desktop path
-const getDesktopPath = () => {
-  if (process.platform === 'win32') {
-    return path.join(process.env.USERPROFILE, 'Desktop');
-  } else {
-    return path.join(process.env.HOME, 'Desktop');
-  }
-};
+const getDesktopPath = () => 
+  process.platform === 'win32' 
+    ? path.join(process.env.USERPROFILE, 'Desktop') 
+    : path.join(process.env.HOME, 'Desktop');
 
 const runLoginTest = async (formData, io) => {
   const { url, username, password, device } = formData;
+
   if (!url || !username || !password || !device) {
     throw new Error('URL, username, password, and device are required');
   }
@@ -21,6 +19,7 @@ const runLoginTest = async (formData, io) => {
     desktop: { width: 1920, height: 1080 },
     mobile: { width: 1080, height: 1024 },
   };
+
   const viewport = viewportDimensions[device] || viewportDimensions.desktop;
 
   try {
@@ -33,25 +32,35 @@ const runLoginTest = async (formData, io) => {
 
     const page = await browser.newPage();
     await page.setViewport(viewport);
+
     io.emit('log', `Navigating to URL: ${url}`);
     await page.goto(url);
 
-    io.emit('log', 'Waiting for login button...');
-    await page.waitForSelector('div[role="presentation"]', { timeout: 5000 });
+    // Handle login based on device type
+    if (device === 'desktop') {
+      io.emit('log', 'Waiting for login button...');
+      await page.waitForSelector('button[data-testid="login-btn"]', { timeout: 5000 });
 
-    io.emit('log', 'Finding and clicking the login button...');
-    const buttonFound = await page.evaluate(() => {
-      const button = Array.from(document.querySelectorAll('div[role="presentation"]'))
-        .find(div => div.innerText.trim() === 'Log in');
-      if (button) {
-        button.click();
-        return true;
+      io.emit('log', 'Login button found, clicking the button...');
+      await page.click('button[data-testid="login-btn"]');
+    } else {
+      io.emit('log', 'Waiting for login button...');
+      await page.waitForSelector('div[role="presentation"]', { timeout: 5000 });
+
+      io.emit('log', 'Finding and clicking the login button...');
+      const buttonFound = await page.evaluate(() => {
+        const button = Array.from(document.querySelectorAll('div[role="presentation"]'))
+          .find(div => div.innerText.trim() === 'Log in');
+        if (button) {
+          button.click();
+          return true;
+        }
+        return false;
+      });
+
+      if (!buttonFound) {
+        throw new Error('Login button not found');
       }
-      return false;
-    });
-
-    if (!buttonFound) {
-      throw new Error('Login button not found');
     }
 
     io.emit('log', 'Entering username and password...');
@@ -63,39 +72,26 @@ const runLoginTest = async (formData, io) => {
     io.emit('log', 'Waiting for navigation...');
     await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 10000 });
 
-    let screenshotPath;
-    try {
-      const desktopDir = getDesktopPath();
-      const testingDir = path.join(desktopDir, 'testing'); // Create the 'testing' folder on desktop
+    // Handle screenshot saving
+    const desktopDir = getDesktopPath();
+    const testingDir = path.join(desktopDir, 'testing');
 
-      io.emit('log', 'Ensuring screenshot directory exists...');
-      if (!fs.existsSync(testingDir)) {
-        fs.mkdirSync(testingDir);
-      }
-
-      screenshotPath = path.join(testingDir, 'loggedIn.png');
-    } catch (pathError) {
-      io.emit('log', `Error setting up screenshot directory or path: ${pathError.message}`);
-      throw new Error(`Error setting up screenshot directory or path: ${pathError.message}`);
+    if (!fs.existsSync(testingDir)) {
+      fs.mkdirSync(testingDir);
     }
 
+    const screenshotPath = path.join(testingDir, 'loggedIn.png');
     io.emit('log', 'Taking screenshot...');
-    try {
-      await page.screenshot({ path: screenshotPath });
-      io.emit('log', `Screenshot saved at: ${screenshotPath}`);
-    } catch (screenshotError) {
-      io.emit('log', `Error taking screenshot: ${screenshotError.message}`);
-      throw new Error(`Error taking screenshot: ${screenshotError.message}`);
-    }
+    await page.screenshot({ path: screenshotPath });
+    io.emit('log', `Screenshot saved at: ${screenshotPath}`);
 
-    io.emit('log', 'Waiting before closing the browser...');
+    // Close the browser
     io.emit('log', 'Closing browser...');
     await browser.close();
-    io.emit('log', 'Browser closed...');
 
     return {
       message: 'Test completed successfully',
-      screenshotUrl: `loggedIn.png`, // Provide a file URL for easier access
+      screenshotUrl: 'loggedIn.png',
     };
   } catch (error) {
     io.emit('log', `Error running Puppeteer test: ${error.stack || error.message}`);
