@@ -1,8 +1,23 @@
 /* Updated CSS for Spinner */
 .trigger-test-container {
-  width: 100%; /* Make the container take full width of the sidebar */
-  padding: 10px; /* Adjust padding for the sidebar */
+  width: max-content;
+ 
   box-sizing: border-box; /* Ensure padding doesn't affect the width */
+  background-color: #ffba00;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  border-radius: 6px; /* Rounded corners */
+  margin-bottom: 10px; /* Space between items */
+   
+  align-items: center; /* Center items vertically */
+  transition: background-color 0.3s ease; /* Smooth background change */
+}
+
+.trigger-test-container:hover {
+  background-color: #ffef84; /* Slightly darker yellow on hover */
 }
 
 .run-test-link {
@@ -11,15 +26,18 @@
   font-size: 14px; /* Adjust font size for the sidebar */
   font-weight: bold;
   text-decoration: none;
-  margin-bottom: 10px;
+  margin: 0; /* Remove bottom margin to avoid excess space */
   white-space: nowrap; /* Prevent text wrapping */
   overflow: hidden; /* Hide overflowing text */
   text-overflow: ellipsis; /* Show ellipsis for overflowing text */
+  flex-grow: 1; /* Allow text to take available space */
+  width: fit-content;
 }
 
 .play-button {
-  font-size: 20px; /* Adjust button size for the sidebar */
+  font-size: 10px; /* Adjust button size for the sidebar */
   margin-right: 8px;
+  color: white;
 }
 
 .loading-text {
@@ -27,14 +45,14 @@
 }
 
 .spinner {
-  width: 20px;
-  height: 20px;
+  width: 10px;
+  height: 10px;
   border: 3px solid rgba(0, 0, 0, 0.3);
   border-radius: 50%;
-  border-top: 3px solid #ffba00; /* Yellow spinner color */
+  border-top: 3px solid white; /* Yellow spinner color */
   animation: spin 1s linear infinite;
   display: inline-block;
-  margin-right: 8px;
+  margin-right: 8px; /* Space before text */
 }
 
 @keyframes spin {
@@ -43,12 +61,12 @@
 }
 
 .status-icon {
-  font-size: 20px; /* Adjust size for icons */
+  font-size: 10px; /* Adjust size for icons */
   margin-right: 8px;
 }
 
 .success-icon {
-  color: #2ecc71; /* Green for success */
+  color: white; /* Green for success */
 }
 
 .error-icon {
@@ -56,9 +74,23 @@
 }
 
 .trigger-test-container.success .run-test-link .text {
-  color: #2ecc71; /* Green text for success */
+  background-color: #2ecc71; /* Green text for success */
+  color: white;
+  width: fit-content;
 }
+.trigger-test-container.success{
+  background-color: #2ecc71; /* Green text for success */
+  color: white;
+  width: fit-content;
+}
+
 
 .trigger-test-container.error .run-test-link .text {
   color: #e74c3c; /* Red text for errors */
+}
+
+.trigger-test-container.error{
+  background-color: #e74c3c; /* Green text for success */
+  color: white;
+  width: fit-content;
 }

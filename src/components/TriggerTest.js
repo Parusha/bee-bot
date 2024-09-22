@@ -5,12 +5,10 @@ import './TriggerTest.css'; // Import the CSS file
 const TriggerTest = ({ onScreenshot }) => {
   const [status, setStatus] = useState(''); // To track success, error, or default state
   const [loading, setLoading] = useState(false); // To manage the loading spinner
-  const [screenshotUrl, setScreenshotUrl] = useState(''); // To store the screenshot URL
 
   const handleRunTest = async () => {
     setLoading(true);  // Start the loading spinner
     setStatus('');  // Reset the status before each test run
-    setScreenshotUrl(''); // Clear the previous screenshot URL
 
     // Retrieve form data from local storage
     const formData = JSON.parse(localStorage.getItem('beeFormData'));
@@ -30,7 +28,6 @@ const TriggerTest = ({ onScreenshot }) => {
       });
       
       setStatus('success');  // Set the status to success when the test passes
-      setScreenshotUrl(response.data.screenshotUrl);  // Store the screenshot URL
       onScreenshot(response.data.screenshotUrl);  // Pass the screenshot URL to the parent
     } catch (error) {
       console.error('Error triggering test:', error); // Handle any error from the test
@@ -39,6 +36,8 @@ const TriggerTest = ({ onScreenshot }) => {
       setLoading(false);  // Stop the loading spinner once the test completes
     }
   };
+
+
 
   const getStatusIcon = () => {
     if (loading) {
@@ -53,6 +52,13 @@ const TriggerTest = ({ onScreenshot }) => {
     return <span className="play-button">▶</span>;  // Show the play button by default
   };
 
+  const getTestStatusText = () => {
+    if (loading) return "Run";  // Show "Run" while loading
+    if (status === 'success') return "Passed";  // Show "Passed" on success
+    if (status === 'error') return "Failed";  // Show "Failed" on error
+    return "Run";  // Default text
+  };
+
   return (
     <div className={`trigger-test-container ${status}`}>
       <span
@@ -61,7 +67,7 @@ const TriggerTest = ({ onScreenshot }) => {
         style={{ cursor: 'pointer' }}
       >
         {getStatusIcon()}  {/* Show the correct icon based on status */}
-        <span className={`text ${status}`}>Login Process Test</span>  {/* Display the test name */}
+        <span className={`text ${status}`}>{getTestStatusText()}</span>  {/* Display the test status text */}
       </span>
     </div>
   );

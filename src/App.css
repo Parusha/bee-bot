@@ -1,114 +1,130 @@
-/* Ensure the body and html elements take up the full height */
+/* Global Styles */
 html, body {
   height: 100%;
   margin: 0;
-} 
-
-/* General App container */
-.app-container {
   font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  height: 100vh;
+}
+
+.app-container {
   display: flex;
   flex-direction: column;
+  height: 100vh;
 }
 
 /* Header */
 .header {
-  background-color: #ffba00; /* Yellow bee-themed color */
+  background-color: #ffba00;
   color: white;
   text-align: center;
   padding: 20px;
   font-size: 24px;
   font-weight: bold;
   position: sticky;
-  top: 0; /* Stick to the top of the viewport */
-  width: 100%; /* Ensure it spans the full width */
-  z-index: 1000; /* Ensure it stays above other content */
+  top: 0;
+  width: 100%;
+  z-index: 1000;
 }
 
-/* Main content container */
+.header-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bee-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+/* Main Layout */
 .main-container {
   display: flex;
-  flex: 1; /* Allow it to grow and fill available space */
-  flex-direction: row;
-  overflow: hidden; /* Hide overflow if necessary */
+  flex: 1;
+  overflow: hidden;
 }
 
-/* Side menu */
+/* Side Menu */
 .side-menu {
   width: 200px;
-  background-color: #333; /* Dark black color for bee contrast */
-  color: #ffd700; /* Yellow color for text */
+  background-color: #333;
+  color: #ffd700;
   padding: 20px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  flex-shrink: 0; /* Prevent shrinking */
-  overflow-y: auto; /* Allow scrolling if content overflows */
+  flex-shrink: 0;
+  overflow-y: auto;
 }
 
-/* Content area */
-.content {
-  flex: 1;
-  padding: 20px;
-  background-color: #fff; /* White background for content */
-  overflow: auto; /* Allow scrolling if content overflows */
+.side-menu ul {
+  list-style-type: none; /* Remove bullet points */
+  padding-left: 0;
 }
 
-/* Screenshot section */
-.screenshot-container {
-  margin-top: 20px;
-}
-
-/* Screenshot image */
-.screenshot-image {
-  max-width: 100%;
-  height: auto;
+.side-menu li {
   margin-bottom: 10px;
 }
 
-/* Play button style */
-.play-button {
+.side-menu button {
   background: none;
   border: none;
-  color: #ffd700; /* Yellow for button */
+  color: #ffd700;
   font-size: 1.2em;
   cursor: pointer;
-  margin-right: 10px; /* Space between button and text */
+  padding: 10px;
+  text-align: left;
   transition: transform 0.3s ease;
+  width: 100%;
+  border-radius: 5px; /* Add rounded corners */
 }
 
-.play-button:hover {
-  transform: scale(1.2);
+.side-menu button:hover {
+  transform: scale(1.1);
+}
+
+/* Active Menu Item Highlight */
+.side-menu li.active button {
+  background-color: #ffba00; /* Highlight color */
+  color: #fff;
+  border-radius: 5px;
+}
+
+/* Content Area */
+.content {
+  flex: 1;
+  padding: 20px;
+  background-color: #fff;
+  overflow: auto;
 }
 
 .default-content {
-  background-color: #fffbea; /* Light yellow for bee theme */
-  border: 2px solid #ffba00; /* Bee-themed yellow border */
-  border-radius: 12px; /* Rounded corners */
+  background-color: #fffbea;
+  border: 2px solid #ffba00;
+  border-radius: 12px;
   padding: 20px;
   text-align: center;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .default-content h2 {
-  color: #ffba00; /* Bee-themed yellow */
+  color: #ffba00;
   font-size: 24px;
   margin-bottom: 10px;
 }
 
 .default-content p {
-  color: #333; /* Dark text for contrast */
+  color: #333;
   font-size: 16px;
 }
 
+/* Screenshot Section */
 .screenshot-container {
   background-color: #fffbea;
   border: 2px solid #ffba00;
   border-radius: 12px;
   padding: 20px;
+  margin-top: 20px;
 }
 
 .screenshot-image {
@@ -117,69 +133,60 @@ html, body {
   margin-bottom: 10px;
 }
 
-.header-title {
+/* Accordion */
+.accordion {
+  margin-bottom: 1rem;
+  border: 2px solid #ffba00;
+  border-radius: 8px;
+  background-color: #fffbea;
+}
+
+.accordion-header {
   display: flex;
-  align-items: center;
-  justify-content: center; /* Center aligns the text and icon */
+  justify-content: space-between;
+  padding: 0.5rem;
+  cursor: pointer;
+  font-weight: bold;
 }
 
-.bee-icon {
-  width: 30px;
-  height: 30px;
-  margin-right: 10px; /* Add space between the icon and the text */
+.accordion-body {
+  padding: 0.5rem;
+  border-top: 1px solid #ffba00;
 }
 
-/* Styling the container */
+/* Log Messages */
 .log-container {
-  background-color: #fffbea; /* Light bee-yellow background */
-  border: 2px solid #ffba00; /* Bee-orange border */
-  border-radius: 12px; /* Rounded corners */
+  background-color: #fffbea;
+  border: 2px solid #ffba00;
+  border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.log-container h3 {
-  font-family: 'Arial', sans-serif;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-/* Remove bullet points */
 .log-list {
   list-style-type: none;
   padding-left: 0;
-
 }
 
-/* Flexbox for icon and text alignment */
 .log-message {
   display: flex;
-  align-items: center; /* Vertically center icon and text */
+  align-items: center;
   background-color: #fff;
   border: 1px solid #ffba00;
   border-radius: 8px;
   padding: 10px;
   margin-bottom: 8px;
   color: #333;
-  font-family: 'Courier New', monospace; /* Log-like appearance */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow */
-}
-
-/* Bee icon styling */
-.bee-icon {
-  width: 24px; /* Adjust size for appropriate look */
-  height: 24px;
-  margin-right: 10px; /* Space between icon and text */
-}
-
-/* Message text styling */
-.message-text {
-  flex-grow: 1; /* Allow text to take up remaining space */
-  color: #333;
-  font-size: 1em;
+  font-family: 'Courier New', monospace;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .log-message:last-child {
   margin-bottom: 0;
 }
 
+.message-text {
+  flex-grow: 1;
+  color: #333;
+  font-size: 1em;
+}
