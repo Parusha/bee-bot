@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const http = require('http');
 const socketIO = require('socket.io');
-const runLoginTest = require('../src/tests/loginTest');
+const runLoginTest = require('./server/tests/loginTest');
 const os = require('os'); // Import os module to get the home directory
 
 const app = express();
@@ -75,3 +75,6 @@ io.on('connection', (socket) => {
 server.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
+
+
+//https://chatgpt.com/c/66eb12e6-7ef8-8001-9be6-b90932b78dad
