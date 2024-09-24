@@ -1,4 +1,4 @@
-const runLoginTest = require('../tests/loginTest');
+const runLoginTest = require('../tests//Login/loginTest');
 const io = require('../services/socketService');
 
 // Controller function to handle test execution

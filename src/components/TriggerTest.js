@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './TriggerTest.css'; // Import the CSS file
+import './TriggerTest.css';
 
-const TriggerTest = ({ onScreenshot }) => {
-  const [status, setStatus] = useState(''); // To track success, error, or default state
-  const [loading, setLoading] = useState(false); // To manage the loading spinner
+const TriggerTest = ({ onScreenshot, testName }) => {
+  const [status, setStatus] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleRunTest = async () => {
-    setLoading(true);  // Start the loading spinner
-    setStatus('');  // Reset the status before each test run
+    setLoading(true);
+    setStatus('');
 
-    // Retrieve form data from local storage
     const formData = JSON.parse(localStorage.getItem('beeFormData'));
 
-    // Check if form data is available
     if (!formData || !formData.url || !formData.username || !formData.password) {
       setStatus('error');
       setLoading(false);
@@ -23,51 +21,43 @@ const TriggerTest = ({ onScreenshot }) => {
 
     try {
       const response = await axios.post('http://localhost:3001/run-test', {
-        testName: 'loginTest', // Pass the test name dynamically
-        formData: formData // Include form data in the request
+        testName: testName, // Use dynamic testName here
+        formData: formData
       });
       
-      setStatus('success');  // Set the status to success when the test passes
-      onScreenshot(response.data.screenshotUrl);  // Pass the screenshot URL to the parent
+      setStatus('success');
+      onScreenshot(response.data.screenshotUrl);
     } catch (error) {
-      console.error('Error triggering test:', error); // Handle any error from the test
-      setStatus('error');  // Set status to error on failure
+      console.error('Error triggering test:', error);
+      setStatus('error');
     } finally {
-      setLoading(false);  // Stop the loading spinner once the test completes
+      setLoading(false);
     }
   };
 
-
-
   const getStatusIcon = () => {
-    if (loading) {
-      return <span className="spinner"></span>;  // Show a spinner when loading
-    }
-    if (status === 'error') {
-      return <span className="status-icon error-icon">✘</span>;  // Show error icon on failure
-    }
-    if (status === 'success') {
-      return <span className="status-icon success-icon">✔</span>;  // Show success icon when successful
-    }
-    return <span className="play-button">▶</span>;  // Show the play button by default
+    if (loading) return <span className="spinner"></span>;
+    if (status === 'error') return <span className="status-icon error-icon">✘</span>;
+    if (status === 'success') return <span className="status-icon success-icon">✔</span>;
+    return <span className="play-button">▶</span>;
   };
 
   const getTestStatusText = () => {
-    if (loading) return "Run";  // Show "Run" while loading
-    if (status === 'success') return "Passed";  // Show "Passed" on success
-    if (status === 'error') return "Failed";  // Show "Failed" on error
-    return "Run";  // Default text
+    if (loading) return "Running...";
+    if (status === 'success') return "Passed";
+    if (status === 'error') return "Failed";
+    return "Run Test";
   };
 
   return (
     <div className={`trigger-test-container ${status}`}>
       <span
         className="run-test-link"
-        onClick={handleRunTest} // Always clickable, allowing the test to be rerun
+        onClick={handleRunTest}
         style={{ cursor: 'pointer' }}
       >
-        {getStatusIcon()}  {/* Show the correct icon based on status */}
-        <span className={`text ${status}`}>{getTestStatusText()}</span>  {/* Display the test status text */}
+        {getStatusIcon()}
+        <span className={`text ${status}`}>{getTestStatusText()}</span>
       </span>
     </div>
   );

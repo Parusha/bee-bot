@@ -118,42 +118,6 @@ html, body {
   font-size: 16px;
 }
 
-/* Screenshot Section */
-.screenshot-container {
-  background-color: #fffbea;
-  border: 2px solid #ffba00;
-  border-radius: 12px;
-  padding: 20px;
-  margin-top: 20px;
-}
-
-.screenshot-image {
-  max-width: 100%;
-  border-radius: 8px;
-  margin-bottom: 10px;
-}
-
-/* Accordion */
-.accordion {
-  margin-bottom: 1rem;
-  border: 2px solid #ffba00;
-  border-radius: 8px;
-  background-color: #fffbea;
-}
-
-.accordion-header {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.5rem;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.accordion-body {
-  padding: 0.5rem;
-  border-top: 1px solid #ffba00;
-}
-
 /* Log Messages */
 .log-container {
   background-color: #fffbea;

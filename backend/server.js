@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const http = require('http');
 const socketIO = require('socket.io');
-const runLoginTest = require('./server/tests/loginTest');
+const runLoginTest = require('./server/tests/Login/loginTest');
 const os = require('os'); // Import os module to get the home directory
 
 const app = express();
