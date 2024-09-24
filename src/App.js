@@ -6,7 +6,7 @@ import Screenshot from './components/Screenshot';
 import LogMessages from './components/LogMessages';
 import BeeForm from './components/BeeForm';
 import HomePage from './pages/HomePage';
-import accordionData from './data/accordionData.json';
+import accordionData from './data/accordionData.json'; // Ensure this is updated
 import './styles/App.css';
 
 const App = () => {
@@ -20,12 +20,6 @@ const App = () => {
       console.log('Received log message:', message); // Debugging log
       setLogMessages((prevMessages) => {
         const updatedMessages = [...prevMessages, message];
-
-        // If this is the first message, set screenshotUrl to an appropriate value
-        if (updatedMessages.length === 1 && !screenshotUrl) {
-          setScreenshotUrl(''); // Reset or set screenshotUrl if necessary
-        }
-
         return updatedMessages;
       });
     };
@@ -35,7 +29,7 @@ const App = () => {
     return () => {
       socket.off('log', logHandler);
     };
-  }, [screenshotUrl]);
+  }, []);
 
   const toggleAccordion = (index) => {
     // Toggle the accordion, close it if it was open, or open it if it was closed
@@ -59,8 +53,8 @@ const App = () => {
           onScreenshot={handleScreenshot}
           testName={content.testName}
         />
-        <div>Description</div>
-        {content.description}
+        <h3>Description</h3>
+        <p dangerouslySetInnerHTML={{ __html: content.description }} /> {/* Render HTML */}
       </>
     );
   };
@@ -73,16 +67,16 @@ const App = () => {
             <Accordion
               key={index}
               title={item.title}
-              isOpen={openAccordionIndex === index}
-              onToggle={() => toggleAccordion(index)}
+              isOpen={openAccordionIndex === index} // Only one accordion can be open
+              onToggle={() => toggleAccordion(index)} // Use toggle function
             >
               {renderContent(item.content, index)}
             </Accordion>
           ))}
-          <div className="screenshot-log-container">
+          <div className="screenshot-log-container"> {/* New container */}
             <h4>Log Messages</h4>
-            {logMessages.length > 0 && screenshotUrl && <Screenshot screenshotUrl={screenshotUrl} />}
-            {logMessages.length > 0 && <LogMessages logMessages={logMessages} />}
+            {logMessages.length > 0 && screenshotUrl && <Screenshot screenshotUrl={screenshotUrl} />} {/* Conditional rendering */}
+            {logMessages.length > 0 && <LogMessages logMessages={logMessages} />} {/* Ensure it's an array */}
           </div>
         </>
       );

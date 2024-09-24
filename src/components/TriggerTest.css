@@ -70,7 +70,7 @@
 }
 
 .error-icon {
-  color: #e74c3c; /* Red for errors */
+  color: white;  /* Red for errors */
 }
 
 .trigger-test-container.success .run-test-link .text {
@@ -84,10 +84,6 @@
   width: fit-content;
 }
 
-
-.trigger-test-container.error .run-test-link .text {
-  color: #e74c3c; /* Red text for errors */
-}
 
 .trigger-test-container.error{
   background-color: #e74c3c; /* Green text for success */
