@@ -118,56 +118,61 @@ html, body {
   font-size: 16px;
 }
 
+/* Screenshot and Log Messages Container */
+.screenshot-log-container {
+  background-color: #fffbea; /* Bee-themed background color */
+  border: 2px solid #ffba00; /* Yellow border */
+  border-radius: 12px; /* Rounded corners */
+  padding: 20px; /* Padding inside the container */
+  margin-top: 20px; /* Space above the container */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
+}
+
 /* Screenshot Section */
 .screenshot-container {
-  background-color: #fffbea;
-  border-radius: 12px;
-  padding: 20px;
-  margin-top: 20px;
-
+  margin-bottom: 20px; /* Space below the screenshot section */
 }
 
 .resized-image {
-  width: 50%; 
-  height: auto; 
-  border: 5px solid #ffba00;;
-  border-radius: 8px;
+  width: 30%; /* Adjust the width to be smaller (you can change this value as needed) */
+  height: auto; /* Maintain aspect ratio */
+  border: 5px solid #ffba00; /* Yellow border for the image */
+  border-radius: 12px; /* Rounded corners for the image */
 }
 
 /* Log Messages */
 .log-container {
-  background-color: #fffbea;
-  border: 2px solid #ffba00;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 10px; /* Space above the log messages */
 }
 
 .log-list {
-  list-style-type: none;
-  padding-left: 0;
+  list-style-type: none; /* No bullet points */
+  padding-left: 0; /* Remove default padding */
 }
+
+/* Log Message Styling */
 
 .log-message {
-  display: flex;
-  align-items: center;
-  background-color: #fff;
-  border: 1px solid #ffba00;
-  border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 8px;
-  color: #333;
-  font-family: 'Courier New', monospace;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex; /* Use flexbox for inline layout */
+  align-items: center; /* Center items vertically */
+  background-color: #fff; /* White background for log messages */
+  border: 1px solid #ffba00; /* Yellow border for log messages */
+  border-radius: 8px; /* Rounded corners for log messages */
+  padding: 10px; /* Padding inside log messages */
+  margin-bottom: 8px; /* Space between log messages */
+  color: #333; /* Text color */
+  font-family: 'Courier New', monospace; /* Monospace font for log messages */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow effect */
 }
 
-.log-message:last-child {
-  margin-bottom: 0;
+.log-icon {
+  width: 30px; /* Set a fixed width for the icon */
+  height: 30px; /* Set a fixed height for the icon */
+  margin-right: 10px; /* Space between the icon and the text */
 }
 
 .message-text {
-  flex-grow: 1;
-  color: #333;
-  font-size: 1em;
+  flex-grow: 1; /* Allow message text to grow */
+  color: #333; /* Text color */
+  font-size: 1em; /* Font size */
 }
-

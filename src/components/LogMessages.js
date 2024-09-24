@@ -3,7 +3,6 @@ import React from 'react';
 const LogMessages = ({ logMessages }) => {
   return (
     <div className="log-messages-section">
-      <h4>Log Messages</h4>
       <ul className="log-list">
         {logMessages.map((msg, index) => (
           <li key={index} className="log-message">
