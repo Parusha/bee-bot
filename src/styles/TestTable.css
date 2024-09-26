@@ -1,0 +1,68 @@
+.bee-table {
+  width: 100%;
+  border-collapse: collapse; /* Collapse borders to prevent double lines */
+  background-color: #fff; /* White background for the table */
+  border-radius: 12px; /* Rounded corners */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.bee-table th, .bee-table td {
+  padding: 10px;
+  text-align: left;
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+  border: none; /* Remove borders from table cells */
+}
+
+.bee-table th {
+  background-color: #ffba00; /* Bee-themed header background */
+  color: #ffffff; /* White text for contrast */
+}
+
+.bee-table td {
+  background-color: #fffefa; /* Lighter yellow for the table rows */
+}
+
+.bee-table tr:nth-child(even) {
+  background-color: #fffacd; /* Alternate row color for a subtle variation */
+}
+
+/* Hover effect for table rows */
+.bee-table tr:hover {
+  background-color: #ffba00; /* Change background color on hover */
+}
+
+/* Ensure text color remains consistent on hover for table cells */
+.bee-table tr:hover td {
+  color: black; /* Change text color for contrast on hover */
+}
+
+
+.bee-table-container {
+  margin: 20px;
+  border-radius: 12px; /* Rounded corners */
+  overflow: hidden; /* Ensures the table remains within the container */
+}
+
+/* Additional styles for links */
+.bee-table a {
+  color: #ffba00; /* Bee-themed link color */
+  text-decoration: none;
+}
+
+.bee-table a:hover {
+  text-decoration: underline;
+  color: pink;
+}
+
+/* Centering content in table */
+.bee-table td p {
+  margin: 0; /* Remove default margin */
+  text-align: center; /* Center text in table cells */
+}
+
+.expanded-content {
+  padding: 10px;
+  background-color: #f9f9f9; /* Light gray for expanded content */
+  border-top: 1px solid #ffba00; /* Optional border to separate expanded content */
+}
