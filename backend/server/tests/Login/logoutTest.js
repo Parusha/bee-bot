@@ -80,7 +80,7 @@ const runlogoutTest = async (formData, io) => {
       fs.mkdirSync(testingDir);
     }
 
-    const screenshotPath = path.join(testingDir, 'loggedIn.png');
+    const screenshotPath = path.join(testingDir, 'loggedOut.png');
     io.emit('log', 'Taking screenshot...');
     await page.screenshot({ path: screenshotPath });
     io.emit('log', `Screenshot saved at: ${screenshotPath}`);
@@ -91,7 +91,7 @@ const runlogoutTest = async (formData, io) => {
 
     return {
       message: 'Test completed successfully',
-      screenshotUrl: 'loggedIn.png',
+      screenshotUrl: 'loggedOut.png',
     };
   } catch (error) {
     io.emit('log', `Error running Puppeteer test: ${error.stack || error.message}`);
