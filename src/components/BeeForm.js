@@ -5,7 +5,7 @@ const BeeForm = () => {
   const [url, setUrl] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [device, setDevice] = useState('desktop');
+  const [device, setDevice] = useState('mobile');
   const [isFormDisabled, setIsFormDisabled] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false); 
 
