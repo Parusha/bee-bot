@@ -9,7 +9,7 @@
   {
     "title": "Logout Test",
     "content": {
-      "testName": "logoutInfo",
+      "testName": "logoutTest",
       "description": "This test verifies the logout functionality of the application."
     }
   }

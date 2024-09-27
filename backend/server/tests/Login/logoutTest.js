@@ -67,7 +67,7 @@ const runlogoutTest = async (formData, io) => {
     await page.waitForSelector('#Username', { timeout: 5000 });
     await page.type('#Username', username);
     await page.type('#password', password);
-    await page.click('#btnlogout');
+    await page.click('#btnLogin');
 
     io.emit('log', 'Waiting for navigation...');
     await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 10000 });
