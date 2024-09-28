@@ -5,18 +5,19 @@ import Screenshot from './components/Screenshot';
 import LogMessages from './components/LogMessages';
 import BeeForm from './components/BeeForm';
 import HomePage from './pages/HomePage';
-import TestTable from './components/TestTable'; // Import the TestTable component
-import accordionData from './data/accordionData.json'; // Ensure this is updated
+import TestTable from './components/TestTable';
+import accordionData from './data/accordionData.json'; // Updated structure with testSuit
 import './styles/App.css';
 
 const App = () => {
   const [screenshotUrl, setScreenshotUrl] = useState('');
-  const [logMessages, setLogMessages] = useState([]); // Initialize as empty array
+  const [logMessages, setLogMessages] = useState([]); // Initialize as an empty array
   const [activePage, setActivePage] = useState('default');
+  const [activeSuit, setActiveSuit] = useState(null); // Track the active testSuit
 
   useEffect(() => {
     const logHandler = (message) => {
-      console.log('Received log message:', message); // Debugging log
+      console.log('Received log message:', message);
       setLogMessages((prevMessages) => [...prevMessages, message]);
     };
 
@@ -45,22 +46,35 @@ const App = () => {
     );
   };
 
+  // Renders the content for the active test suit
+  const renderTestSuit = () => {
+    if (!activeSuit) return null;
+
+    const testSuit = accordionData.find((suit) => suit.testSuit === activeSuit);
+    if (!testSuit) return null;
+
+    return (
+      <TestTable
+        key={activeSuit} // Set the key to activeSuit to ensure a new instance is rendered
+        data={testSuit.tests} // Pass the tests under the selected testSuit
+        onScreenshot={handleScreenshot}
+        renderContent={renderContent} // Pass renderContent for each row
+      />
+    );
+  };
+
   // Renders the entire page content based on activePage
   const renderContentPage = () => {
     if (activePage === 'triggerTest') {
       return (
         <>
-          <TestTable
-            data={accordionData}
-            onScreenshot={handleScreenshot}
-            renderContent={renderContent} // Pass renderContent for each row
-          />
-          
+          {renderTestSuit()}
+
           {/* Log Messages and Screenshot Section */}
           <div className="screenshot-log-container">
             <h4>Log Messages</h4>
-            {logMessages.length > 0 && screenshotUrl && <Screenshot screenshotUrl={screenshotUrl} />} {/* Conditional rendering */}
-            {logMessages.length > 0 && <LogMessages logMessages={logMessages} />} {/* Ensure it's an array */}
+            {logMessages.length > 0 && screenshotUrl && <Screenshot screenshotUrl={screenshotUrl} />}
+            {logMessages.length > 0 && <LogMessages logMessages={logMessages} />}
           </div>
         </>
       );
@@ -77,9 +91,22 @@ const App = () => {
       <div className="main-container">
         <aside className="side-menu">
           <ul className="menu-list">
-            <li className={activePage === 'triggerTest' ? 'active' : ''}>
-              <button onClick={() => setActivePage('triggerTest')}>Login</button>
-            </li>
+            {/* Dynamically render testSuit options from accordionData */}
+            {accordionData.map((suit) => (
+              <li
+                key={suit.testSuit}
+                className={activeSuit === suit.testSuit ? 'active' : ''}
+              >
+                <button
+                  onClick={() => {
+                    setActivePage('triggerTest');
+                    setActiveSuit(suit.testSuit); // Set activeSuit when clicked
+                  }}
+                >
+                  {suit.testSuit} {/* Display the testSuit name */}
+                </button>
+              </li>
+            ))}
             <li className={activePage === 'default' ? 'active' : ''}>
               <button onClick={() => setActivePage('default')}>Home</button>
             </li>

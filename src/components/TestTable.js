@@ -5,9 +5,16 @@ import '../styles/TestTable.css'; // Import the bee-themed CSS
 const TestTable = ({ data, onScreenshot }) => {
   const [activeTest, setActiveTest] = useState(null); // Track which test was triggered
 
-  const handleTriggerTest = (testName) => {
+  const handleTriggerTest = async (testName) => {
+    if (activeTest) return; 
+
     setActiveTest(testName); // Set the active test name
     console.log(`Triggered test: ${testName}`);
+
+    // Simulating an async test operation
+    await new Promise((resolve) => setTimeout(resolve, 3000)); // Simulate 3-second test delay
+
+    setActiveTest(null); // Reset the active test after the delay
   };
 
   return (
@@ -31,6 +38,7 @@ const TestTable = ({ data, onScreenshot }) => {
                   onScreenshot={onScreenshot}
                   testName={item.content.testName}
                   onTrigger={() => handleTriggerTest(item.content.testName)} // Trigger function for handling test
+                  disabled={activeTest && activeTest !== item.content.testName} // Disable other buttons if a test is running
                 />
               </td>
               <td>
