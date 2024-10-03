@@ -16,13 +16,6 @@ const runLogoutTest = async (formData, io) => {
 
   const page = await browser.newPage();
 
-
-  // Set viewport
-  await page.setViewport({
-    width: 852,
-    height: 911
-  });
-
   // Go to the URL and wait for navigation
   await page.goto('https://new.hollywoodbets.net/', { waitUntil: 'networkidle2' });
 

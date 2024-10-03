@@ -20,6 +20,7 @@
   text-align: center;
   margin: -15px -15px 10px -15px;
 }
+
 .bee-form .form-group {
   margin-bottom: 10px;
 }
@@ -65,6 +66,26 @@
   background-color: #e53e3e;
 }
 
+/* New styles for the toggle button */
+.bee-form .toggle-button {
+  background-color: #ffba00; /* Solid yellow background */
+  color: #fff; /* White text */
+  padding: 10px; /* Padding for the button */
+  margin-bottom: 5px;;
+  border: 2px solid #ffd740; /* Light yellow border */
+  border-radius: 8px; /* Increased border-radius for a softer look */
+  cursor: pointer; /* Pointer cursor on hover */
+  margin-top: 5px; /* Space above the button */
+  width: 100%; /* Full width */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow effect */
+  transition: all 0.3s ease; /* Smooth transition for background color and shadow */
+}
+
+.bee-form .toggle-button:hover {
+  background-color: #ffd740; /* Lighter yellow on hover */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Darker shadow on hover */
+}
+
 .bee-form-header {
   border-radius: 8px 8px 0 0; /* Rounded top corners */
   position: relative; /* Ensure the button can be positioned within */
@@ -82,4 +103,3 @@
   cursor: pointer;
   color: #000; /* Match button color with header text */
 }
-
