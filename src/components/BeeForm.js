@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // Import axios
+import accordionData from '../data/accordionData.json'; // Import the JSON data
 import './BeeForm.css';
 
 const BeeForm = () => {
@@ -53,8 +54,8 @@ const BeeForm = () => {
       setTestSuit('');
       setDescription('');
       setFile(null);
-      setUploadMessage(''); 
-      setUploadSuccess(false); 
+      setUploadMessage('');
+      setUploadSuccess(false);
     }
   };
 
@@ -71,31 +72,65 @@ const BeeForm = () => {
   };
 
   const handleSaveTest = () => {
-    if (!file || !testSuit) {
-      setUploadMessage('Test suite name and file are required.');
+    if (!file || !testSuit || !description) {
+      setUploadMessage('Test suite name, description, and file are required.');
       setUploadSuccess(false);
       return;
     }
 
+    // Prepare the form data for upload
     const formData = new FormData();
     formData.append('file', file);
     formData.append('testName', testSuit);
 
+    // Make the POST request to upload the file
     axios.post('http://localhost:3001/upload-test', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     })
-      .then((response) => {
-        setUploadMessage(response.data.message);
-        setUploadSuccess(true);
-        setFile(null);
-      })
-      .catch((error) => {
-        setUploadMessage('Error uploading the file');
-        setUploadSuccess(false);
-        console.error('Error uploading the file:', error);
-      });
+    .then((response) => {
+      setUploadMessage(response.data.message);
+      setUploadSuccess(true);
+
+      // Update accordionData with the new test suite and tests
+      const existingSuit = accordionData.find(suit => suit.testSuit.toLowerCase() === testSuit.toLowerCase());
+
+      if (existingSuit) {
+        // If the test suite exists, add the test to it
+        existingSuit.tests.push({
+          title: `${testSuit} Test`,
+          content: {
+            testName: file.name.replace(/\.[^/.]+$/, ""),
+            description: description,
+          },
+        });
+      } else {
+        // If the test suite does not exist, create it
+        accordionData.push({
+          testSuit: testSuit,
+          tests: [{
+            title: `${testSuit} Test`,
+            content: {
+              testName: file.name.replace(/\.[^/.]+$/, ""),
+              description: description,
+            },
+          }],
+        });
+      }
+
+      // Send updated accordionData to the server
+      return axios.post('http://localhost:3001/update-accordion-data', accordionData);
+    })
+    .then((response) => {
+      console.log(response.data.message);
+      setFile(null);
+    })
+    .catch((error) => {
+      setUploadMessage('Error uploading the file');
+      setUploadSuccess(false);
+      console.error('Error uploading the file:', error);
+    });
   };
 
   const handleClearTest = () => {
@@ -227,7 +262,7 @@ const BeeForm = () => {
               <button
                 className="save-button"
                 onClick={handleSaveTest}
-                disabled={!testSuit || !description}
+                disabled={!testSuit || !description || !file}
               >
                 Save Test
               </button>

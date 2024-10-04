@@ -50,6 +50,24 @@ const desktopImagesDir = path.join(userHomeDir, 'Desktop', 'testing');
 
 app.use('/images', express.static(desktopImagesDir));
 
+app.post('/update-accordion-data', async (req, res) => {
+  const updatedData = req.body;
+
+  console.log('Updating accordion data:', updatedData); // Log the incoming data
+
+  try {
+    // Define the path to your JSON file in the src directory
+    const accordionDataPath = path.join(__dirname, '../src/data/accordionData.json');
+
+    // Write the updated data back to the JSON file
+    await fs.writeFile(accordionDataPath, JSON.stringify(updatedData, null, 2));
+
+    res.status(200).json({ message: 'Accordion data updated successfully' });
+  } catch (error) {
+    console.error('Error writing to accordionData.json:', error); // Log the error
+    res.status(500).json({ message: 'Error writing to accordionData.json' });
+  }
+});
 app.post('/run-test', async (req, res) => {
   const { testName, formData } = req.body;
   console.log(testName);
