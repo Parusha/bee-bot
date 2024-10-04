@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import './BeeForm.css'; // Ensure this CSS file is updated as well
+import axios from 'axios'; // Import axios
+import './BeeForm.css';
 
 const BeeForm = () => {
   const [url, setUrl] = useState('');
@@ -67,9 +68,28 @@ const BeeForm = () => {
     }
   };
 
+  // Updated handleSaveTest function
   const handleSaveTest = () => {
-    // Implement saving test suite logic here
-    console.log('Saving test suite:', testSuit, description, file);
+    if (!file || !testSuit) {
+      console.error('Test suite name or file is missing.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file); // Attach the file
+    formData.append('testName', testSuit); // Pass test suite name
+
+    axios.post('http://localhost:3001/upload-test', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+      .then((response) => {
+        console.log(response.data.message); // File uploaded successfully
+      })
+      .catch((error) => {
+        console.error('Error uploading the file:', error);
+      });
   };
 
   return (
@@ -77,7 +97,7 @@ const BeeForm = () => {
       <div className="bee-form-header">
         <h2 className="header-label">Bee Form</h2>
         <button className="minimize-button" onClick={toggleMinimize}>
-          {isMinimized ? '+' : '-'} {/* Toggle between + and - */}
+          {isMinimized ? '+' : '-'}
         </button>
         <button className="toggle-button" onClick={toggleTestMode}>
           {isTestMode ? 'Switch to Regular Form' : 'Switch to Test Mode'}
@@ -161,7 +181,6 @@ const BeeForm = () => {
               placeholder="Enter Test Suite Name"
               value={testSuit}
               onChange={(e) => setTestSuit(e.target.value)}
-              // Always enable input in test mode
             />
           </div>
           <div className="form-group">
@@ -171,7 +190,6 @@ const BeeForm = () => {
               placeholder="Enter Test Description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              // Always enable input in test mode
             />
           </div>
           <div
@@ -188,9 +206,9 @@ const BeeForm = () => {
           </div>
           <div className="form-actions">
             <button
-              className={`save-button ${isFormDisabled ? 'disabled' : ''}`}
+              className="save-button"
               onClick={handleSaveTest}
-              disabled={!testSuit || !description} // Disable only if fields are empty
+              disabled={!testSuit || !description}
             >
               Save Test
             </button>

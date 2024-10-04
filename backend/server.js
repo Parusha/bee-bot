@@ -5,6 +5,7 @@ const http = require('http');
 const socketIO = require('socket.io');
 const os = require('os'); // Import os module to get the home directory
 const fs = require('fs').promises; // Use promises for file system operations
+const multer = require('multer'); // Import multer for file uploads
 
 const app = express();
 const port = 3001;
@@ -22,6 +23,24 @@ const io = socketIO(server, {
 
 app.use(cors());
 app.use(express.json());
+
+// Multer configuration for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, 'server', 'tests')); // Directory to save files
+  },
+  filename: (req, file, cb) => {
+    let fileName = path.parse(file.originalname).name; // Get the original file name without extension
+    cb(null, `${fileName}.js`); // Save the file with a .js extension
+  },
+});
+
+const upload = multer({ storage });
+
+// Define the /upload-test route to handle file uploads
+app.post('/upload-test', upload.single('file'), (req, res) => {
+  res.status(200).json({ message: 'File uploaded successfully!' });
+});
 
 // Get the user's home directory dynamically
 const userHomeDir = os.homedir();
