@@ -103,3 +103,16 @@
   cursor: pointer;
   color: #000; /* Match button color with header text */
 }
+
+.upload-message {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.upload-message.success {
+  color: green; /* Green for success messages */
+}
+
+.upload-message.error {
+  color: red; /* Red for error messages */
+}

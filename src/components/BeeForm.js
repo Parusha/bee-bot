@@ -9,13 +9,14 @@ const BeeForm = () => {
   const [device, setDevice] = useState('mobile');
   const [isFormDisabled, setIsFormDisabled] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
-  const [isTestMode, setIsTestMode] = useState(false); // State to toggle between modes
+  const [isTestMode, setIsTestMode] = useState(false);
   const [testSuit, setTestSuit] = useState('');
   const [description, setDescription] = useState('');
   const [file, setFile] = useState(null);
+  const [uploadMessage, setUploadMessage] = useState('');
+  const [uploadSuccess, setUploadSuccess] = useState(false);
 
   useEffect(() => {
-    // Check if data exists in local storage
     const savedData = localStorage.getItem('beeFormData');
     if (savedData) {
       const { url, username, password, device } = JSON.parse(savedData);
@@ -48,36 +49,37 @@ const BeeForm = () => {
 
   const toggleTestMode = () => {
     setIsTestMode(!isTestMode);
-    // Clear the input fields when toggling to the test mode
     if (isTestMode) {
       setTestSuit('');
       setDescription('');
       setFile(null);
+      setUploadMessage(''); 
+      setUploadSuccess(false); 
     }
   };
 
   const handleDragOver = (e) => {
-    e.preventDefault(); // Prevent default behavior to allow drop
+    e.preventDefault();
   };
 
   const handleFileDrop = (e) => {
     e.preventDefault();
     const droppedFiles = Array.from(e.dataTransfer.files);
     if (droppedFiles.length) {
-      setFile(droppedFiles[0]); // Store the first dropped file
+      setFile(droppedFiles[0]);
     }
   };
 
-  // Updated handleSaveTest function
   const handleSaveTest = () => {
     if (!file || !testSuit) {
-      console.error('Test suite name or file is missing.');
+      setUploadMessage('Test suite name and file are required.');
+      setUploadSuccess(false);
       return;
     }
 
     const formData = new FormData();
-    formData.append('file', file); // Attach the file
-    formData.append('testName', testSuit); // Pass test suite name
+    formData.append('file', file);
+    formData.append('testName', testSuit);
 
     axios.post('http://localhost:3001/upload-test', formData, {
       headers: {
@@ -85,11 +87,23 @@ const BeeForm = () => {
       },
     })
       .then((response) => {
-        console.log(response.data.message); // File uploaded successfully
+        setUploadMessage(response.data.message);
+        setUploadSuccess(true);
+        setFile(null);
       })
       .catch((error) => {
+        setUploadMessage('Error uploading the file');
+        setUploadSuccess(false);
         console.error('Error uploading the file:', error);
       });
+  };
+
+  const handleClearTest = () => {
+    setTestSuit('');
+    setDescription('');
+    setFile(null);
+    setUploadMessage('');
+    setUploadSuccess(false);
   };
 
   return (
@@ -205,18 +219,20 @@ const BeeForm = () => {
             )}
           </div>
           <div className="form-actions">
-            <button
-              className="save-button"
-              onClick={handleSaveTest}
-              disabled={!testSuit || !description}
-            >
-              Save Test
-            </button>
-            <button className="clear-button" onClick={() => {
-              setTestSuit('');
-              setDescription('');
-              setFile(null);
-            }}>
+            {uploadMessage ? (
+              <div className={`upload-message ${uploadSuccess ? 'success' : 'error'}`}>
+                {uploadMessage}
+              </div>
+            ) : (
+              <button
+                className="save-button"
+                onClick={handleSaveTest}
+                disabled={!testSuit || !description}
+              >
+                Save Test
+              </button>
+            )}
+            <button className="clear-button" onClick={handleClearTest}>
               Clear Test
             </button>
           </div>
