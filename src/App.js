@@ -32,6 +32,11 @@ const App = () => {
     setScreenshotUrl(url);
   };
 
+  // Function to clear log messages
+  const clearLogMessages = () => {
+    setLogMessages([]); // Clears the log messages
+  };
+
   // Renders the content for each test row in the TestTable
   const renderContent = (content) => {
     return (
@@ -41,7 +46,7 @@ const App = () => {
           testName={content.testName}
         />
         <h3>Description</h3>
-        <p dangerouslySetInnerHTML={{ __html: content.description }} /> {/* Render HTML */}
+        <p dangerouslySetInnerHTML={{ __html: content.description }} />
       </>
     );
   };
@@ -101,6 +106,7 @@ const App = () => {
                   onClick={() => {
                     setActivePage('triggerTest');
                     setActiveSuit(suit.testSuit); // Set activeSuit when clicked
+                    clearLogMessages();
                   }}
                 >
                   {suit.testSuit} {/* Display the testSuit name */}
