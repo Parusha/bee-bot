@@ -5,15 +5,16 @@ import Screenshot from './components/Screenshot';
 import LogMessages from './components/LogMessages';
 import BeeForm from './components/BeeForm';
 import HomePage from './pages/HomePage';
+import HowToPage from './pages/HowToPage';
 import TestTable from './components/TestTable';
-import accordionData from './data/accordionData.json'; // Updated structure with testSuit
+import testSuitDataStructure from './data/testSuitDataStructure.json';
 import './styles/App.css';
 
 const App = () => {
   const [screenshotUrl, setScreenshotUrl] = useState('');
-  const [logMessages, setLogMessages] = useState([]); // Initialize as an empty array
-  const [activePage, setActivePage] = useState('default'); // Default to 'default' to show the Home page initially
-  const [activeSuit, setActiveSuit] = useState(null); // Track the active testSuit
+  const [logMessages, setLogMessages] = useState([]);
+  const [activePage, setActivePage] = useState('default');
+  const [activeSuit, setActiveSuit] = useState(null);
 
   useEffect(() => {
     const logHandler = (message) => {
@@ -32,50 +33,45 @@ const App = () => {
     setScreenshotUrl(url);
   };
 
-  // Function to clear log messages
   const clearLogMessages = () => {
-    setLogMessages([]); // Clears the log messages
+    setLogMessages([]);
   };
 
-  // Renders the content for each test row in the TestTable
   const renderContent = (content) => {
     return (
       <>
-        <TriggerTest
-          onScreenshot={handleScreenshot}
-          testName={content.testName}
-        />
+        <TriggerTest onScreenshot={handleScreenshot} testName={content.testName} />
         <h3>Description</h3>
         <p dangerouslySetInnerHTML={{ __html: content.description }} />
       </>
     );
   };
 
-  // Renders the content for the active test suit
   const renderTestSuit = () => {
     if (!activeSuit) return null;
 
-    const testSuit = accordionData.find((suit) => suit.testSuit === activeSuit);
+    const testSuit = testSuitDataStructure.find((suit) => suit.testSuit === activeSuit);
     if (!testSuit) return null;
 
     return (
       <TestTable
-        key={activeSuit} // Set the key to activeSuit to ensure a new instance is rendered
-        data={testSuit.tests} // Pass the tests under the selected testSuit
+        key={activeSuit}
+        data={testSuit.tests}
         onScreenshot={handleScreenshot}
-        renderContent={renderContent} // Pass renderContent for each row
+        renderContent={renderContent}
       />
     );
   };
 
-  // Renders the entire page content based on activePage
   const renderContentPage = () => {
+    if (activePage === 'howTo') {
+      return <HowToPage />;
+    }
+
     if (activePage === 'triggerTest') {
       return (
         <>
           {renderTestSuit()}
-
-          {/* Log Messages and Screenshot Section */}
           <div className="screenshot-log-container">
             <h4>Log Messages</h4>
             {logMessages.length > 0 && screenshotUrl && <Screenshot screenshotUrl={screenshotUrl} />}
@@ -87,6 +83,7 @@ const App = () => {
 
     return <HomePage />;
   };
+
   return (
     <div className="app-container">
       <header className="header">
@@ -98,31 +95,47 @@ const App = () => {
       <div className="main-container">
         <aside className="side-menu">
           <ul className="menu-list">
-            {/* Ensure Home is the first item */}
             <li className={activePage === 'default' ? 'active' : ''}>
               <button
                 onClick={() => {
                   setActivePage('default');
-                  setActiveSuit(null); // Clear activeSuit when Home is selected
+                  setActiveSuit(null);
                 }}
               >
                 Home
               </button>
             </li>
-            {/* Dynamically render testSuit options from accordionData */}
-            {accordionData.map((suit) => (
-              <li
-                key={suit.testSuit}
-                className={activeSuit === suit.testSuit ? 'active' : ''}
+
+            {/* Add How To Page Link */}
+            <li className={activePage === 'howTo' ? 'active' : ''}>
+              <button
+                onClick={() => {
+                  setActivePage('howTo');
+                  setActiveSuit(null);
+                }}
               >
+                How To
+              </button>
+            </li>
+
+            {/* Add a heading for Test Suits */}
+            <li>
+              <h4 style={{ color: '#ffba00', margin: '10px 0', fontSize: '20px', fontWeight: 'bold' }}>
+                Test Suits
+              </h4>
+            </li>
+
+            {/* Dynamically render testSuit options from testSuitDataStructure */}
+            {testSuitDataStructure.map((suit) => (
+              <li key={suit.testSuit} className={activeSuit === suit.testSuit ? 'active' : ''}>
                 <button
                   onClick={() => {
                     setActivePage('triggerTest');
-                    setActiveSuit(suit.testSuit); // Set activeSuit when clicked
+                    setActiveSuit(suit.testSuit);
                     clearLogMessages();
                   }}
                 >
-                  {suit.testSuit} {/* Display the testSuit name */}
+                  {suit.testSuit}
                 </button>
               </li>
             ))}

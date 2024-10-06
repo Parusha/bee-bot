@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // Import axios
-import accordionData from '../data/accordionData.json'; // Import the JSON data
+import testSuitDataStructure from '../data/testSuitDataStructure.json'; // Import the JSON data
 import './BeeForm.css';
 
 const BeeForm = () => {
@@ -93,8 +93,8 @@ const BeeForm = () => {
       setUploadMessage(response.data.message);
       setUploadSuccess(true);
 
-      // Update accordionData with the new test suite and tests
-      const existingSuit = accordionData.find(suit => suit.testSuit.toLowerCase() === testSuit.toLowerCase());
+      // Update testSuitDataStructure with the new test suite and tests
+      const existingSuit = testSuitDataStructure.find(suit => suit.testSuit.toLowerCase() === testSuit.toLowerCase());
 
       if (existingSuit) {
         // If the test suite exists, add the test to it
@@ -107,7 +107,7 @@ const BeeForm = () => {
         });
       } else {
         // If the test suite does not exist, create it
-        accordionData.push({
+        testSuitDataStructure.push({
           testSuit: testSuit,
           tests: [{
             title: `${testSuit} Test`,
@@ -119,8 +119,8 @@ const BeeForm = () => {
         });
       }
 
-      // Send updated accordionData to the server
-      return axios.post('http://localhost:3001/update-accordion-data', accordionData);
+      // Send updated testSuitDataStructure to the server
+      return axios.post('http://localhost:3001/update-accordion-data', testSuitDataStructure);
     })
     .then((response) => {
       console.log(response.data.message);

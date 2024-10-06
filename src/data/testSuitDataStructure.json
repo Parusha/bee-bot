@@ -1,0 +1,28 @@
+[
+  {
+    "testSuit": "Login",
+    "tests": [
+      {
+        "title": "Login Test",
+        "content": {
+          "testName": "loginTest",
+          "description": "Please ensure that you are using Mobile as the device. Implementing Desktop soon.<br />Please use this URL for testing: <a href='https://new.hollywoodbets.net/' target='_blank' rel='noopener noreferrer'>https://new.hollywoodbets.net/</a>"
+        }
+      },
+      {
+        "title": "Logout Test",
+        "content": {
+          "testName": "logoutTest",
+          "description": "This test verifies the logout functionality of the application."
+        }
+      },
+      {
+        "title": "Logout The Test",
+        "content": {
+          "testName": "logoutTest",
+          "description": "This test verifies the logout functionality of the application."
+        }
+      }
+    ]
+  }
+]

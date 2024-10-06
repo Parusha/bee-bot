@@ -57,15 +57,15 @@ app.post('/update-accordion-data', async (req, res) => {
 
   try {
     // Define the path to your JSON file in the src directory
-    const accordionDataPath = path.join(__dirname, '../src/data/accordionData.json');
+    const testSuitDataStructurePath = path.join(__dirname, '../src/data/testSuitDataStructure.json');
 
     // Write the updated data back to the JSON file
-    await fs.writeFile(accordionDataPath, JSON.stringify(updatedData, null, 2));
+    await fs.writeFile(testSuitDataStructurePath, JSON.stringify(updatedData, null, 2));
 
     res.status(200).json({ message: 'Accordion data updated successfully' });
   } catch (error) {
-    console.error('Error writing to accordionData.json:', error); // Log the error
-    res.status(500).json({ message: 'Error writing to accordionData.json' });
+    console.error('Error writing to testSuitDataStructure.json:', error); // Log the error
+    res.status(500).json({ message: 'Error writing to testSuitDataStructure.json' });
   }
 });
 app.post('/run-test', async (req, res) => {
