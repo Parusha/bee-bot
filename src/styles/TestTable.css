@@ -39,7 +39,6 @@
 
 
 .bee-table-container {
-  margin: 20px;
   border-radius: 12px; /* Rounded corners */
   overflow: hidden; /* Ensures the table remains within the container */
 }

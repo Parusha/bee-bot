@@ -12,7 +12,7 @@ import './styles/App.css';
 const App = () => {
   const [screenshotUrl, setScreenshotUrl] = useState('');
   const [logMessages, setLogMessages] = useState([]); // Initialize as an empty array
-  const [activePage, setActivePage] = useState('default');
+  const [activePage, setActivePage] = useState('default'); // Default to 'default' to show the Home page initially
   const [activeSuit, setActiveSuit] = useState(null); // Track the active testSuit
 
   useEffect(() => {
@@ -96,6 +96,17 @@ const App = () => {
       <div className="main-container">
         <aside className="side-menu">
           <ul className="menu-list">
+            {/* Ensure Home is the first item */}
+            <li className={activePage === 'default' ? 'active' : ''}>
+              <button
+                onClick={() => {
+                  setActivePage('default');
+                  setActiveSuit(null); // Clear activeSuit when Home is selected
+                }}
+              >
+                Home
+              </button>
+            </li>
             {/* Dynamically render testSuit options from accordionData */}
             {accordionData.map((suit) => (
               <li
@@ -113,9 +124,6 @@ const App = () => {
                 </button>
               </li>
             ))}
-            <li className={activePage === 'default' ? 'active' : ''}>
-              <button onClick={() => setActivePage('default')}>Home</button>
-            </li>
           </ul>
         </aside>
 

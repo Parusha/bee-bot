@@ -96,6 +96,7 @@ html, body {
   padding: 20px;
   background-color: #fff;
   overflow: auto;
+  margin-top: 40px;
 }
 
 .default-content {
