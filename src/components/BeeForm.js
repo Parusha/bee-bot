@@ -89,48 +89,48 @@ const BeeForm = () => {
         'Content-Type': 'multipart/form-data',
       },
     })
-    .then((response) => {
-      setUploadMessage(response.data.message);
-      setUploadSuccess(true);
+      .then((response) => {
+        setUploadMessage(response.data.message);
+        setUploadSuccess(true);
 
-      // Update testSuitDataStructure with the new test suite and tests
-      const existingSuit = testSuitDataStructure.find(suit => suit.testSuit.toLowerCase() === testSuit.toLowerCase());
+        // Update testSuitDataStructure with the new test suite and tests
+        const existingSuit = testSuitDataStructure.find(suit => suit.testSuit.toLowerCase() === testSuit.toLowerCase());
 
-      if (existingSuit) {
-        // If the test suite exists, add the test to it
-        existingSuit.tests.push({
-          title: `${testSuit} Test`,
-          content: {
-            testName: file.name.replace(/\.[^/.]+$/, ""),
-            description: description,
-          },
-        });
-      } else {
-        // If the test suite does not exist, create it
-        testSuitDataStructure.push({
-          testSuit: testSuit,
-          tests: [{
-            title: `${testSuit} Test`,
+        if (existingSuit) {
+          // If the test suite exists, add the test to it
+          existingSuit.tests.push({
+            title: `${file.name.replace(/\.[^/.]+$/, "")} Test`,
             content: {
               testName: file.name.replace(/\.[^/.]+$/, ""),
               description: description,
             },
-          }],
-        });
-      }
+          });
+        } else {
+          // If the test suite does not exist, create it
+          testSuitDataStructure.push({
+            testSuit: testSuit,
+            tests: [{
+              title: `${file.name.replace(/\.[^/.]+$/, "")} Test`,
+              content: {
+                testName: file.name.replace(/\.[^/.]+$/, ""),
+                description: description,
+              },
+            }],
+          });
+        }
 
-      // Send updated testSuitDataStructure to the server
-      return axios.post('http://localhost:3001/update-accordion-data', testSuitDataStructure);
-    })
-    .then((response) => {
-      console.log(response.data.message);
-      setFile(null);
-    })
-    .catch((error) => {
-      setUploadMessage('Error uploading the file');
-      setUploadSuccess(false);
-      console.error('Error uploading the file:', error);
-    });
+        // Send updated testSuitDataStructure to the server
+        return axios.post('http://localhost:3001/update-accordion-data', testSuitDataStructure);
+      })
+      .then((response) => {
+        console.log(response.data.message);
+        setFile(null);
+      })
+      .catch((error) => {
+        setUploadMessage('Error uploading the file');
+        setUploadSuccess(false);
+        console.error('Error uploading the file:', error);
+      });
   };
 
   const handleClearTest = () => {
