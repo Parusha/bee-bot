@@ -87,11 +87,13 @@ const App = () => {
 
     return <HomePage />;
   };
-
   return (
     <div className="app-container">
       <header className="header">
-        <div>Bee Bot Dashboard</div>
+        <div>
+          <img src="/bee-logo-white.png" alt="Bee Logo" className="bee-logo" />
+          Bee Bot Dashboard
+        </div>
       </header>
       <div className="main-container">
         <aside className="side-menu">

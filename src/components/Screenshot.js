@@ -6,9 +6,9 @@ const Screenshot = ({ screenshotUrl }) => {
       <h4>Screenshot</h4>
       {screenshotUrl ? (
         <div className="screenshot-container">
-          <img src={`/images/${screenshotUrl}`} alt="Test Screenshot" className="resized-image" /> {/* Updated class name */}
+          <img src={`/images/${screenshotUrl}.png`} alt="Test Screenshot" className="resized-image" /> {/* Updated class name */}
           <p>
-            <a href={screenshotUrl} target="_blank" rel="noopener noreferrer">
+            <a href={`/images/${screenshotUrl}.png`} target="_blank" rel="noopener noreferrer">
               View Screenshot
             </a>
           </p>

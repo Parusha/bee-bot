@@ -1,12 +1,7 @@
 const puppeteer = require('puppeteer');
 const path = require('path');
 const fs = require('fs');
-
-// Helper function to get the desktop path
-const getDesktopPath = () => 
-  process.platform === 'win32' 
-    ? path.join(process.env.USERPROFILE, 'Desktop') 
-    : path.join(process.env.HOME, 'Desktop');
+const { getViewport, launchBrowser, getScreenshotPath } = require('./puppeteerUtils');
 
 const runLoginTest = async (formData, io) => {
   const { url, username, password, device } = formData;
@@ -15,21 +10,11 @@ const runLoginTest = async (formData, io) => {
     throw new Error('URL, username, password, and device are required');
   }
 
-  const viewportDimensions = {
-    desktop: { width: 1920, height: 1080 },
-    mobile: { width: 1080, height: 1024 },
-  };
-
-  const viewport = viewportDimensions[device] || viewportDimensions.desktop;
+  const viewport = getViewport(device); // Use the reusable viewport function
 
   try {
     io.emit('log', 'Launching browser...');
-    const browser = await puppeteer.launch({
-      headless: false,
-      ignoreHTTPSErrors: true,
-      args: ['--ignore-certificate-errors'],
-    });
-
+    const browser = await launchBrowser(); // Use the reusable browser launch function
     const page = await browser.newPage();
     await page.setViewport(viewport);
 
@@ -72,15 +57,9 @@ const runLoginTest = async (formData, io) => {
     io.emit('log', 'Waiting for navigation...');
     await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 10000 });
 
-    // Handle screenshot saving
-    const desktopDir = getDesktopPath();
-    const testingDir = path.join(desktopDir, 'testing');
 
-    if (!fs.existsSync(testingDir)) {
-      fs.mkdirSync(testingDir);
-    }
+    const screenshotPath = getScreenshotPath('loggedIn'); // Use the reusable screenshot path function
 
-    const screenshotPath = path.join(testingDir, 'loggedIn.png');
     io.emit('log', 'Taking screenshot...');
     await page.screenshot({ path: screenshotPath });
     io.emit('log', `Screenshot saved at: ${screenshotPath}`);
@@ -91,7 +70,7 @@ const runLoginTest = async (formData, io) => {
 
     return {
       message: 'Test completed successfully',
-      screenshotUrl: 'loggedIn.png',
+      screenshotUrl: 'loggedIn',
     };
   } catch (error) {
     io.emit('log', `Error running Puppeteer test: ${error.stack || error.message}`);
