@@ -65,3 +65,15 @@
   background-color: #f9f9f9; /* Light gray for expanded content */
   border-top: 1px solid #ffba00; /* Optional border to separate expanded content */
 }
+
+.delete-button {
+  background-color: transparent;
+  border: none;
+  color: #ff3333; /* Red color for the trash icon */
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.delete-button:hover {
+  color: #cc0000; /* Darker red on hover */
+}

@@ -1,0 +1,57 @@
+.bee-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .bee-modal-content {
+    background-color: #fffbea; /* Bee theme background */
+    border: 2px solid #ffba00; /* Bee theme border */
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 300px;
+  }
+  
+  .bee-modal-content h2 {
+    color: #ffba00; /* Bee theme header color */
+  }
+  
+  .bee-modal-buttons {
+    margin-top: 20px;
+  }
+  
+  .bee-confirm-button {
+    background-color: #ffba00;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    margin-right: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .bee-confirm-button:hover {
+    background-color: #e6a800;
+  }
+  
+  .bee-cancel-button {
+    background-color: transparent;
+    border: 2px solid #ffba00;
+    color: #ffba00;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .bee-cancel-button:hover {
+    background-color: #fff2cc;
+  }
+  
