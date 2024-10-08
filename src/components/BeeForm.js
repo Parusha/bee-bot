@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // Import axios
-import testSuitDataStructure from '../data/testSuitDataStructure.json'; // Import the JSON data
+import axios from 'axios';
+import testSuitDataStructure from '../data/testSuitDataStructure.json';
 import './BeeForm.css';
 
 const BeeForm = () => {
@@ -78,12 +78,10 @@ const BeeForm = () => {
       return;
     }
 
-    // Prepare the form data for upload
     const formData = new FormData();
     formData.append('file', file);
     formData.append('testName', testSuit);
 
-    // Make the POST request to upload the file
     axios.post('http://localhost:3001/upload-test', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -93,11 +91,9 @@ const BeeForm = () => {
         setUploadMessage(response.data.message);
         setUploadSuccess(true);
 
-        // Update testSuitDataStructure with the new test suite and tests
         const existingSuit = testSuitDataStructure.find(suit => suit.testSuit.toLowerCase() === testSuit.toLowerCase());
 
         if (existingSuit) {
-          // If the test suite exists, add the test to it
           existingSuit.tests.push({
             title: `${file.name.replace(/\.[^/.]+$/, "")} Test`,
             content: {
@@ -106,7 +102,6 @@ const BeeForm = () => {
             },
           });
         } else {
-          // If the test suite does not exist, create it
           testSuitDataStructure.push({
             testSuit: testSuit,
             tests: [{
@@ -119,7 +114,6 @@ const BeeForm = () => {
           });
         }
 
-        // Send updated testSuitDataStructure to the server
         return axios.post('http://localhost:3001/update-accordion-data', testSuitDataStructure);
       })
       .then((response) => {
@@ -230,7 +224,15 @@ const BeeForm = () => {
               placeholder="Enter Test Suite Name"
               value={testSuit}
               onChange={(e) => setTestSuit(e.target.value)}
+              list="testSuitOptions"
             />
+            <datalist id="testSuitOptions">
+              {testSuitDataStructure.map((suit) => (
+                <option key={suit.testSuit} value={suit.testSuit}>
+                  {suit.testSuit}
+                </option>
+              ))}
+            </datalist>
           </div>
           <div className="form-group">
             <label>Description</label>
