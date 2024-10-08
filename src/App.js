@@ -7,15 +7,26 @@ import BeeForm from './components/BeeForm';
 import HomePage from './pages/HomePage';
 import HowToPage from './pages/HowToPage';
 import TestTable from './components/TestTable';
-import initialTestSuitDataStructure from './data/testSuitDataStructure.json'; // Rename the import for clarity
+import initialTestSuitDataStructure from './data/testSuitDataStructure.json';
 import './styles/App.css';
 
 const App = () => {
-  const [testSuitData, setTestSuitData] = useState(initialTestSuitDataStructure); // State for test suits
+  const [testSuitData, setTestSuitData] = useState(initialTestSuitDataStructure);
   const [screenshotUrl, setScreenshotUrl] = useState('');
   const [logMessages, setLogMessages] = useState([]);
   const [activePage, setActivePage] = useState('default');
   const [activeSuit, setActiveSuit] = useState(null);
+
+  // Function to load test suit data
+  const loadTestSuitData = () => {
+    // You can directly set the initial data or fetch new data here
+    setTestSuitData(initialTestSuitDataStructure);
+  };
+
+  // Effect to load test suit data on mount or when needed
+  useEffect(() => {
+    loadTestSuitData();
+  }, []); // Empty dependency array means this will run only on mount
 
   // Socket connection for logging
   useEffect(() => {
@@ -49,17 +60,13 @@ const App = () => {
     );
   };
 
-  // Handler to delete a test from a suit
   const handleDeleteTest = (testTitle) => {
     const updatedData = testSuitData.map((suit) => ({
       ...suit,
-      tests: suit.tests.filter((test) => test.title !== testTitle), // Remove the test by title
+      tests: suit.tests.filter((test) => test.title !== testTitle),
     }));
 
-    // Update the state with the new data structure
     setTestSuitData(updatedData);
-
-    // Optionally, log or trigger any side-effects here
     console.log(`Deleted test: ${testTitle}`);
   };
 
@@ -75,7 +82,7 @@ const App = () => {
         data={testSuit.tests}
         onScreenshot={handleScreenshot}
         renderContent={renderContent}
-        onDeleteTest={handleDeleteTest} // Pass the deletion handler to the TestTable component
+        onDeleteTest={handleDeleteTest}
       />
     );
   };
@@ -123,7 +130,6 @@ const App = () => {
               </button>
             </li>
 
-            {/* Add How To Page Link */}
             <li className={activePage === 'howTo' ? 'active' : ''}>
               <button
                 onClick={() => {
@@ -135,14 +141,12 @@ const App = () => {
               </button>
             </li>
 
-            {/* Add a heading for Test Suits */}
             <li>
               <h4 style={{ color: '#ffba00', margin: '10px 0', fontSize: '20px', fontWeight: 'bold' }}>
                 Test Suits
               </h4>
             </li>
 
-            {/* Dynamically render testSuit options from testSuitData */}
             {testSuitData.map((suit) => (
               <li key={suit.testSuit} className={activeSuit === suit.testSuit ? 'active' : ''}>
                 <button

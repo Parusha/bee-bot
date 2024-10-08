@@ -1,20 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import TriggerTest from './TriggerTest';
-import ConfirmDeleteModal from './ConfirmDeleteModal'; // Import modal component
-import '../styles/TestTable.css'; // Import bee-themed CSS
+import ConfirmDeleteModal from './ConfirmDeleteModal';
+import axios from 'axios';
+import '../styles/TestTable.css';
 
-const TestTable = ({ data, onScreenshot, onDeleteTest }) => {
+const TestTable = ({ data, onScreenshot }) => {
   const [activeTest, setActiveTest] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [testToDelete, setTestToDelete] = useState(null);
+  const [tests, setTests] = useState(data);
+  console.log(data);
+  const [isDeleting, setIsDeleting] = useState(false); // State to manage loading during deletion
+
+  // Sync tests state with incoming data prop
+  useEffect(() => {
+    setTests(data);
+  }, [data]);
 
   const handleTriggerTest = async (testName) => {
     if (activeTest) return;
     setActiveTest(testName);
-    await new Promise((resolve) => setTimeout(resolve, 3000)); // Simulate delay
+    await new Promise((resolve) => setTimeout(resolve, 3000)); // Simulate delay for test
     setActiveTest(null);
+  };
+
+  const handleDeleteTest = async (testTitle) => {
+    setIsDeleting(true);
+    try {
+      const response = await axios.post('http://localhost:3001/delete-test', { testTitle });
+  
+      if (response.status === 200) {
+        setTests((prevTests) => {
+          const index = prevTests.findIndex(item => item.title.trim().toLowerCase() === testTitle.trim().toLowerCase());
+          if (index !== -1) {
+            const newTests = [...prevTests]; // Create a shallow copy
+            newTests.splice(index, 1); // Remove the item at the found index
+            return newTests; // Return the new array
+          }
+          return prevTests; // If not found, return original
+        });
+      } else {
+        console.error('Deletion failed:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   const openDeleteModal = (testTitle) => {
@@ -23,8 +57,9 @@ const TestTable = ({ data, onScreenshot, onDeleteTest }) => {
   };
 
   const handleDelete = () => {
-    onDeleteTest(testToDelete); // Call the deletion handler from the parent
-    setShowDeleteModal(false); // Close modal after deletion
+    handleDeleteTest(testToDelete);
+    setShowDeleteModal(false); 
+    setTestToDelete(null); 
   };
 
   return (
@@ -40,7 +75,7 @@ const TestTable = ({ data, onScreenshot, onDeleteTest }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item, index) => (
+          {tests.map((item, index) => (
             <tr key={index}>
               <td>{index + 1}</td>
               <td>{item.title}</td>
@@ -49,14 +84,18 @@ const TestTable = ({ data, onScreenshot, onDeleteTest }) => {
                   onScreenshot={onScreenshot}
                   testName={item.content.testName}
                   onTrigger={() => handleTriggerTest(item.content.testName)}
-                  disabled={activeTest && activeTest !== item.content.testName}
+                  disabled={activeTest && activeTest !== item.content.testName} // Disable button if another test is active
                 />
               </td>
               <td>
                 <p dangerouslySetInnerHTML={{ __html: item.content.description }} />
               </td>
               <td>
-                <button onClick={() => openDeleteModal(item.title)} className="delete-button">
+                <button
+                  onClick={() => openDeleteModal(item.title)}
+                  className="delete-button"
+                  disabled={isDeleting} 
+                >
                   <FontAwesomeIcon icon={faTrash} />
                 </button>
               </td>
@@ -65,13 +104,14 @@ const TestTable = ({ data, onScreenshot, onDeleteTest }) => {
         </tbody>
       </table>
 
-      {/* Confirm Delete Modal */}
-      <ConfirmDeleteModal
-        show={showDeleteModal}
-        onClose={() => setShowDeleteModal(false)}
-        onConfirm={handleDelete}
-        testTitle={testToDelete}
-      />
+      {showDeleteModal && (
+        <ConfirmDeleteModal
+          show={showDeleteModal}
+          onClose={() => setShowDeleteModal(false)} 
+          onConfirm={handleDelete} 
+          testTitle={testToDelete} 
+        />
+      )}
     </div>
   );
 };

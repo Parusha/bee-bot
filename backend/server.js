@@ -50,6 +50,7 @@ const desktopImagesDir = path.join(userHomeDir, 'Desktop', 'testing');
 
 app.use('/images', express.static(desktopImagesDir));
 
+// Update accordion data route
 app.post('/update-accordion-data', async (req, res) => {
   const updatedData = req.body;
 
@@ -68,6 +69,51 @@ app.post('/update-accordion-data', async (req, res) => {
     res.status(500).json({ message: 'Error writing to testSuitDataStructure.json' });
   }
 });
+
+// Delete a test item route
+app.post('/delete-test', async (req, res) => {
+  const { testTitle } = req.body; // Get the test title from the request body
+
+  if (!testTitle) {
+    return res.status(400).json({ message: 'Test title is required' });
+  }
+
+  try {
+    // Define the path to your JSON file in the src directory
+    const testSuitDataStructurePath = path.join(__dirname, '../src/data/testSuitDataStructure.json');
+
+    // Read the existing data from the JSON file
+    const data = await fs.readFile(testSuitDataStructurePath, 'utf8');
+    const testSuitData = JSON.parse(data);
+
+    // Find the test suit that contains the test with the given title
+    let testFound = false;
+    testSuitData.forEach((suit) => {
+      const initialTestCount = suit.tests.length;
+
+      // Filter out the test with the matching title
+      suit.tests = suit.tests.filter((test) => test.title !== testTitle);
+
+      if (suit.tests.length < initialTestCount) {
+        testFound = true; // A test was removed
+      }
+    });
+
+    if (!testFound) {
+      return res.status(404).json({ message: `Test with title "${testTitle}" not found` });
+    }
+
+    // Write the updated data back to the JSON file
+    await fs.writeFile(testSuitDataStructurePath, JSON.stringify(testSuitData, null, 2));
+
+    res.status(200).json({ message: `Test "${testTitle}" deleted successfully` });
+  } catch (error) {
+    console.error('Error deleting test:', error); // Log the error
+    res.status(500).json({ message: 'Error deleting test' });
+  }
+});
+
+// Route to run a test
 app.post('/run-test', async (req, res) => {
   const { testName, formData } = req.body;
   console.log(testName);
