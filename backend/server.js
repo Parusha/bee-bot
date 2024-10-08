@@ -116,7 +116,6 @@ app.post('/delete-test', async (req, res) => {
 // Route to run a test
 app.post('/run-test', async (req, res) => {
   const { testName, formData } = req.body;
-  console.log(testName);
 
   if (!testName) {
     return res.status(400).send('Test name is required');

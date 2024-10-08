@@ -11,7 +11,6 @@ const TestTable = ({ data, onScreenshot }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [testToDelete, setTestToDelete] = useState(null);
   const [tests, setTests] = useState(data);
-  console.log(data);
   const [isDeleting, setIsDeleting] = useState(false); // State to manage loading during deletion
 
   // Sync tests state with incoming data prop

@@ -31,7 +31,6 @@ const App = () => {
   // Socket connection for logging
   useEffect(() => {
     const logHandler = (message) => {
-      console.log('Received log message:', message);
       setLogMessages((prevMessages) => [...prevMessages, message]);
     };
 
@@ -67,7 +66,6 @@ const App = () => {
     }));
 
     setTestSuitData(updatedData);
-    console.log(`Deleted test: ${testTitle}`);
   };
 
   const renderTestSuit = () => {
@@ -145,6 +143,8 @@ const App = () => {
               <h4 style={{ color: '#ffba00', margin: '10px 0', fontSize: '20px', fontWeight: 'bold' }}>
                 Test Suits
               </h4>
+              {/* Horizontal Line Above Test Suits */}
+              <hr style={{ border: '1px solid #ffba00', margin: '10px 0' }} />
             </li>
 
             {testSuitData.map((suit) => (
