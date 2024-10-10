@@ -24,5 +24,33 @@
         }
       }
     ]
+  },
+  {
+    "testSuit": "Games",
+    "tests": [
+      {
+        "title": "DeviceTest Test",
+        "content": {
+          "testName": "DeviceTest",
+          "description": "Testing the slot games"
+        }
+      }
+    ]
+  },
+  {
+    "testSuit": "Third Party",
+    "tests": []
+  },
+  {
+    "testSuit": "Soccer",
+    "tests": [
+      {
+        "title": "SoccerBetting Test",
+        "content": {
+          "testName": "SoccerBetting",
+          "description": "Display Soccer Tournaments"
+        }
+      }
+    ]
   }
 ]

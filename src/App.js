@@ -46,6 +46,7 @@ const App = () => {
   };
 
   const clearLogMessages = () => {
+    setScreenshotUrl('');
     setLogMessages([]);
   };
 
