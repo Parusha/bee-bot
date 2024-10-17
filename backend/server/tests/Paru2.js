@@ -1,8 +1,9 @@
 const puppeteer = require('puppeteer');
 const path = require('path');
+const fs = require('fs');
 const { getViewport, launchBrowser, getScreenshotPath } = require('./puppeteerUtils');
 
-const runLogoutTest = async (formData, io) => {
+const runLoginTest = async (formData, io) => {
   const { url, username, password, device } = formData;
 
   if (!url || !username || !password || !device) {
@@ -77,4 +78,4 @@ const runLogoutTest = async (formData, io) => {
   }
 };
 
-module.exports = runLogoutTest;
+module.exports = runLoginTest;

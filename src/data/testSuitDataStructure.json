@@ -34,6 +34,13 @@
           "testName": "DeviceTest",
           "description": "Testing the slot games"
         }
+      },
+      {
+        "title": "SpinaZonkeDeviceTest Test",
+        "content": {
+          "testName": "SpinaZonkeDeviceTest",
+          "description": "This test launches Bikini Island and captures the screenshots for various device sizes"
+        }
       }
     ]
   },
@@ -43,14 +50,6 @@
   },
   {
     "testSuit": "Soccer",
-    "tests": [
-      {
-        "title": "SoccerBetting Test",
-        "content": {
-          "testName": "SoccerBetting",
-          "description": "Display Soccer Tournaments"
-        }
-      }
-    ]
+    "tests": []
   }
 ]
