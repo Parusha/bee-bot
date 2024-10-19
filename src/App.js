@@ -9,6 +9,7 @@ import HowToPage from './pages/HowToPage';
 import TestTable from './components/TestTable';
 import initialTestSuitDataStructure from './data/testSuitDataStructure.json';
 import './styles/App.css';
+import CreateTest from './pages/CreateTest';
 
 const App = () => {
   const [testSuitData, setTestSuitData] = useState(initialTestSuitDataStructure);
@@ -19,14 +20,13 @@ const App = () => {
 
   // Function to load test suit data
   const loadTestSuitData = () => {
-    // You can directly set the initial data or fetch new data here
     setTestSuitData(initialTestSuitDataStructure);
   };
 
   // Effect to load test suit data on mount or when needed
   useEffect(() => {
     loadTestSuitData();
-  }, []); // Empty dependency array means this will run only on mount
+  }, []);
 
   // Socket connection for logging
   useEffect(() => {
@@ -35,7 +35,6 @@ const App = () => {
     };
 
     socket.on('log', logHandler);
-
     return () => {
       socket.off('log', logHandler);
     };
@@ -103,8 +102,16 @@ const App = () => {
         </>
       );
     }
+    if (activePage === 'createTest') {
+      return <CreateTest />;
+    }
+
 
     return <HomePage />;
+  };
+
+  const handleCreateClick = () => {
+    setActivePage('createTest');
   };
 
   return (
@@ -144,7 +151,6 @@ const App = () => {
               <h4 style={{ color: '#ffba00', margin: '10px 0', fontSize: '20px', fontWeight: 'bold' }}>
                 Test Suits
               </h4>
-              {/* Horizontal Line Above Test Suits */}
               <hr style={{ border: '1px solid #ffba00', margin: '10px 0' }} />
             </li>
 
@@ -161,6 +167,14 @@ const App = () => {
                 </button>
               </li>
             ))}
+            <li>
+              <button
+                className="create-button" 
+                onClick={handleCreateClick}
+              >
+                + Create Test
+              </button>
+            </li>
           </ul>
         </aside>
 

@@ -177,3 +177,20 @@ html, body {
   color: #333; /* Text color */
   font-size: 1em; /* Font size */
 }
+.create-button {
+  background-color: #ffba00  !important; /* Yellow background */
+  color: white  !important; /* White text color */
+  padding: 10px 0px 10px !important; /* Padding inside the button */
+  width: 200px  !important; /* Match the width of the side menu */
+  text-align: center !important;
+  border: none; /* Remove default border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  position: fixed; /* Fixed position to stay at the bottom of the screen */
+  bottom: 20px; /* Space from the bottom of the screen */
+  z-index: 1000; /* Ensure it stays above other elements */
+}
+
+.create-button:hover {
+  transform: none !important; /* Force the transform to be none on hover */
+}
