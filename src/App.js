@@ -9,7 +9,7 @@ import HowToPage from './pages/HowToPage';
 import TestTable from './components/TestTable';
 import initialTestSuitDataStructure from './data/testSuitDataStructure.json';
 import './styles/App.css';
-import CreateTest from './pages/CreateTest';
+import CreateTest from './pages/CreateTest/CreateTest';
 
 const App = () => {
   const [testSuitData, setTestSuitData] = useState(initialTestSuitDataStructure);

@@ -1,0 +1,101 @@
+.howto-container {
+    padding: 20px;
+    background-color: #fffbea; /* Bee-themed background */
+    border: 2px solid #ffba00; /* Yellow border */
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    text-align: center;
+    width: 100%; /* Full width container */
+}
+
+.howto-container h1 {
+    color: #ffba00; /* Yellow color for headings */
+    margin-bottom: 20px;
+    font-size: 36px; /* Larger font size for heading */
+}
+
+.drag-drop-container {
+    display: flex;
+    justify-content: space-between; /* Ensure space between the containers */
+    padding: 20px;
+    gap: 20px; /* Gap between drag and drop containers */
+    width: 100%; /* Full width for the container */
+    flex-wrap: nowrap; /* Keep items side by side without wrapping */
+}
+
+.drag-items, .drop-zone {
+    border: 2px solid #ffba00; /* Yellow border */
+    padding: 10px; /* Reduced padding for a smaller area */
+    border-radius: 12px; /* Rounded corners */
+    background-color: #fff; /* White background */
+    flex: 1 1 0; /* Equal width and flexibility for both containers */
+    min-height: 300px; /* Reduced minimum height for the drop zone */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    box-sizing: border-box; /* Ensures padding is included in width calculation */
+}
+
+.dropped-item {
+    border: 2px solid #ffba00; /* Yellow border */
+    padding: 8px; /* Further reduced padding */
+    border-radius: 8px; /* Rounded corners */
+    margin-top: 5px; /* Smaller margin between items */
+    background-color: #ffeb99; /* Light yellow background for dropped items */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: calc(100% - 16px); /* Full width for dropped items minus margin */
+    position: relative; /* Ensure items are positioned relative to the drop zone */
+}
+
+
+.delete-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #ff0000; /* Red color for delete icon */
+}
+
+.drop-zone {
+    border: 2px dashed #ffba00; /* Bee-themed yellow dashed border */
+    padding: 20px; /* Ensure enough padding for visibility */
+    border-radius: 12px; /* Rounded corners */
+    background-color: #fffbea; /* Light bee-themed background */
+    transition: background-color 0.3s ease;
+    text-align: center;
+    color: #333; /* Dark text color */
+    width: 100%; /* Ensure drop zone takes full width */
+    min-height: 200px; /* Adjust height to ensure items fit inside */
+    position: relative; /* Set relative positioning */
+    overflow: auto; /* Allow scrolling if items exceed visible area */
+}
+
+
+.drop-zone.hover {
+    background-color: #ffeb99; /* Lighter yellow when item is hovered */
+    border-color: green; /* Green border on hover */
+    color: #000; /* Darker text when hovered */
+}
+
+.drag-item {
+    opacity: 1;
+    cursor: move;
+    border: 2px solid #ffba00; /* Bee-themed yellow border */
+    padding: 8px; /* Further reduced padding for smaller items */
+    border-radius: 12px; /* Rounded corners for the bee theme */
+    margin: 5px; /* Smaller margin between items */
+    background-color: #fffbea; /* Light bee-themed background */
+    transition: opacity 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+    text-align: center;
+    color: #333; /* Dark text color */
+    font-size: 14px; /* Slightly smaller font size */
+    width: calc(100% - 10px); /* Full width for drag items minus margin */
+}
+
+.drag-item.dragging {
+    opacity: 0.5; /* Lighter opacity when dragging */
+    background-color: #ffeb99; /* Light yellow during dragging */
+}
