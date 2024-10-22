@@ -20,6 +20,17 @@
             "drop": "typing",
             "placeholder": "selector",
             "placeholder2": "text"
+        },
+        {
+            "drag": "Snapshot",
+            "drop": "take snapshot",
+            "placeholder": "name of screenshot"
+        },
+        {
+            "drag": "Viewport",
+            "drop": "dimension",
+            "placeholder": "width",
+            "placeholder2": "height"
         }
     ]
 }
