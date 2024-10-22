@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import '../../styles/CreateTest.css';
 import DragItem from './DragItem';
 import DropZone from './DropZone';
-import '../../styles/CreateTest.css'; // Import your CSS file for bee-themed styles
+import dragDropData from '../../data/dragDropData.json'; // Import your JSON file
 
 const CreateTest = () => {
     const [droppedItems, setDroppedItems] = useState([]);
@@ -27,14 +26,18 @@ const CreateTest = () => {
                 <div className="drag-drop-container">
                     <div className="drag-items">
                         <h2>Code Blocks</h2>
-                        <DragItem name="Go to the Page" />
-                        <DragItem name="Wait seconds" />
-                        <DragItem name="Click on the element" />
-                        <DragItem name="Type text to the input" />
+                        {dragDropData.items.map((item, index) => (
+                            <DragItem key={index} name={item.drag} />
+                        ))}
                     </div>
                     <div className="drop-zone">
                         <h2>Drop Zone</h2>
-                        <DropZone onDrop={handleDrop} droppedItems={droppedItems} onRemove={handleRemoveItem} />
+                        <DropZone
+                            onDrop={handleDrop}
+                            droppedItems={droppedItems}
+                            onRemove={handleRemoveItem}
+                            dropData={dragDropData.items} // Pass the full item array to DropZone
+                        />
                     </div>
                 </div>
             </div>

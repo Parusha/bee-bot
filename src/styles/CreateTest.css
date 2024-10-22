@@ -158,15 +158,16 @@
 
 .dropped-item {
     border: 2px solid #ffba00; /* Yellow border */
-    padding: 5px; /* Reduced padding */
+    padding: 5px; /* Further reduced padding */
     border-radius: 8px; /* Rounded corners */
     margin-top: 5px; /* Smaller margin between items */
     background-color: #ffeb99; /* Light yellow background for dropped items */
     display: flex; /* Use flexbox to align items */
     justify-content: space-between; /* Space between text and input */
     align-items: center; /* Center items vertically */
-    width: calc(100% - 20px); /* Full width for dropped items minus margin */
+    width: calc(100% - 10px); /* Full width for dropped items minus margin */
     position: relative; /* Ensure items are positioned relative to the drop zone */
+    overflow: hidden; /* Hide overflow content */
 }
 
 .delete-button {
@@ -187,9 +188,9 @@
     color: #333; /* Dark text color */
     width: 97%; /* Ensure drop zone takes full width */
     position: relative; /* Set relative positioning */
-    overflow: auto; /* Allow scrolling if items exceed visible area */
+    overflow-y: auto; /* Allow vertical scrolling if items exceed visible area */
+    overflow-x: hidden; /* Prevent horizontal overflow */
 }
-
 
 .drop-zone.hover {
     background-color: #ffeb99; /* Lighter yellow when item is hovered */
@@ -200,11 +201,13 @@
 .dropped-item p {
     margin: 0; /* Remove default margin */
     white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide overflow content */
+    text-overflow: ellipsis; /* Show ellipsis for overflowing text */
 }
-
 .dropped-item input {
     flex: 1; /* Allow input to take remaining space */
-    min-width: 200px; /* Minimum width for better visibility */
+    min-width: 100px; /* Adjust minimum width */
+    max-width: calc(100% - 10px); /* Set a maximum width to prevent overflow */
     padding: 10px; /* Add padding for better user experience */
     border-radius: 8px; /* Rounded corners */
     border: 2px solid #ddd; /* Light gray border initially */
@@ -212,6 +215,7 @@
     outline: none; /* Remove default outline */
     transition: border-color 0.3s ease; /* Smooth transition for border color */
     margin-left: 10px; /* Add space between the text and the input box */
+    box-sizing: border-box; /* Include padding and border in the element's total width */
 }
 
 .dropped-item input:focus {

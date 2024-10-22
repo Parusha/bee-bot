@@ -15,7 +15,7 @@ const DragItem = ({ name }) => {
     return (
         <div ref={drag} className={`drag-item ${isDragging ? 'dragging' : ''}`}>
             <FontAwesomeIcon icon={faGripVertical} className="drag-icon" /> {/* Drag icon */}
-            <span className="drag-text">{name}</span> {/* Drag item content */}
+            <span className="drag-text">{name}</span> {/* Display the dynamic drag item content */}
         </div>
     );
 };

@@ -1,0 +1,25 @@
+{
+    "items": [
+        {
+            "drag": "Go to the Page",
+            "drop": "going",
+            "placeholder": "https://..."
+        },
+        {
+            "drag": "Wait seconds",
+            "drop": "waiting",
+            "placeholder": "3000"
+        },
+        {
+            "drag": "Click on the element",
+            "drop": "clicking",
+            "placeholder": ".submit-button"
+        },
+        {
+            "drag": "Type text to the input",
+            "drop": "typing",
+            "placeholder": "selector",
+            "placeholder2": "text"
+        }
+    ]
+}
