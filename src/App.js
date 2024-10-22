@@ -10,6 +10,8 @@ import TestTable from './components/TestTable';
 import initialTestSuitDataStructure from './data/testSuitDataStructure.json';
 import './styles/App.css';
 import CreateTest from './pages/CreateTest/CreateTest';
+import beeIconBlack from './assets/bee-icon-black.png'; 
+import beeIconWhite from './assets/bee-icon-white.png'; 
 
 const App = () => {
   const [testSuitData, setTestSuitData] = useState(initialTestSuitDataStructure);
@@ -17,6 +19,7 @@ const App = () => {
   const [logMessages, setLogMessages] = useState([]);
   const [activePage, setActivePage] = useState('default');
   const [activeSuit, setActiveSuit] = useState(null);
+  const [isBeeFormVisible, setIsBeeFormVisible] = useState(false); 
 
   // Function to load test suit data
   const loadTestSuitData = () => {
@@ -106,7 +109,6 @@ const App = () => {
       return <CreateTest />;
     }
 
-
     return <HomePage />;
   };
 
@@ -114,11 +116,21 @@ const App = () => {
     setActivePage('createTest');
   };
 
+  const toggleBeeFormVisibility = () => {
+    setIsBeeFormVisible((prev) => !prev);
+  };
+
   return (
     <div className="app-container">
       <header className="header">
         <div>
-          <img src="/bee-logo-white.png" alt="Bee Logo" className="bee-logo" />
+          <img
+            src={isBeeFormVisible ? beeIconWhite : beeIconBlack} 
+            alt="Bee Icon"
+            className="bee-icon"
+            style={{ cursor: 'pointer' }} 
+            onClick={toggleBeeFormVisibility}
+          />
           Bee Bot Dashboard
         </div>
       </header>
@@ -169,7 +181,7 @@ const App = () => {
             ))}
             <li>
               <button
-                className="create-button" 
+                className="create-button"
                 onClick={handleCreateClick}
               >
                 + Create Test
@@ -180,7 +192,7 @@ const App = () => {
 
         <main className="content">
           {renderContentPage()}
-          <BeeForm />
+          {isBeeFormVisible && <BeeForm />}
         </main>
       </div>
     </div>

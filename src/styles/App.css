@@ -1,9 +1,10 @@
 /* Global Styles */
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   font-family: Arial, sans-serif;
-  overflow-x: hidden; /* Disable horizontal scrolling */
+  overflow-x: hidden;
 }
 
 .app-container {
@@ -36,7 +37,13 @@ html, body {
   width: 30px;
   height: 30px;
   margin-right: 10px;
+  transition: filter 0.3s;
 }
+
+.bee-icon:hover {
+  filter: brightness(1.2);
+}
+
 
 /* Main Layout */
 .main-container {
@@ -59,7 +66,7 @@ html, body {
 }
 
 .side-menu ul {
-  list-style-type: none; /* Remove bullet points */
+  list-style-type: none;
   padding-left: 0;
 }
 
@@ -77,7 +84,8 @@ html, body {
   text-align: left;
   transition: transform 0.3s ease;
   width: 100%;
-  border-radius: 5px; /* Add rounded corners */
+  border-radius: 5px;
+  /* Add rounded corners */
 }
 
 .side-menu button:hover {
@@ -86,7 +94,7 @@ html, body {
 
 /* Active Menu Item Highlight */
 .side-menu li.active button {
-  background-color: #ffba00; /* Highlight color */
+  background-color: #ffba00;
   color: #fff;
   border-radius: 5px;
 }
@@ -122,76 +130,77 @@ html, body {
 
 /* Screenshot and Log Messages Container */
 .screenshot-log-container {
-  background-color: #fffbea; /* Bee-themed background color */
-  border: 2px solid #ffba00; /* Yellow border */
-  border-radius: 12px; /* Rounded corners */
-  padding: 20px; /* Padding inside the container */
-  margin-top: 20px; /* Space above the container */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  background-color: #fffbea;
+  border: 2px solid #ffba00;
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Screenshot Section */
 .screenshot-container {
-  margin-bottom: 20px; /* Space below the screenshot section */
+  margin-bottom: 20px;
 }
 
 .resized-image {
-  width: 30%; /* Adjust the width to be smaller (you can change this value as needed) */
-  height: auto; /* Maintain aspect ratio */
-  border: 5px solid #ffba00; /* Yellow border for the image */
-  border-radius: 12px; /* Rounded corners for the image */
+  width: 30%;
+  height: auto;
+  border: 5px solid #ffba00;
+  border-radius: 12px;
 }
 
 /* Log Messages */
 .log-container {
-  margin-top: 10px; /* Space above the log messages */
+  margin-top: 10px;
 }
 
 .log-list {
-  list-style-type: none; /* No bullet points */
-  padding-left: 0; /* Remove default padding */
+  list-style-type: none;
+  padding-left: 0;
 }
 
 /* Log Message Styling */
 
 .log-message {
-  display: flex; /* Use flexbox for inline layout */
-  align-items: center; /* Center items vertically */
-  background-color: #fff; /* White background for log messages */
-  border: 1px solid #ffba00; /* Yellow border for log messages */
-  border-radius: 8px; /* Rounded corners for log messages */
-  padding: 10px; /* Padding inside log messages */
-  margin-bottom: 8px; /* Space between log messages */
-  color: #333; /* Text color */
-  font-family: 'Courier New', monospace; /* Monospace font for log messages */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #ffba00;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 8px;
+  color: #333;
+  font-family: 'Courier New', monospace;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .log-icon {
-  width: 30px; /* Set a fixed width for the icon */
-  height: 30px; /* Set a fixed height for the icon */
-  margin-right: 10px; /* Space between the icon and the text */
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
 }
 
 .message-text {
-  flex-grow: 1; /* Allow message text to grow */
-  color: #333; /* Text color */
-  font-size: 1em; /* Font size */
+  flex-grow: 1;
+  color: #333;
+  font-size: 1em;
 }
+
 .create-button {
-  background-color: #ffba00  !important; /* Yellow background */
-  color: white  !important; /* White text color */
-  padding: 10px 0px 10px !important; /* Padding inside the button */
-  width: 200px  !important; /* Match the width of the side menu */
+  background-color: #ffba00 !important;
+  color: white !important;
+  padding: 10px 0px 10px !important;
+  width: 200px !important;
   text-align: center !important;
-  border: none; /* Remove default border */
-  border-radius: 5px; /* Rounded corners */
-  cursor: pointer; /* Pointer cursor on hover */
-  position: fixed; /* Fixed position to stay at the bottom of the screen */
-  bottom: 20px; /* Space from the bottom of the screen */
-  z-index: 1000; /* Ensure it stays above other elements */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  position: fixed;
+  bottom: 20px;
+  z-index: 1000;
 }
 
 .create-button:hover {
-  transform: none !important; /* Force the transform to be none on hover */
+  transform: none !important;
 }
