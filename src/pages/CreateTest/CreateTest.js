@@ -1,4 +1,3 @@
-// CreateTest.js
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -34,15 +33,7 @@ const CreateTest = () => {
                     </div>
                     <div className="drop-zone">
                         <h2>Drop Zone</h2>
-                        <DropZone onDrop={handleDrop} />
-                        {droppedItems.map((item, index) => (
-                            <div className="dropped-item" key={index}>
-                                <p>{item.name}</p>
-                                <button onClick={() => handleRemoveItem(index)} className="delete-button">
-                                    <FontAwesomeIcon icon={faTrash} />
-                                </button>
-                            </div>
-                        ))}
+                        <DropZone onDrop={handleDrop} droppedItems={droppedItems} onRemove={handleRemoveItem} />
                     </div>
                 </div>
             </div>
