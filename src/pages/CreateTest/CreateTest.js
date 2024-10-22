@@ -27,9 +27,10 @@ const CreateTest = () => {
                 <div className="drag-drop-container">
                     <div className="drag-items">
                         <h2>Code Blocks</h2>
-                        <DragItem name="Item 1" />
-                        <DragItem name="Item 2" />
-                        <DragItem name="Item 3" />
+                        <DragItem name="Go to the Page" />
+                        <DragItem name="Wait seconds" />
+                        <DragItem name="Click on the element" />
+                        <DragItem name="Type text to the input" />
                     </div>
                     <div className="drop-zone">
                         <h2>Drop Zone</h2>

@@ -141,16 +141,16 @@
 
 .dropped-item {
     border: 2px solid #ffba00; /* Yellow border */
-    padding: 5px; /* Further reduced padding */
+    padding: 5px; /* Reduced padding */
     border-radius: 8px; /* Rounded corners */
+    margin-top: 5px; /* Smaller margin between items */
     background-color: #ffeb99; /* Light yellow background for dropped items */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex; /* Use flexbox to align items */
+    justify-content: space-between; /* Space between text and input */
+    align-items: center; /* Center items vertically */
     width: calc(100% - 20px); /* Full width for dropped items minus margin */
     position: relative; /* Ensure items are positioned relative to the drop zone */
 }
-
 
 .delete-button {
     background-color: transparent;
@@ -178,6 +178,28 @@
     background-color: #ffeb99; /* Lighter yellow when item is hovered */
     border-color: green; /* Green border on hover */
     color: #000; /* Darker text when hovered */
+}
+
+.dropped-item p {
+    margin: 0; /* Remove default margin */
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.dropped-item input {
+    flex: 1; /* Allow input to take remaining space */
+    min-width: 200px; /* Minimum width for better visibility */
+    padding: 10px; /* Add padding for better user experience */
+    border-radius: 8px; /* Rounded corners */
+    border: 2px solid #ddd; /* Light gray border initially */
+    font-size: 16px; /* Slightly larger font size */
+    outline: none; /* Remove default outline */
+    transition: border-color 0.3s ease; /* Smooth transition for border color */
+    margin-left: 10px; /* Add space between the text and the input box */
+}
+
+.dropped-item input:focus {
+    border-color: rgba(255, 0, 0, 0.5); /* Faded red border when focused */
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.3); /* Subtle shadow on focus */
 }
 
 .drag-item {
