@@ -5,6 +5,8 @@ import '../../styles/CreateTest.css';
 import DragItem from './DragItem';
 import DropZone from './DropZone';
 import dragDropData from '../../data/dragDropData.json'; // Import your JSON file
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSave } from '@fortawesome/free-solid-svg-icons';
 
 const CreateTest = () => {
     const [droppedItems, setDroppedItems] = useState([]);
@@ -17,6 +19,11 @@ const CreateTest = () => {
         const updatedItems = [...droppedItems];
         updatedItems.splice(index, 1);
         setDroppedItems(updatedItems);
+        console.log('Rmoved item');
+    };
+
+    const handleSave = () => {
+        console.log('Saved dropped items:', droppedItems);
     };
 
     return (
@@ -35,10 +42,15 @@ const CreateTest = () => {
                         <DropZone
                             onDrop={handleDrop}
                             droppedItems={droppedItems}
-                            onRemove={handleRemoveItem}
-                            dropData={dragDropData.items} // Pass the full item array to DropZone
+                            onRemove={handleRemoveItem} 
+                            dropData={dragDropData.items}
                         />
                     </div>
+                </div>
+                <div className="save-button-container">
+                    <button className="save-button" onClick={handleSave}>
+                        <FontAwesomeIcon icon={faSave} /> Save
+                    </button>
                 </div>
             </div>
         </DndProvider>

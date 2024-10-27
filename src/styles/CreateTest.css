@@ -242,3 +242,33 @@
     height: 40px; /* Set a fixed height for both */
     margin: 5px;
 }
+
+.save-button {
+    background-color: #ffba00;
+    color: #fffbea;
+    border: 2px solid #ffba00;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.save-button:hover {
+    background-color: #ffae00;
+    color: #ffffff;
+    transform: scale(1.05);
+}
+
+.save-button:active {
+    background-color: #e69900;
+    transform: scale(0.95);
+}
+.save-button-container {
+    display: flex;
+    justify-content: flex-end; /* Align Save button to the right */
+    width: 95%;
+}
