@@ -10,8 +10,11 @@ import TestTable from './components/TestTable';
 import initialTestSuitDataStructure from './data/testSuitDataStructure.json';
 import './styles/App.css';
 import CreateTest from './pages/CreateTest/CreateTest';
-import beeIconBlack from './assets/bee-icon-black.png'; 
-import beeIconWhite from './assets/bee-icon-white.png'; 
+import beeIconBlack from './assets/bee-icon-black.png';
+import beeIconWhite from './assets/bee-icon-white.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome } from '@fortawesome/free-solid-svg-icons';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 const App = () => {
   const [testSuitData, setTestSuitData] = useState(initialTestSuitDataStructure);
@@ -19,7 +22,7 @@ const App = () => {
   const [logMessages, setLogMessages] = useState([]);
   const [activePage, setActivePage] = useState('default');
   const [activeSuit, setActiveSuit] = useState(null);
-  const [isBeeFormVisible, setIsBeeFormVisible] = useState(false); 
+  const [isBeeFormVisible, setIsBeeFormVisible] = useState(false);
 
   // Function to load test suit data
   const loadTestSuitData = () => {
@@ -125,10 +128,10 @@ const App = () => {
       <header className="header">
         <div>
           <img
-            src={isBeeFormVisible ? beeIconWhite : beeIconBlack} 
+            src={isBeeFormVisible ? beeIconWhite : beeIconBlack}
             alt="Bee Icon"
             className="bee-icon"
-            style={{ cursor: 'pointer' }} 
+            style={{ cursor: 'pointer' }}
             onClick={toggleBeeFormVisibility}
           />
           Bee Bot Dashboard
@@ -137,33 +140,34 @@ const App = () => {
       <div className="main-container">
         <aside className="side-menu">
           <ul className="menu-list">
-            <li className={activePage === 'default' ? 'active' : ''}>
-              <button
-                onClick={() => {
-                  setActivePage('default');
-                  setActiveSuit(null);
-                }}
-              >
-                Home
-              </button>
-            </li>
-
-            <li className={activePage === 'howTo' ? 'active' : ''}>
-              <button
-                onClick={() => {
-                  setActivePage('howTo');
-                  setActiveSuit(null);
-                }}
-              >
-                How To
-              </button>
-            </li>
+            <div>
+              <li className={activePage === 'default' ? 'active' : ''}>
+                <button
+                  onClick={() => {
+                    setActivePage('default');
+                    setActiveSuit(null);
+                  }}
+                >
+                 <FontAwesomeIcon icon={faHome} /> Home
+                </button>
+              </li>
+              <li className={activePage === 'howTo' ? 'active' : ''}>
+                <button
+                  onClick={() => {
+                    setActivePage('howTo');
+                    setActiveSuit(null);
+                  }}
+                >
+                   <FontAwesomeIcon icon={faQuestionCircle} /> How To
+                </button>
+              </li>
+            </div>
 
             <li>
-              <h4 style={{ color: '#ffff', margin: '10px 0', fontSize: '20px', fontWeight: 'bold' }}>
+
+              <div style={{ paddingTop:'40px',color: '#b5b5b5', margin: '10px 0', fontSize: '18px' }}>
                 Test Suits
-              </h4>
-              <hr style={{ border: '1px solid #ffff', margin: '10px 0' }} />
+              </div>
             </li>
 
             {testSuitData.map((suit) => (

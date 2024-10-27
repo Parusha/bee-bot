@@ -1,0 +1,41 @@
+/* HomePage.css */
+
+.default-content {
+    background-color: #fffbea; /* Soft yellow background */
+    border: 2px solid #ffba00; /* Bee-theme yellow border */
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .default-content h2 {
+    color: #ffba00; /* Bee-theme yellow for headings */
+    font-size: 24px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .bee-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    transition: transform 0.3s;
+  }
+  
+  .bee-icon:hover {
+    transform: scale(1.2); /* Subtle hover effect */
+  }
+  
+  .default-content p {
+    color: #333; /* Dark text for readability */
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .default-content p:hover {
+    color: #ffba00; /* Highlight on hover */
+  }
+  

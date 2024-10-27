@@ -13,7 +13,6 @@ body {
   height: 100vh;
 }
 
-/* Header */
 .header {
   background-color: #ffba00;
   color: white;
@@ -38,21 +37,19 @@ body {
   height: 30px;
   margin-right: 10px;
   transition: filter 0.3s;
+  cursor: pointer;
 }
 
 .bee-icon:hover {
   filter: brightness(1.2);
 }
 
-
-/* Main Layout */
 .main-container {
   display: flex;
   flex: 1;
   overflow: hidden;
 }
 
-/* Side Menu */
 .side-menu {
   width: 200px;
   background-color: #333;
@@ -61,8 +58,13 @@ body {
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  flex-shrink: 0;
   overflow-y: auto;
+}
+
+.menu-section {
+  background-color: #262626;
+  padding: 10px;
+  color: #ffffff;
 }
 
 .side-menu ul {
@@ -85,21 +87,17 @@ body {
   transition: transform 0.3s ease;
   width: 100%;
   border-radius: 5px;
-  /* Add rounded corners */
 }
 
 .side-menu button:hover {
   transform: scale(1.1);
 }
 
-/* Active Menu Item Highlight */
 .side-menu li.active button {
   background-color: #ffba00;
   color: #fff;
-  border-radius: 5px;
 }
 
-/* Content Area */
 .content {
   flex: 1;
   padding: 20px;
@@ -202,5 +200,12 @@ body {
 }
 
 .create-button:hover {
-  transform: none !important;
+  background-color: #ffba00;
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+.create-button:active {
+  background-color: #e69900;
+  transform: scale(0.95);
 }
