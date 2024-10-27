@@ -272,3 +272,49 @@
     justify-content: flex-end; /* Align Save button to the right */
     width: 95%;
 }
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fffbea; /* Bee theme background */
+    padding: 20px;
+    border-radius: 8px;
+    border: 2px solid #ffba00; /* Bee theme border */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    text-align: center;
+}
+
+.modal-content input {
+    width: 90%;
+    margin-top: 10px;
+    padding: 8px;
+    border-radius: 4px;
+    border: 2px solid #ffba00; /* Bee theme border for inputs */
+    background-color: #fffbea; /* Consistent background for inputs */
+    color: #333; /* Dark text for readability */
+}
+
+.modal-content button {
+    margin: 10px 5px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #ffba00; /* Bee theme button background */
+    color: white; /* White text for contrast */
+}
+
+.modal-content button:hover {
+    background-color: #e0a800; /* Slightly darker shade for hover effect */
+}

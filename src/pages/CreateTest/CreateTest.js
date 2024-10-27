@@ -4,12 +4,16 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import '../../styles/CreateTest.css';
 import DragItem from './DragItem';
 import DropZone from './DropZone';
-import dragDropData from '../../data/dragDropData.json'; // Import your JSON file
+import dragDropData from '../../data/dragDropData.json';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave } from '@fortawesome/free-solid-svg-icons';
 
 const CreateTest = () => {
     const [droppedItems, setDroppedItems] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+    const [testSuiteName, setTestSuiteName] = useState('');
+    const [description, setDescription] = useState('');
+    const [showErrorModal, setShowErrorModal] = useState(false); // State for error modal
 
     const handleDrop = (item) => {
         setDroppedItems((prevItems) => [...prevItems, item]);
@@ -19,11 +23,29 @@ const CreateTest = () => {
         const updatedItems = [...droppedItems];
         updatedItems.splice(index, 1);
         setDroppedItems(updatedItems);
-        console.log('Rmoved item');
+        console.log('Removed item');
     };
 
     const handleSave = () => {
-        console.log('Saved dropped items:', droppedItems);
+        if (droppedItems.length > 0) {
+            setShowModal(true);
+        } else {
+            setShowErrorModal(true); // Show error modal if no items are present
+        }
+    };
+
+    const handleModalSave = () => {
+        console.log('Test Suite Name:', testSuiteName);
+        console.log('Description:', description);
+        console.log('Dropped items:', droppedItems);
+        setShowModal(false);
+        // Reset the inputs after save
+        setTestSuiteName('');
+        setDescription('');
+    };
+
+    const handleCloseErrorModal = () => {
+        setShowErrorModal(false); // Close error modal
     };
 
     return (
@@ -42,7 +64,7 @@ const CreateTest = () => {
                         <DropZone
                             onDrop={handleDrop}
                             droppedItems={droppedItems}
-                            onRemove={handleRemoveItem} 
+                            onRemove={handleRemoveItem}
                             dropData={dragDropData.items}
                         />
                     </div>
@@ -52,6 +74,44 @@ const CreateTest = () => {
                         <FontAwesomeIcon icon={faSave} /> Save
                     </button>
                 </div>
+
+                {/* Save Test Suite Modal */}
+                {showModal && (
+                    <div className="modal">
+                        <div className="modal-content">
+                            <h3>Save Test Suite</h3>
+                            <label>
+                                Test Suite Name:
+                                <input
+                                    type="text"
+                                    value={testSuiteName}
+                                    onChange={(e) => setTestSuiteName(e.target.value)}
+                                />
+                            </label>
+                            <label>
+                                Description:
+                                <input
+                                    type="text"
+                                    value={description}
+                                    onChange={(e) => setDescription(e.target.value)}
+                                />
+                            </label>
+                            <button onClick={handleModalSave}>Save</button>
+                            <button onClick={() => setShowModal(false)}>Cancel</button>
+                        </div>
+                    </div>
+                )}
+
+                {/* Error Modal for no dropped items */}
+                {showErrorModal && (
+                    <div className="modal">
+                        <div className="modal-content">
+                            <h3>Buzz Buzz Buzz!</h3>
+                            <p>No items to save. Please add items to the drop zone.</p>
+                            <button onClick={handleCloseErrorModal}>OK</button>
+                        </div>
+                    </div>
+                )}
             </div>
         </DndProvider>
     );
