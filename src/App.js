@@ -160,10 +160,10 @@ const App = () => {
             </li>
 
             <li>
-              <h4 style={{ color: '#ffba00', margin: '10px 0', fontSize: '20px', fontWeight: 'bold' }}>
+              <h4 style={{ color: '#ffff', margin: '10px 0', fontSize: '20px', fontWeight: 'bold' }}>
                 Test Suits
               </h4>
-              <hr style={{ border: '1px solid #ffba00', margin: '10px 0' }} />
+              <hr style={{ border: '1px solid #ffff', margin: '10px 0' }} />
             </li>
 
             {testSuitData.map((suit) => (
