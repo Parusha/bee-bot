@@ -117,6 +117,7 @@ const App = () => {
 
   const handleCreateClick = () => {
     setActivePage('createTest');
+    setActiveSuit(null);
   };
 
   const toggleBeeFormVisibility = () => {
