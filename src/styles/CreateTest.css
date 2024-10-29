@@ -272,6 +272,65 @@
     justify-content: flex-end; /* Align Save button to the right */
     width: 95%;
 }
+.button-container button {
+    background-color: #ffba00; /* Bee-themed yellow background */
+    color: #fff; /* White text */
+    border: 2px solid #ffba00; /* Yellow border */
+    border-radius: 8px; /* Rounded corners */
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: flex;
+    align-items: center; /* Align icon and text */
+    gap: 8px; /* Space between icon and text */
+}
+
+.button-container button:hover {
+    background-color: #ffeb99; /* Light yellow on hover */
+    color: #333; /* Darker text */
+}
+
+.button-container button:active {
+    background-color: #e6a800; /* Darker yellow on active */
+}
+
+.hint-button .fa-lightbulb,
+.preview-button .fa-eye,
+.save-button .fa-save {
+    color: #fff; /* Icon color */
+    font-size: 18px; /* Icon size */
+}
+.button-container {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right */
+    gap: 10px; /* Space evenly between buttons */
+    padding-top: 20px; /* Add padding to the top if needed */
+    width: 97%;
+}
+
+.hint-button, .preview-button, .save-button {
+    padding: 10px 20px; /* Add padding for consistent button sizing */
+    border-radius: 8px;
+    font-size: 16px;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.hint-button {
+    background-color: #ffba00;
+}
+
+.preview-button {
+    background-color: #ffc107;
+}
+
+.save-button {
+    background-color: #4caf50;
+}
+
 
 .modal {
     position: fixed;

@@ -6,14 +6,15 @@ import DragItem from './DragItem';
 import DropZone from './DropZone';
 import dragDropData from '../../data/dragDropData.json';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSave } from '@fortawesome/free-solid-svg-icons';
+import { faSave, faLightbulb, faEye } from '@fortawesome/free-solid-svg-icons';
 
 const CreateTest = () => {
     const [droppedItems, setDroppedItems] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [testSuiteName, setTestSuiteName] = useState('');
     const [description, setDescription] = useState('');
-    const [showErrorModal, setShowErrorModal] = useState(false); // State for error modal
+    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [contentMode, setContentMode] = useState('blocks'); // Mode for showing blocks, hint, or preview
 
     const handleDrop = (item) => {
         setDroppedItems((prevItems) => [...prevItems, item]);
@@ -39,7 +40,6 @@ const CreateTest = () => {
         console.log('Description:', description);
         console.log('Dropped items:', droppedItems);
         setShowModal(false);
-        // Reset the inputs after save
         setTestSuiteName('');
         setDescription('');
     };
@@ -55,9 +55,32 @@ const CreateTest = () => {
                 <div className="drag-drop-container">
                     <div className="drag-items">
                         <h2>Code Blocks</h2>
-                        {dragDropData.items.map((item, index) => (
-                            <DragItem key={index} name={item.drag} />
-                        ))}
+                        {contentMode === 'blocks' && (
+                            dragDropData.items.map((item, index) => (
+                                <DragItem key={index} name={item.drag} />
+                            ))
+                        )}
+                        {contentMode === 'hint' && (
+                            <div>
+                                <p>Drag items from the "Code Blocks" section to the "Drop Zone" to create your test steps. Click "Save" to save the test suite.</p>
+                                <button onClick={() => setContentMode('blocks')}>Back to Code Blocks</button>
+                            </div>
+                        )}
+                        {contentMode === 'preview' && (
+                            <div>
+                                <h3>Preview Dropped Items</h3>
+                                {droppedItems.length > 0 ? (
+                                    <ul>
+                                        {droppedItems.map((item, index) => (
+                                            <li key={index}>{item.drag}</li>
+                                        ))}
+                                    </ul>
+                                ) : (
+                                    <p>No items have been added to the drop zone yet.</p>
+                                )}
+                                <button onClick={() => setContentMode('blocks')}>Back to Code Blocks</button>
+                            </div>
+                        )}
                     </div>
                     <div className="drop-zone">
                         <h2>Drop Zone</h2>
@@ -69,7 +92,13 @@ const CreateTest = () => {
                         />
                     </div>
                 </div>
-                <div className="save-button-container">
+                <div className="button-container">
+                    <button className="hint-button" onClick={() => setContentMode('hint')}>
+                        <FontAwesomeIcon icon={faLightbulb} /> Hint
+                    </button>
+                    <button className="preview-button" onClick={() => setContentMode('preview')}>
+                        <FontAwesomeIcon icon={faEye} /> Preview
+                    </button>
                     <button className="save-button" onClick={handleSave}>
                         <FontAwesomeIcon icon={faSave} /> Save
                     </button>
