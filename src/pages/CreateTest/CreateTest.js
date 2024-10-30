@@ -14,10 +14,33 @@ const CreateTest = () => {
     const [testSuiteName, setTestSuiteName] = useState('');
     const [description, setDescription] = useState('');
     const [showErrorModal, setShowErrorModal] = useState(false);
-    const [contentMode, setContentMode] = useState('blocks'); // Mode for showing blocks, hint, or preview
+    const [contentMode, setContentMode] = useState('blocks');
 
     const handleDrop = (item) => {
-        setDroppedItems((prevItems) => [...prevItems, item]);
+        // Initialize placeholders and inputs for each drop item
+        const newItem = { ...item, inputs: {} };
+        if (item.placeholder) newItem.inputs['placeholder'] = '';
+        if (item.placeholder2) newItem.inputs['placeholder2'] = '';
+
+        setDroppedItems((prevItems) => [...prevItems, newItem]);
+    };
+
+    const handleInputChange = (index, placeholderKey, value) => {
+        // Update the specific input within the dropped item
+        setDroppedItems((prevItems) => {
+            const updatedItems = [...prevItems];
+            updatedItems[index].inputs[placeholderKey] = value;
+            return updatedItems;
+        });
+    };
+
+    const generateCodePreview = (item) => {
+        // Replace ${variable} with actual user inputs from the item
+        let codePreview = item.codeBlock;
+        for (const [key, value] of Object.entries(item.inputs)) {
+            codePreview = codePreview.replace(`\${${key}}`, value || '');
+        }
+        return codePreview;
     };
 
     const handleRemoveItem = (index) => {
@@ -31,7 +54,7 @@ const CreateTest = () => {
         if (droppedItems.length > 0) {
             setShowModal(true);
         } else {
-            setShowErrorModal(true); // Show error modal if no items are present
+            setShowErrorModal(true);
         }
     };
 
@@ -44,9 +67,7 @@ const CreateTest = () => {
         setDescription('');
     };
 
-    const handleCloseErrorModal = () => {
-        setShowErrorModal(false); // Close error modal
-    };
+    const handleCloseErrorModal = () => setShowErrorModal(false);
 
     return (
         <DndProvider backend={HTML5Backend}>
@@ -68,11 +89,15 @@ const CreateTest = () => {
                         )}
                         {contentMode === 'preview' && (
                             <div>
-                                <h3>Preview Dropped Items</h3>
                                 {droppedItems.length > 0 ? (
                                     <ul>
                                         {droppedItems.map((item, index) => (
-                                            <li key={index}>{item.drag}</li>
+                                            <li key={index}>
+                                                <div>
+
+                                                    <pre>{generateCodePreview(item)}</pre>
+                                                </div>
+                                            </li>
                                         ))}
                                     </ul>
                                 ) : (
@@ -89,6 +114,7 @@ const CreateTest = () => {
                             droppedItems={droppedItems}
                             onRemove={handleRemoveItem}
                             dropData={dragDropData.items}
+                            onInputChange={handleInputChange} // Pass the input change handler here
                         />
                     </div>
                 </div>
@@ -104,7 +130,6 @@ const CreateTest = () => {
                     </button>
                 </div>
 
-                {/* Save Test Suite Modal */}
                 {showModal && (
                     <div className="modal">
                         <div className="modal-content">
@@ -131,7 +156,6 @@ const CreateTest = () => {
                     </div>
                 )}
 
-                {/* Error Modal for no dropped items */}
                 {showErrorModal && (
                     <div className="modal">
                         <div className="modal-content">
