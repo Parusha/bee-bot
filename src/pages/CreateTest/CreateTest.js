@@ -17,7 +17,7 @@ const CreateTest = () => {
     const [description, setDescription] = useState('');
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [contentMode, setContentMode] = useState('blocks');
-    const [heading, setHeading] = useState('Code Blocks'); // New state for heading
+    const [heading, setHeading] = useState('Code Blocks');
 
     const handleDrop = (item) => {
         const newItem = { ...item, inputs: {} };
@@ -100,8 +100,7 @@ const runTest = async (formData, io) => {
   }
 };
 
-module.exports = runTest;
-        `;
+module.exports = runTest;`;
 
         const droppedItemsCode = droppedItems
             .map((item) => generateCodePreview(item))
@@ -115,7 +114,6 @@ module.exports = runTest;
         setContentMode((prevMode) => {
             const newMode = prevMode === mode ? 'blocks' : mode;
 
-            // Update heading based on content mode
             if (newMode === 'hint') {
                 setHeading('Hint');
             } else if (newMode === 'preview') {
@@ -138,7 +136,7 @@ module.exports = runTest;
                 <h1>Drag and Drop Steps</h1>
                 <div className="drag-drop-container">
                     <div className="drag-items">
-                        <h2>{heading}</h2> {/* Dynamic heading */}
+                        <h2>{heading}</h2>
                         {contentMode === 'blocks' && (
                             dragDropData.items.map((item, index) => (
                                 <DragItem key={index} name={item.drag} />
@@ -151,9 +149,13 @@ module.exports = runTest;
                         )}
                         {contentMode === 'preview' && (
                             <div className="code-preview">
-                                <SyntaxHighlighter language="javascript" style={solarizedlight}>
-                                    {generateFullPreview()}
-                                </SyntaxHighlighter>
+                                {droppedItems.length > 0 ? (
+                                    <SyntaxHighlighter language="javascript" style={solarizedlight}>
+                                        {generateFullPreview()}
+                                    </SyntaxHighlighter>
+                                ) : (
+                                    <p>Please drop an item into the Drop Zone to see the preview.</p>
+                                )}
                             </div>
                         )}
                     </div>
