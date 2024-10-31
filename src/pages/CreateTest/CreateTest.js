@@ -84,6 +84,7 @@ const runTest = async (formData, io) => {
 
     //Drop code here
     // ADD CODE HERE
+    
     // Screenshot
     const screenshotPath = getScreenshotPath('screenShot');
     // Close Browser
