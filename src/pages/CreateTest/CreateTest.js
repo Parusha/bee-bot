@@ -17,6 +17,7 @@ const CreateTest = () => {
     const [description, setDescription] = useState('');
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [contentMode, setContentMode] = useState('blocks');
+    const [heading, setHeading] = useState('Code Blocks'); // New state for heading
 
     const handleDrop = (item) => {
         const newItem = { ...item, inputs: {} };
@@ -65,8 +66,7 @@ const CreateTest = () => {
     };
 
     const generateFullPreview = () => {
-        let codeTemplate = `
-const puppeteer = require('puppeteer');
+        let codeTemplate = `const puppeteer = require('puppeteer');
 const path = require('path');
 const { getViewport, launchBrowser, getScreenshotPath } = require('./puppeteerUtils');
 
@@ -111,12 +111,23 @@ module.exports = runTest;
         return codeTemplate;
     };
 
-    // Define the toggleContentMode function
     const toggleContentMode = (mode) => {
-        setContentMode((prevMode) => (prevMode === mode ? 'blocks' : mode));
+        setContentMode((prevMode) => {
+            const newMode = prevMode === mode ? 'blocks' : mode;
+
+            // Update heading based on content mode
+            if (newMode === 'hint') {
+                setHeading('Hint');
+            } else if (newMode === 'preview') {
+                setHeading('Code Preview');
+            } else {
+                setHeading('Code Blocks');
+            }
+
+            return newMode;
+        });
     };
 
-    // Define the handleCloseErrorModal function
     const handleCloseErrorModal = () => {
         setShowErrorModal(false);
     };
@@ -127,7 +138,7 @@ module.exports = runTest;
                 <h1>Drag and Drop Steps</h1>
                 <div className="drag-drop-container">
                     <div className="drag-items">
-                        <h2>Code Blocks</h2>
+                        <h2>{heading}</h2> {/* Dynamic heading */}
                         {contentMode === 'blocks' && (
                             dragDropData.items.map((item, index) => (
                                 <DragItem key={index} name={item.drag} />
