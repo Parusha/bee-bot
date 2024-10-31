@@ -7,6 +7,8 @@ import DropZone from './DropZone';
 import dragDropData from '../../data/dragDropData.json';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave, faLightbulb, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { solarizedlight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 const CreateTest = () => {
     const [droppedItems, setDroppedItems] = useState([]);
@@ -62,10 +64,61 @@ const CreateTest = () => {
         setDescription('');
     };
 
-    const handleCloseErrorModal = () => setShowErrorModal(false);
+    const generateFullPreview = () => {
+        let codeTemplate = `
+const puppeteer = require('puppeteer');
+const path = require('path');
+const { getViewport, launchBrowser, getScreenshotPath } = require('./puppeteerUtils');
 
+const runTest = async (formData, io) => {
+  const { url, username, password, device } = formData;
+
+  if (!url || !username || !password || !device) {
+    throw new Error('URL, username, password, and device are required');
+  }
+
+  try {
+    io.emit('log', 'Launching browser...');
+    const browser = await launchBrowser();
+    const page = await browser.newPage();
+
+    //Drop code here
+    // ADD CODE HERE
+    // Screenshot
+    const screenshotPath = getScreenshotPath('screenShot');
+    // Close Browser
+    io.emit('log', 'Closing browser...');
+    await browser.close();
+
+    return {
+      message: 'Test completed successfully',
+      screenshotUrl: 'screenShot',
+    };
+  } catch (error) {
+    io.emit('log', \`Error running Puppeteer test: \${error.stack || error.message}\`);
+    throw new Error(\`Error running test: \${error.message}\`);
+  }
+};
+
+module.exports = runTest;
+        `;
+
+        const droppedItemsCode = droppedItems
+            .map((item) => generateCodePreview(item))
+            .join('\n\t');
+
+        codeTemplate = codeTemplate.replace('// ADD CODE HERE', droppedItemsCode);
+        return codeTemplate;
+    };
+
+    // Define the toggleContentMode function
     const toggleContentMode = (mode) => {
         setContentMode((prevMode) => (prevMode === mode ? 'blocks' : mode));
+    };
+
+    // Define the handleCloseErrorModal function
+    const handleCloseErrorModal = () => {
+        setShowErrorModal(false);
     };
 
     return (
@@ -86,20 +139,10 @@ const CreateTest = () => {
                             </div>
                         )}
                         {contentMode === 'preview' && (
-                            <div>
-                                {droppedItems.length > 0 ? (
-                                    <ul>
-                                        {droppedItems.map((item, index) => (
-                                            <li key={index}>
-                                                <div>
-                                                    <pre>{generateCodePreview(item)}</pre>
-                                                </div>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                ) : (
-                                    <p>No items have been added to the drop zone yet.</p>
-                                )}
+                            <div className="code-preview">
+                                <SyntaxHighlighter language="javascript" style={solarizedlight}>
+                                    {generateFullPreview()}
+                                </SyntaxHighlighter>
                             </div>
                         )}
                     </div>
