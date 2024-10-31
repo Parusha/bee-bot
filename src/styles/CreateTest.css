@@ -319,6 +319,11 @@
     transition: background-color 0.3s ease;
 }
 
+.hint-button:hover .fa-lightbulb,
+.preview-button:hover .fa-eye {
+    color: #333; /* Change icon color on hover */
+}
+
 .hint-button {
     background-color: #ffba00;
 }

@@ -6,7 +6,7 @@ import DragItem from './DragItem';
 import DropZone from './DropZone';
 import dragDropData from '../../data/dragDropData.json';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSave, faLightbulb, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faSave, faLightbulb, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const CreateTest = () => {
     const [droppedItems, setDroppedItems] = useState([]);
@@ -17,16 +17,13 @@ const CreateTest = () => {
     const [contentMode, setContentMode] = useState('blocks');
 
     const handleDrop = (item) => {
-        // Initialize placeholders and inputs for each drop item
         const newItem = { ...item, inputs: {} };
         if (item.placeholder) newItem.inputs['placeholder'] = '';
         if (item.placeholder2) newItem.inputs['placeholder2'] = '';
-
         setDroppedItems((prevItems) => [...prevItems, newItem]);
     };
 
     const handleInputChange = (index, placeholderKey, value) => {
-        // Update the specific input within the dropped item
         setDroppedItems((prevItems) => {
             const updatedItems = [...prevItems];
             updatedItems[index].inputs[placeholderKey] = value;
@@ -35,7 +32,6 @@ const CreateTest = () => {
     };
 
     const generateCodePreview = (item) => {
-        // Replace ${variable} with actual user inputs from the item
         let codePreview = item.codeBlock;
         for (const [key, value] of Object.entries(item.inputs)) {
             codePreview = codePreview.replace(`\${${key}}`, value || '');
@@ -47,7 +43,6 @@ const CreateTest = () => {
         const updatedItems = [...droppedItems];
         updatedItems.splice(index, 1);
         setDroppedItems(updatedItems);
-        console.log('Removed item');
     };
 
     const handleSave = () => {
@@ -69,6 +64,10 @@ const CreateTest = () => {
 
     const handleCloseErrorModal = () => setShowErrorModal(false);
 
+    const toggleContentMode = (mode) => {
+        setContentMode((prevMode) => (prevMode === mode ? 'blocks' : mode));
+    };
+
     return (
         <DndProvider backend={HTML5Backend}>
             <div className="howto-container">
@@ -84,7 +83,6 @@ const CreateTest = () => {
                         {contentMode === 'hint' && (
                             <div>
                                 <p>Drag items from the "Code Blocks" section to the "Drop Zone" to create your test steps. Click "Save" to save the test suite.</p>
-                                <button onClick={() => setContentMode('blocks')}>Back to Code Blocks</button>
                             </div>
                         )}
                         {contentMode === 'preview' && (
@@ -94,7 +92,6 @@ const CreateTest = () => {
                                         {droppedItems.map((item, index) => (
                                             <li key={index}>
                                                 <div>
-
                                                     <pre>{generateCodePreview(item)}</pre>
                                                 </div>
                                             </li>
@@ -103,7 +100,6 @@ const CreateTest = () => {
                                 ) : (
                                     <p>No items have been added to the drop zone yet.</p>
                                 )}
-                                <button onClick={() => setContentMode('blocks')}>Back to Code Blocks</button>
                             </div>
                         )}
                     </div>
@@ -114,16 +110,16 @@ const CreateTest = () => {
                             droppedItems={droppedItems}
                             onRemove={handleRemoveItem}
                             dropData={dragDropData.items}
-                            onInputChange={handleInputChange} // Pass the input change handler here
+                            onInputChange={handleInputChange}
                         />
                     </div>
                 </div>
                 <div className="button-container">
-                    <button className="hint-button" onClick={() => setContentMode('hint')}>
+                    <button className="hint-button" onClick={() => toggleContentMode('hint')}>
                         <FontAwesomeIcon icon={faLightbulb} /> Hint
                     </button>
-                    <button className="preview-button" onClick={() => setContentMode('preview')}>
-                        <FontAwesomeIcon icon={faEye} /> Preview
+                    <button className="preview-button" onClick={() => toggleContentMode('preview')}>
+                        <FontAwesomeIcon icon={contentMode === 'preview' ? faEyeSlash : faEye} /> Preview
                     </button>
                     <button className="save-button" onClick={handleSave}>
                         <FontAwesomeIcon icon={faSave} /> Save
