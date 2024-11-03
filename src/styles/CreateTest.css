@@ -488,6 +488,15 @@
 .save-button {
     background-color: #4caf50;
 }
+.button-container .add-button,
+.button-container .remove-button {
+    width: 50px; 
+    height: 45px; 
+    font-size: 20px; 
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .code-preview {
     text-align: left;
