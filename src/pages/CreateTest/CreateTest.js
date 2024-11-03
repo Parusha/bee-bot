@@ -4,9 +4,10 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import '../../styles/CreateTest.css';
 import DragItem from './DragItem';
 import DropZone from './DropZone';
+import AddItemForm from './AddItemForm';
 import dragDropData from '../../data/dragDropData.json';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSave, faLightbulb, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faSave, faLightbulb, faEye, faEyeSlash, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { solarizedlight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
@@ -18,6 +19,61 @@ const CreateTest = () => {
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [contentMode, setContentMode] = useState('blocks');
     const [heading, setHeading] = useState('Code Blocks');
+    const [showForm, setShowForm] = useState(false);
+    const [newItem, setNewItem] = useState({
+        drag: '',
+        drop: '',
+        placeholder: '',
+        placeholder2: '',
+        logMessage: '',
+        codeBlock: '',
+    });
+
+    const handleFormChange = (e) => {
+        const { name, value } = e.target;
+        setNewItem((prevItem) => ({
+            ...prevItem,
+            [name]: value,
+        }));
+    };
+
+    const handleAddNewItem = async () => {
+        if (newItem.drag && newItem.drop && newItem.codeBlock) {
+            try {
+                const response = await fetch('http://localhost:3001/add-drag-drop-item', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(newItem), // Send the new item
+                });
+
+                if (response.ok) {
+                    // Prepare the new item
+                    const addedItem = { ...newItem, inputs: {} };
+                    if (newItem.placeholder) addedItem.inputs['placeholder'] = '';
+                    if (newItem.placeholder2) addedItem.inputs['placeholder2'] = '';
+
+                    // Update dropped items state
+                    setDroppedItems((prevItems) => [...prevItems, addedItem]); // Update the dropped items
+                    // Update the dragDropData items in the state (or however your state is structured)
+                    dragDropData.items.push(addedItem); // Update the local data structure
+                    setNewItem({ drag: '', drop: '', placeholder: '', placeholder2: '', logMessage: '', codeBlock: '' }); // Reset form
+                    setShowForm(false); // Hide the form
+                    alert('Item added successfully!');
+
+                } else {
+                    alert('Failed to add item. Please check the required fields.');
+                }
+            } catch (error) {
+                console.error('Error adding item:', error);
+                alert('Error adding item. Please try again.');
+            }
+        } else {
+            alert('Please fill out all required fields.');
+        }
+    };
+
 
     const handleDrop = (item) => {
         const newItem = { ...item, inputs: {} };
@@ -82,8 +138,10 @@ const runTest = async (formData, io) => {
     const browser = await launchBrowser();
     const page = await browser.newPage();
 
-    //Drop code here
+    // Drop code here
+    //=========================================================================
     // ADD CODE HERE
+    //=========================================================================
     
     // Screenshot
     const screenshotPath = getScreenshotPath('screenShot');
@@ -119,6 +177,8 @@ module.exports = runTest;`;
                 setHeading('Hint');
             } else if (newMode === 'preview') {
                 setHeading('Code Preview');
+            } else if (newMode === 'addItem') {
+                setHeading('Add New Code Block');
             } else {
                 setHeading('Code Blocks');
             }
@@ -139,13 +199,26 @@ module.exports = runTest;`;
                     <div className="drag-items">
                         <h2>{heading}</h2>
                         {contentMode === 'blocks' && (
-                            dragDropData.items.map((item, index) => (
-                                <DragItem key={index} name={item.drag} />
-                            ))
+                            <>
+                                {dragDropData.items.map((item, index) => (
+                                    <DragItem key={index} name={item.drag} />
+                                ))}
+                                <div className="button-container">
+                                    <button
+                                        className="add-button"
+                                        onClick={() => {
+                                            setShowForm(!showForm);
+                                            toggleContentMode('addItem')
+                                        }}
+                                    >
+                                        <FontAwesomeIcon icon={faPlus} />
+                                    </button>
+                                </div>
+                            </>
                         )}
                         {contentMode === 'hint' && (
                             <div>
-                                <p>Drag items from the "Code Blocks" section to the "Drop Zone" to create your test steps. Click "Save" to save the test suite.</p>
+                                <p>Drag items from the "Code Blocks" section to the "Drop Zone" to create your test steps.</p>
                             </div>
                         )}
                         {contentMode === 'preview' && (
@@ -158,6 +231,15 @@ module.exports = runTest;`;
                                     <p>Please drop an item into the Drop Zone to see the preview.</p>
                                 )}
                             </div>
+                        )}
+                        {contentMode === 'addItem' && (
+                            <AddItemForm
+                                newItem={newItem}
+                                handleFormChange={handleFormChange}
+                                handleAddNewItem={handleAddNewItem}
+                                toggleContentMode={toggleContentMode}
+                                setContentMode={setContentMode}
+                            />
                         )}
                     </div>
                     <div className="drop-zone">

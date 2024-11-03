@@ -1,48 +1,48 @@
 {
-    "items": [
-        {
-            "drag": "Go to the Page",
-            "drop": "going",
-            "placeholder": "https://...",
-            "logMessage": "Navigating to the specified URL",
-            "codeBlock": "await page.goto('${placeholder}');"
-        },
-        {
-            "drag": "Wait seconds",
-            "drop": "waiting",
-            "placeholder": "3000",
-            "logMessage": "Waiting for specified time in milliseconds",
-            "codeBlock": "await page.waitForTimeout(${placeholder});"
-        },
-        {
-            "drag": "Click on the element",
-            "drop": "clicking",
-            "placeholder": ".submit-button",
-            "logMessage": "Clicking on specified element",
-            "codeBlock": "await page.click('${placeholder}');"
-        },
-        {
-            "drag": "Type text to the input",
-            "drop": "typing",
-            "placeholder": "selector",
-            "placeholder2": "text",
-            "logMessage": "Typing text into input field",
-            "codeBlock": "await page.type('${placeholder}', '${placeholder2}');"
-        },
-        {
-            "drag": "Snapshot",
-            "drop": "take snapshot",
-            "placeholder": "name of screenshot",
-            "logMessage": "Taking a screenshot",
-            "codeBlock": "await page.screenshot({ path: '${placeholder}.png' });"
-        },
-        {
-            "drag": "Viewport",
-            "drop": "dimension",
-            "placeholder": "width",
-            "placeholder2": "height",
-            "logMessage": "Setting the viewport dimensions",
-            "codeBlock": "await page.setViewport({ width: ${placeholder}, height: ${placeholder2} });"
-        }
-    ]
+  "items": [
+    {
+      "drag": "Go to the Page",
+      "drop": "going",
+      "placeholder": "https://...",
+      "logMessage": "Navigating to the specified URL",
+      "codeBlock": "await page.goto('${placeholder}');"
+    },
+    {
+      "drag": "Wait seconds",
+      "drop": "waiting",
+      "placeholder": "3000",
+      "logMessage": "Waiting for specified time in milliseconds",
+      "codeBlock": "await page.waitForTimeout(${placeholder});"
+    },
+    {
+      "drag": "Click on the element",
+      "drop": "clicking",
+      "placeholder": ".submit-button",
+      "logMessage": "Clicking on specified element",
+      "codeBlock": "await page.click('${placeholder}');"
+    },
+    {
+      "drag": "Type text to the input",
+      "drop": "typing",
+      "placeholder": "selector",
+      "placeholder2": "text",
+      "logMessage": "Typing text into input field",
+      "codeBlock": "await page.type('${placeholder}', '${placeholder2}');"
+    },
+    {
+      "drag": "Snapshot",
+      "drop": "take snapshot",
+      "placeholder": "name of screenshot",
+      "logMessage": "Taking a screenshot",
+      "codeBlock": "await page.screenshot({ path: '${placeholder}.png' });"
+    },
+    {
+      "drag": "Viewport",
+      "drop": "dimension",
+      "placeholder": "width",
+      "placeholder2": "height",
+      "logMessage": "Setting the viewport dimensions",
+      "codeBlock": "await page.setViewport({ width: ${placeholder}, height: ${placeholder2} });"
+    }
+  ]
 }

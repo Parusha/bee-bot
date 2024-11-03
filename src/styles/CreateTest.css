@@ -559,3 +559,88 @@
     background-color: #e0a800;
     /* Slightly darker shade for hover effect */
 }
+
+.add-item-button {
+    background-color: #ffba00; /* Bee-themed yellow background */
+    color: #fffbea; /* White text color */
+    border: 2px solid #ffba00; /* Yellow border */
+    border-radius: 8px; /* Rounded corners */
+    padding: 10px 20px; /* Padding for better usability */
+    font-size: 16px; /* Font size for text */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease, transform 0.2s; /* Smooth transitions for background color and scaling */
+    margin-top: 10px; /* Space above the button */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.add-item-button:hover {
+    background-color: #ffae00; /* Lighter yellow on hover */
+    transform: scale(1.05); /* Slightly scale up on hover */
+}
+
+.add-item-button:active {
+    background-color: #e69900; /* Darker yellow when clicked */
+    transform: scale(0.95); /* Scale down slightly on click */
+}
+
+.styled-form {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    margin: 0; /* Remove margin to avoid extra spacing */
+    text-align: left;
+}
+
+.styled-form input[type="text"],
+.styled-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 2px solid #ffba00;
+    border-radius: 5px;
+    background-color: #fffbea;
+    font-size: 14px;
+}
+
+.styled-form button {
+    background-color: #ffba00;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.styled-form button:hover {
+    background-color: #e6a800;
+}
+
+.styled-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.non-resizable-textarea {
+    resize: none; /* Disable resizing */
+    width: 100%; /* Full width */
+    height: 100px; /* Fixed height */
+}
+
+.add-item-button {
+    display: flex;
+    justify-content: flex-end;
+    /* align button to the right */
+    margin-bottom: 10px;
+}
+
+.back-button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #ffba00;
+    /* bee-theme color */
+    margin-bottom: 15px;
+}

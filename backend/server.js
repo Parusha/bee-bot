@@ -70,6 +70,35 @@ app.post('/update-accordion-data', async (req, res) => {
   }
 });
 
+// Route to add a new item to the dragDropData.json
+app.post('/add-drag-drop-item', async (req, res) => {
+  const newItem = req.body; // Get the new item from the request body
+
+  if (!newItem.drag || !newItem.drop || !newItem.codeBlock) {
+      return res.status(400).json({ message: 'Drag, drop, and codeBlock fields are required.' });
+  }
+
+  try {
+      // Define the path to your dragDropData JSON file
+      const dragDropDataPath = path.join(__dirname, '../src/data/dragDropData.json');
+
+      // Read the existing data from the JSON file
+      const data = await fs.readFile(dragDropDataPath, 'utf8');
+      const dragDropData = JSON.parse(data);
+
+      // Add the new item to the items array
+      dragDropData.items.push(newItem);
+
+      // Write the updated data back to the JSON file
+      await fs.writeFile(dragDropDataPath, JSON.stringify(dragDropData, null, 2));
+
+      res.status(200).json({ message: 'Item added successfully!' });
+  } catch (error) {
+      console.error('Error adding new item to dragDropData.json:', error);
+      res.status(500).json({ message: 'Error adding new item' });
+  }
+});
+
 // Delete a test item route
 app.post('/delete-test', async (req, res) => {
   const { testTitle } = req.body; // Get the test title from the request body

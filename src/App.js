@@ -167,7 +167,7 @@ const App = () => {
             <li>
 
               <div style={{ paddingTop:'40px',color: '#b5b5b5', margin: '10px 0', fontSize: '18px' }}>
-                Test Suits
+                Test Suites
               </div>
             </li>
 
