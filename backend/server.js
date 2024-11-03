@@ -75,27 +75,72 @@ app.post('/add-drag-drop-item', async (req, res) => {
   const newItem = req.body; // Get the new item from the request body
 
   if (!newItem.drag || !newItem.drop || !newItem.codeBlock) {
-      return res.status(400).json({ message: 'Drag, drop, and codeBlock fields are required.' });
+    return res.status(400).json({ message: 'Drag, drop, and codeBlock fields are required.' });
   }
 
   try {
-      // Define the path to your dragDropData JSON file
-      const dragDropDataPath = path.join(__dirname, '../src/data/dragDropData.json');
+    // Define the path to your dragDropData JSON file
+    const dragDropDataPath = path.join(__dirname, '../src/data/dragDropData.json');
 
-      // Read the existing data from the JSON file
-      const data = await fs.readFile(dragDropDataPath, 'utf8');
-      const dragDropData = JSON.parse(data);
+    // Read the existing data from the JSON file
+    const data = await fs.readFile(dragDropDataPath, 'utf8');
+    const dragDropData = JSON.parse(data);
 
-      // Add the new item to the items array
-      dragDropData.items.push(newItem);
+    // Add the new item to the items array
+    dragDropData.items.push(newItem);
 
-      // Write the updated data back to the JSON file
-      await fs.writeFile(dragDropDataPath, JSON.stringify(dragDropData, null, 2));
+    // Write the updated data back to the JSON file
+    await fs.writeFile(dragDropDataPath, JSON.stringify(dragDropData, null, 2));
 
-      res.status(200).json({ message: 'Item added successfully!' });
+    res.status(200).json({ message: 'Item added successfully!' });
   } catch (error) {
-      console.error('Error adding new item to dragDropData.json:', error);
-      res.status(500).json({ message: 'Error adding new item' });
+    console.error('Error adding new item to dragDropData.json:', error);
+    res.status(500).json({ message: 'Error adding new item' });
+  }
+});
+
+// Function to load the JSON data
+const loadYourJsonData = async () => {
+  try {
+    const filePath = path.join(__dirname, '../src/data/dragDropData.json'); // Adjust path as necessary
+    const data = await fs.readFile(filePath, 'utf8');
+    return JSON.parse(data);
+  } catch (error) {
+    console.error('Error loading JSON data:', error);
+    throw error; // Rethrow or handle error as needed
+  }
+}
+
+// Route to delete an item from the dragDropData.json
+app.delete('/delete-drag-drop-item', async (req, res) => {
+  const { drag } = req.body; // Extract the 'drag' value from the request body
+
+  if (!drag) {
+    return res.status(400).json({ message: 'Drag field is required.' });
+  }
+
+  try {
+    const dragDropData = await loadYourJsonData(); // Load current data
+
+    // Check if the item exists before attempting to delete
+    const initialItemCount = dragDropData.items.length;
+
+    // Filter out the item to delete
+    dragDropData.items = dragDropData.items.filter(item => item.drag !== drag);
+
+    // Check if an item was removed
+    if (dragDropData.items.length === initialItemCount) {
+      return res.status(404).json({ message: `Item with drag "${drag}" not found.` });
+    }
+
+    // Write the updated data back to the JSON file
+    const dragDropDataPath = path.join(__dirname, '../src/data/dragDropData.json');
+    await fs.writeFile(dragDropDataPath, JSON.stringify(dragDropData, null, 2));
+
+    res.status(200).json({ message: 'Item deleted successfully!' });
+  } catch (error) {
+    console.error('Error deleting item from dragDropData.json:', error);
+    res.status(500).json({ message: 'Error deleting item' });
   }
 });
 

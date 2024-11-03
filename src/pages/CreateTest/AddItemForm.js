@@ -68,7 +68,7 @@ const AddItemForm = ({ newItem, handleFormChange, handleAddNewItem, toggleConten
                         className="non-resizable-textarea"
                     />
                 </label>
-                <button type="button" onClick={handleAddNewItem}>
+                <button type="button" onClick={handleAddNewItem} className="align-right">
                     Add Item
                 </button>
             </form>

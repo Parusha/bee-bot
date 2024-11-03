@@ -582,12 +582,20 @@
     background-color: #e69900; /* Darker yellow when clicked */
     transform: scale(0.95); /* Scale down slightly on click */
 }
-
+.align-right {
+    display: block;
+    margin-left: auto;
+    margin-bottom: 1rem; /* Optional: adds space above the button */
+}
+.form-container{
+    width: 85%;
+}
 .styled-form {
     font-family: 'Arial', sans-serif;
     color: #333;
     margin: 0; /* Remove margin to avoid extra spacing */
     text-align: left;
+    width: 100%;
 }
 
 .styled-form input[type="text"],
