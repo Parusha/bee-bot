@@ -31,7 +31,7 @@ const CreateTest = () => {
         codeBlock: '',
     });
     const [selectedItemToDelete, setSelectedItemToDelete] = useState('');
-    const [items, setItems] = useState(dragDropData.items);
+    const [items, setItems] = useState(dragDropData.items); 
 
     const handleFormChange = (e) => {
         const { name, value } = e.target;
@@ -58,12 +58,10 @@ const CreateTest = () => {
                     if (newItem.placeholder) addedItem.inputs['placeholder'] = '';
                     if (newItem.placeholder2) addedItem.inputs['placeholder2'] = '';
 
-                    // Update dropped items state
-                    setDroppedItems((prevItems) => [...prevItems, addedItem]); // Update the dropped items
-                    // Update the dragDropData items in the state (or however your state is structured)
-                    dragDropData.items.push(addedItem); // Update the local data structure
-                    setNewItem({ drag: '', drop: '', placeholder: '', placeholder2: '', logMessage: '', codeBlock: '' }); // Reset form
-                    setShowForm(false); // Hide the form
+                    setItems((prevItems) => [...prevItems, addedItem]); // Update the items list
+                    setDroppedItems((prevItems) => [...prevItems, addedItem]); // Update dropped items
+                    setNewItem({ drag: '', drop: '', placeholder: '', placeholder2: '', logMessage: '', codeBlock: '' });
+                    setShowForm(false);
                     alert('Item added successfully!');
 
                 } else {
@@ -77,7 +75,6 @@ const CreateTest = () => {
             alert('Please fill out all required fields.');
         }
     };
-
     const handleDrop = (item) => {
         const newItem = { ...item, inputs: {} };
         if (item.placeholder) newItem.inputs['placeholder'] = '';
@@ -93,14 +90,14 @@ const CreateTest = () => {
         });
     };
 
-    const generateCodePreview = (item) => {
-        let codePreview = item.codeBlock;
+    const generateCodePreview = (item) => { 
+        let codePreview = `io.emit('log', ${JSON.stringify(item.logMessage)});\n\t`; 
+        codePreview += item.codeBlock;  
         for (const [key, value] of Object.entries(item.inputs)) {
             codePreview = codePreview.replace(`\${${key}}`, value || '');
         }
         return codePreview;
     };
-
     const handleRemoveItem = (index) => {
         const updatedItems = [...droppedItems];
         updatedItems.splice(index, 1);
@@ -239,7 +236,7 @@ module.exports = runTest;`;
                         <h2>{heading}</h2>
                         {contentMode === 'blocks' && (
                             <>
-                                {dragDropData.items.map((item, index) => (
+                                {items.map((item, index) => (
                                     <DragItem key={index} name={item.drag} />
                                 ))}
                                 <div className="button-container">
@@ -255,11 +252,11 @@ module.exports = runTest;`;
                                     <button
                                         className="remove-button"
                                         onClick={() => {
-                                            setShowForm(false); // Hide the form
-                                            toggleContentMode('blocks'); // Optionally, switch back to blocks mode
+                                            setShowForm(false);
+                                            toggleContentMode('blocks');
                                             setShowDeleteModal(true);
                                         }}
-                                        style={{ marginLeft: '8px' }} // Optional: Add margin for spacing
+                                        style={{ marginLeft: '8px' }}
                                     >
                                         <FontAwesomeIcon icon={faMinus} />
                                     </button>
@@ -298,7 +295,7 @@ module.exports = runTest;`;
                             onDrop={handleDrop}
                             droppedItems={droppedItems}
                             onRemove={handleRemoveItem}
-                            dropData={dragDropData.items}
+                            dropData={items}
                             onInputChange={handleInputChange}
                         />
                     </div>
