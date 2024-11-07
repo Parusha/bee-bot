@@ -31,7 +31,7 @@ const CreateTest = () => {
         codeBlock: '',
     });
     const [selectedItemToDelete, setSelectedItemToDelete] = useState('');
-    const [items, setItems] = useState(dragDropData.items); 
+    const [items, setItems] = useState(dragDropData.items);
 
     const handleFormChange = (e) => {
         const { name, value } = e.target;
@@ -44,7 +44,7 @@ const CreateTest = () => {
     const handleAddNewItem = async () => {
         if (newItem.drag && newItem.drop && newItem.codeBlock) {
             try {
-                const response = await fetch('http://localhost:3001/add-drag-drop-item', {
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/add-drag-drop-item`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -90,9 +90,9 @@ const CreateTest = () => {
         });
     };
 
-    const generateCodePreview = (item) => { 
-        let codePreview = `io.emit('log', ${JSON.stringify(item.logMessage)});\n\t`; 
-        codePreview += item.codeBlock;  
+    const generateCodePreview = (item) => {
+        let codePreview = `io.emit('log', ${JSON.stringify(item.logMessage)});\n\t`;
+        codePreview += item.codeBlock;
         for (const [key, value] of Object.entries(item.inputs)) {
             codePreview = codePreview.replace(`\${${key}}`, value || '');
         }
@@ -205,7 +205,7 @@ module.exports = runTest;`;
 
                 // Optional: Send a request to delete the item from the server
                 try {
-                    const response = await fetch(`http://localhost:3001/delete-drag-drop-item`, {
+                    const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/delete-drag-drop-item`, {
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json',
@@ -300,7 +300,7 @@ module.exports = runTest;`;
                         />
                     </div>
                 </div>
-                  
+
                 <div className="button-container">
                     <button className="hint-button" onClick={() => toggleContentMode('hint')}>
                         <FontAwesomeIcon icon={faLightbulb} /> Hint

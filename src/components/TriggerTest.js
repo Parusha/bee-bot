@@ -20,10 +20,10 @@ const TriggerTest = ({ onScreenshot, testName }) => {
     }
 
     try {
-      const response = await axios.post('http://localhost:3001/run-test', {
-        testName, 
-        formData 
-      });
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_BASE_URL}/run-test`, 
+        { testName, formData }
+      );
       
       setStatus('success'); 
       onScreenshot(response.data.screenshotUrl); 

@@ -82,7 +82,7 @@ const BeeForm = () => {
     formData.append('file', file);
     formData.append('testName', testSuit);
 
-    axios.post('http://localhost:3001/upload-test', formData, {
+    axios.post(`${process.env.REACT_APP_API_BASE_URL}/upload-test`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -114,7 +114,7 @@ const BeeForm = () => {
           });
         }
 
-        return axios.post('http://localhost:3001/update-accordion-data', testSuitDataStructure);
+        return axios.post(`${process.env.REACT_APP_API_BASE_URL}/update-accordion-data`, testSuitDataStructure);
       })
       .then((response) => {
         console.log(response.data.message);
