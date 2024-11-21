@@ -28,7 +28,7 @@
     padding: 20px;
     gap: 20px;
     /* Gap between drag and drop containers */
-    width: 95%;
+    width: 100%;
     /* Full width for the container */
     flex-wrap: nowrap;
     /* Keep items side by side without wrapping */
@@ -53,7 +53,8 @@
     align-items: center;
     justify-content: flex-start;
     box-sizing: border-box;
-    /* Ensures padding is included in width calculation */
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 .dropped-item {
@@ -207,7 +208,7 @@
     padding: 20px;
     gap: 20px;
     /* Gap between drag and drop containers */
-    width: 95%;
+    width: 98%;
     /* Full width for the container */
     flex-wrap: nowrap;
     /* Keep items side by side without wrapping */
@@ -499,6 +500,7 @@
 }
 
 .code-preview {
+    width:100%;
     text-align: left;
     /* Aligns the text to the left */
     white-space: pre;
@@ -510,10 +512,13 @@
     background-color: white !important;
     color: #000;
     border: none;
-    padding: 0 0 0 1em;
     margin: 0;
 }
-
+.center-text {
+    font-size: 1rem; /* Adjust font size as needed */
+    color: #555; /* Optional text color */
+    text-align: center;
+}
 
 .modal {
     position: fixed;

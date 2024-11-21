@@ -278,7 +278,7 @@ module.exports = runTest;`;
                                         {generateFullPreview()}
                                     </SyntaxHighlighter>
                                 ) : (
-                                    <p>Please drop an item into the Drop Zone to see the preview.</p>
+                                    <p className="center-text">Please drop an item into the Drop Zone to see the preview.</p>
                                 )}
                             </div>
                         )}
