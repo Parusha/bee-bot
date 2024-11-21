@@ -3,20 +3,20 @@ const cors = require('cors');
 const path = require('path');
 const http = require('http');
 const socketIO = require('socket.io');
-const os = require('os'); // Import os module to get the home directory
-const fs = require('fs').promises; // Use promises for file system operations
-const multer = require('multer'); // Import multer for file uploads
+const os = require('os');
+const fs = require('fs').promises;
+const multer = require('multer');
+require('dotenv').config();
 
 const app = express();
-const port = 3001;
+const host = process.env.HOST || '0.0.0.0';
+const port = process.env.PORT || 3001;
 
-// Create an HTTP server and pass the express app
 const server = http.createServer(app);
 
-// Set up Socket.IO
 const io = socketIO(server, {
   cors: {
-    origin: "*", // Allow all origins (configure appropriately in production)
+    origin: "*",
     methods: ["GET", "POST"]
   }
 });
@@ -234,6 +234,6 @@ io.on('connection', (socket) => {
 });
 
 // Start the server
-server.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+server.listen(port, host, () => {
+  console.log(`Server running at http://${host}:${port}`);
 });

@@ -28,8 +28,11 @@ const TestTable = ({ data, onScreenshot }) => {
   const handleDeleteTest = async (testTitle) => {
     setIsDeleting(true);
     try {
-      const response = await axios.post('http://localhost:3001/delete-test', { testTitle });
-  
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_BASE_URL}/delete-test`,
+        { testTitle }
+      );
+
       if (response.status === 200) {
         setTests((prevTests) => {
           const index = prevTests.findIndex(item => item.title.trim().toLowerCase() === testTitle.trim().toLowerCase());
@@ -57,8 +60,8 @@ const TestTable = ({ data, onScreenshot }) => {
 
   const handleDelete = () => {
     handleDeleteTest(testToDelete);
-    setShowDeleteModal(false); 
-    setTestToDelete(null); 
+    setShowDeleteModal(false);
+    setTestToDelete(null);
   };
 
   return (
@@ -93,7 +96,7 @@ const TestTable = ({ data, onScreenshot }) => {
                 <button
                   onClick={() => openDeleteModal(item.title)}
                   className="delete-button"
-                  disabled={isDeleting} 
+                  disabled={isDeleting}
                 >
                   <FontAwesomeIcon icon={faTrash} />
                 </button>
@@ -106,9 +109,9 @@ const TestTable = ({ data, onScreenshot }) => {
       {showDeleteModal && (
         <ConfirmDeleteModal
           show={showDeleteModal}
-          onClose={() => setShowDeleteModal(false)} 
-          onConfirm={handleDelete} 
-          testTitle={testToDelete} 
+          onClose={() => setShowDeleteModal(false)}
+          onConfirm={handleDelete}
+          testTitle={testToDelete}
         />
       )}
     </div>
