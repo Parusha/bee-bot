@@ -1,0 +1,23 @@
+.export-pdf-button {
+    float: right;
+    background-color: #fffbea;
+    border: 2px solid #ffba00;
+    color: #ffba00;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.export-pdf-button:hover {
+    background-color: #ffba00;
+    color: #fffbea;
+}
+
+.export-pdf-button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 186, 0, 0.6);
+}

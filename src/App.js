@@ -15,6 +15,7 @@ import beeIconWhite from './assets/bee-icon-white.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import ExportToPDF from '../src/components/ExportToPDF';
 
 const App = () => {
   const [testSuitData, setTestSuitData] = useState(initialTestSuitDataStructure);
@@ -99,6 +100,7 @@ const App = () => {
     if (activePage === 'triggerTest') {
       return (
         <>
+          <ExportToPDF contentId="triggerTestContent" filename="Report.pdf" buttonText="Export to PDF" />
           {renderTestSuit()}
           <div className="screenshot-log-container">
             <h4>Log Messages</h4>
@@ -149,7 +151,7 @@ const App = () => {
                     setActiveSuit(null);
                   }}
                 >
-                 <FontAwesomeIcon icon={faHome} /> Home
+                  <FontAwesomeIcon icon={faHome} /> Home
                 </button>
               </li>
               <li className={activePage === 'howTo' ? 'active' : ''}>
@@ -159,14 +161,14 @@ const App = () => {
                     setActiveSuit(null);
                   }}
                 >
-                   <FontAwesomeIcon icon={faQuestionCircle} /> How To
+                  <FontAwesomeIcon icon={faQuestionCircle} /> How To
                 </button>
               </li>
             </div>
 
             <li>
 
-              <div style={{ paddingTop:'40px',color: '#b5b5b5', margin: '10px 0', fontSize: '18px' }}>
+              <div style={{ paddingTop: '40px', color: '#b5b5b5', margin: '10px 0', fontSize: '18px' }}>
                 Test Suites
               </div>
             </li>
@@ -195,7 +197,7 @@ const App = () => {
           </ul>
         </aside>
 
-        <main className="content">
+        <main id="triggerTestContent" class="content">
           {renderContentPage()}
           {isBeeFormVisible && <BeeForm />}
         </main>

@@ -65,6 +65,7 @@ const TestTable = ({ data, onScreenshot }) => {
   };
 
   return (
+    <div className="bee-table-wrapper">
     <div className="bee-table-container">
       <table className="bee-table">
         <thead>
@@ -114,6 +115,7 @@ const TestTable = ({ data, onScreenshot }) => {
           testTitle={testToDelete}
         />
       )}
+    </div>
     </div>
   );
 };

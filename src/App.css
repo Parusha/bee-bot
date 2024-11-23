@@ -51,7 +51,7 @@ body {
 }
 
 .side-menu {
-  width: 200px;
+  width: 300px;
   background-color: #333;
   color: #ffba00;
   padding: 20px;
@@ -99,11 +99,12 @@ body {
 }
 
 .content {
-  flex: 1;
-  padding: 20px;
+  position: relative;  /* Ensure relative positioning for proper layout */
+  padding: 0 20px 20px 20px;
   background-color: #fff;
   overflow: auto;
-  margin-top: 40px;
+  margin-top: 25px;
+  width: 100%;
 }
 
 .default-content {
@@ -189,7 +190,7 @@ body {
   background-color: #ffba00 !important;
   color: white !important;
   padding: 10px 0px 10px !important;
-  width: 200px !important;
+  width: 250px !important;
   text-align: center !important;
   border: none;
   border-radius: 5px;
