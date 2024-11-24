@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave, faLightbulb, faEye, faEyeSlash, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { solarizedlight } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import HintTestTable from './HintTestTable';
 
 
 const CreateTest = () => {
@@ -239,7 +240,7 @@ module.exports = runTest;`;
                                 {items.map((item, index) => (
                                     <DragItem key={index} name={item.drag} />
                                 ))}
-                                <div className="button-container">
+                                <div className="button-wrapper">
                                     <button
                                         className="add-button"
                                         onClick={() => {
@@ -264,9 +265,7 @@ module.exports = runTest;`;
                             </>
                         )}
                         {contentMode === 'hint' && (
-                            <div>
-                                <p>Drag items from the "Code Blocks" section to the "Drop Zone" to create your test steps.</p>
-                            </div>
+                            <HintTestTable/>
                         )}
                         {contentMode === 'preview' && (
                             <div className="code-preview">

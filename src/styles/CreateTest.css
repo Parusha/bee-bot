@@ -36,6 +36,7 @@
 
 .drag-items,
 .drop-zone {
+    position: relative;
     border: 2px solid #ffba00;
     /* Yellow border */
     padding: 10px;
@@ -216,6 +217,7 @@
 
 .drag-items,
 .drop-zone {
+    position: relative;
     border: 2px solid #ffba00;
     /* Yellow border */
     padding: 10px;
@@ -456,7 +458,16 @@
     /* Space evenly between buttons */
     padding-top: 20px;
     /* Add padding to the top if needed */
-    width: 97%;
+ 
+}
+.button-container .add-button,
+.button-container .remove-button {
+    width: 50px; 
+    height: 45px; 
+    font-size: 20px; 
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .hint-button,
@@ -489,15 +500,7 @@
 .save-button {
     background-color: #4caf50;
 }
-.button-container .add-button,
-.button-container .remove-button {
-    width: 50px; 
-    height: 45px; 
-    font-size: 20px; 
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
+
 
 .code-preview {
     width:100%;

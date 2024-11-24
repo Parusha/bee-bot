@@ -1,0 +1,230 @@
+.table-container {
+    background-color: #fffbea;
+    border: 2px solid #ffba00;
+    border-radius: 8px;
+    padding: 16px;
+    overflow: hidden;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.input-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.input-box {
+    padding: 8px;
+    border: 1px solid #ffba00;
+    border-radius: 4px;
+    flex: 1;
+}
+
+.btn {
+    background-color: #ffba00;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #e6a800;
+}
+
+.button-wrapper {
+    position: absolute;
+    /* Position the container within its parent */
+    bottom: 20px;
+    /* Space from the bottom */
+    right: 20px;
+    /* Position container from the right */
+    display: flex;
+    /* Align buttons side by side */
+    gap: 10px;
+    /* Add space between buttons */
+}
+
+.add-button,
+.remove-button {
+    background-color: #ffba00;
+    /* Bee theme color */
+    color: white;
+    font-size: 24px;
+    /* Larger font for "+" and "-" signs */
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 50%;
+    /* Make the buttons circular */
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    /* Center icon inside the button */
+    align-items: center;
+    justify-content: center;
+}
+
+
+.add-button:hover {
+    background-color: #e0a800;
+    /* Slightly darker on hover */
+}
+
+.remove-button:hover {
+    background-color: #e0a800;
+    /* Slightly darker on hover */
+}
+
+.custom-table {
+    width: 100%;
+    border-collapse: collapse; /* Remove gaps between cells */
+    table-layout: fixed; /* Distribute column width evenly */
+}
+
+.table-header {
+    background-color: #ffba00;
+    color: white;
+    padding: 10px;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: none; /* Remove header borders */
+}
+
+.table-header:first-child {
+    border-top-left-radius: 8px; /* Rounded top-left corner */
+}
+
+.table-header:last-child {
+    border-top-right-radius: 8px; /* Rounded top-right corner */
+}
+
+.table-cell {
+    padding: 10px;
+    text-align: left;
+    word-wrap: break-word;
+    border: none; /* Remove cell borders */
+    vertical-align: top;
+}
+.table-header:nth-child(1),
+.table-cell:nth-child(1) {
+    width: 30%; /* Custom Test column */
+}
+
+.table-header:nth-child(2),
+.table-cell:nth-child(2) {
+    width: 80%; /* Description column (major space) */
+    word-wrap: break-word; /* Ensure text wraps properly */
+}
+
+.table-header:nth-child(3),
+.table-cell:nth-child(3) {
+    width: 8%; /* Actions column */
+    text-align: right; /* Align buttons to the right */
+}
+
+/* Modal Overlay */
+.bee-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Modal Content */
+.bee-modal-content {
+    background-color: #fffbea;
+    /* Bee theme background */
+    border: 2px solid #ffba00;
+    /* Bee theme border */
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 300px;
+}
+
+.bee-modal-content h2 {
+    color: #ffba00;
+    /* Bee theme header color */
+    margin-bottom: 20px;
+}
+
+.input-box {
+    padding: 8px;
+    border: 1px solid #ffba00;
+    border-radius: 4px;
+    width: 95%;
+    margin-bottom: 10px;
+}
+
+.btn {
+    background-color: #ffba00;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #e6a800;
+}
+
+.bee-modal-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.bee-modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    /* Ensure buttons are spaced evenly */
+    gap: 10px;
+    /* Add space between buttons */
+}
+
+.bee-modal-buttons .btn {
+    flex: 1;
+    /* Make each button take up equal width */
+    text-align: center;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #ffba00;
+    /* Default bee theme button color */
+    color: white;
+}
+
+.bee-modal-buttons .btn.cancel {
+    background-color: #d9534f;
+    /* Red for cancel button */
+}
+
+.delete-button {
+
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 4px;
+    transition: color 0.2s;
+
+    /* Align to the far right */
+    margin-left: auto;
+    display: flex; /* Ensures alignment works */
+    justify-content: flex-end;
+}
+

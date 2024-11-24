@@ -51,6 +51,7 @@ body {
 }
 
 .side-menu {
+  position: relative;
   width: 300px;
   background-color: #333;
   color: #ffba00;
@@ -189,14 +190,14 @@ body {
 .create-button {
   background-color: #ffba00 !important;
   color: white !important;
-  padding: 10px 0px 10px !important;
-  width: 250px !important;
+  padding: 10px 0 !important;
+  width: calc(100% - 10px); /* Reduce width by the desired space (20px on each side) */
   text-align: center !important;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  position: fixed;
-  bottom: 20px;
+  bottom: 20px; /* Maintain spacing from the bottom of the parent */
+  left: 20px; /* Add space from the left */
   z-index: 1000;
 }
 
