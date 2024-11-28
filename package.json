@@ -17,6 +17,7 @@
     "html2canvas": "^1.4.1",
     "html2pdf.js": "^0.10.2",
     "jspdf": "^2.5.2",
+    "jspdf-autotable": "^3.8.4",
     "multer": "^1.4.5-lts.1",
     "path-browserify": "^1.0.1",
     "puppeteer": "^23.5.0",

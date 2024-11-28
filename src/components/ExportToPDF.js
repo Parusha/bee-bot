@@ -1,93 +1,142 @@
 import React from 'react';
-import html2canvas from 'html2canvas';
-import { jsPDF } from 'jspdf';
-import './ExportToPDF.css';  // Import the CSS file for styles
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import './ExportToPDF.css';
 
-const ExportToPDF = ({ contentId, filename = 'TestSuit.pdf', buttonText = 'Export to PDF' }) => {
-
-  const exportToPDF = async () => {
-    const content = document.getElementById(contentId); // Use dynamic content ID prop
+const ExportToPDF = () => {
+  const generatePDF = () => {
+    const content = document.getElementById('triggerTestContent'); // Get the dynamic content
     if (!content) {
       alert('Content not found for PDF export.');
       return;
     }
 
-    try {
-      // Preload images before rendering
-      const preloadImages = () => {
-        const promises = [];
-        content.querySelectorAll('img').forEach((img) => {
-          if (!img.complete) {
-            promises.push(new Promise((resolve) => (img.onload = img.onerror = resolve)));
-          }
-        });
-        return Promise.all(promises);
+    // Initialize jsPDF
+    const doc = new jsPDF();
+    
+    // Header Title
+    const title = 'Test Report';
+    doc.setFontSize(18);
+    doc.setFont('helvetica', 'bold');
+    doc.text(title, 14, 10);
+    
+    // Subtitle with additional information (like report date and version)
+    const subtitle = 'Bee Bot Generated Report';
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'normal');
+    doc.text(subtitle, 14, 18);
+    
+    // Add current date and time
+    const currentDateTime = new Date().toLocaleString();
+    doc.setTextColor(0, 0, 0); // Black text for date
+    doc.text(`Date: ${currentDateTime}`, 14, 26);
+
+    // Add space between header and content
+    doc.setLineWidth(0.5);
+    doc.line(14, 28, 196, 28); // Horizontal line beneath header
+    doc.setLineWidth(0); // Reset line width for other sections
+
+    // Extract table data
+    const table = content.querySelector('table');
+    if (table) {
+      const columns = Array.from(table.querySelectorAll('thead th'))
+        .map((th) => th.textContent)
+        .filter((col) => col.toLowerCase() !== 'delete'); // Exclude "Delete" column
+
+      const rows = Array.from(table.querySelectorAll('tbody tr')).map((tr) =>
+        Array.from(tr.querySelectorAll('td'))
+          .map((td, index) => {
+            const ths = Array.from(table.querySelectorAll('thead th'));
+            const columnName = ths[index]?.textContent.toLowerCase();
+
+            if (columnName === 'trigger test') {
+              const cellText = td.textContent.trim().toLowerCase();
+              if (cellText.includes('passed')) {
+                return { text: 'Passed' }; // "Passed" text
+              } else if (cellText.includes('failed')) {
+                return { text: 'Failed' }; // "Failed" text
+              } else {
+                return { text: 'Run Test' }; // Default text when no status is found
+              }
+            }
+
+            return { text: columnName !== 'delete' ? td.textContent : null };
+          })
+          .filter((cell) => cell.text !== null) // Remove null text cells
+      );
+
+      // Ensure there are no empty rows in the array
+      const filteredRows = rows.filter(row => row.length > 0);
+
+      // Customize table styling
+      const tableStyles = {
+        headStyles: {
+          fillColor: [255, 186, 0], // Bee yellow for header
+          textColor: [0, 0, 0], // Black text for header
+          fontStyle: 'bold',
+        },
+        bodyStyles: {
+          fillColor: [255, 255, 255], // White for body
+          textColor: [0, 0, 0], // Black text for body
+        },
+        alternateRowStyles: {
+          fillColor: [255, 245, 230], // Light yellow for alternate rows
+        },
+        startY: 40, // Adjust starting Y position to avoid overlap with header
       };
 
-      // Wait for all images to load
-      await preloadImages();
+      // Ensure that the content doesn't overflow by manually adding a page break if necessary
+      doc.autoTable({
+        head: [columns],
+        body: filteredRows.map(row => row.map(cell => cell.text)),
+        ...tableStyles,
+        didDrawPage: (data) => {
+          const pageHeight = doc.internal.pageSize.height;
+          if (data.cursor.y > pageHeight - 40) {
+            doc.addPage(); // Add a new page if content overflows
+          }
+        },
+      });
+      
+    }
 
-      // Temporarily set content height to capture everything
-      const originalHeight = content.style.height;
-      content.style.height = 'auto';
+    // Extract log messages
+    const logMessages = Array.from(
+      content.querySelectorAll('.log-messages-section .message-text')
+    ).map((el) => el.textContent);
+    
+    if (logMessages.length > 0) {
+      let y = doc.autoTable.previous.finalY + 10 || 40;
+      doc.setTextColor(0, 0, 0);
+      doc.setFontSize(14); // Slightly larger for section titles
+      doc.text('Log Messages:', 14, y);
+      y += 10;
+    
+      // Smaller font size for log messages
+      doc.setFontSize(10);
+      logMessages.forEach((message, index) => {
+        const messageLines = doc.splitTextToSize(`${index + 1}. ${message}`, 180); // Limit text width to 180 units
 
-      // Ensure the full height of the content is captured
-      const fullContentHeight = content.scrollHeight;
-      const viewportHeight = window.innerHeight;  // Viewport height to scroll in steps
-
-      // Create a jsPDF instance
-      const pdf = new jsPDF('portrait', 'px', 'a4'); // A4 size (595.28px x 841.89px)
-      const pdfWidth = pdf.internal.pageSize.getWidth(); // A4 width
-      const pdfHeight = pdf.internal.pageSize.getHeight(); // A4 height
-
-      let totalHeightCaptured = 0;
-
-      // Scroll and capture content in segments
-      while (totalHeightCaptured < fullContentHeight) {
-        // Scroll the content down by the viewport height
-        content.scrollTo(0, totalHeightCaptured);
-
-        // Render the visible portion of the content to a canvas
-        const canvas = await html2canvas(content, {
-          scale: 2, // Higher scale for better resolution
-          useCORS: true, // Handle cross-origin images
-          windowWidth: document.body.scrollWidth, // Ensure content width is captured
-          windowHeight: viewportHeight, // Only capture the visible portion
-        });
-
-        const imgData = canvas.toDataURL('image/png');
-
-        // Calculate the aspect ratio and image dimensions
-        const canvasWidth = canvas.width;
-        const canvasHeight = canvas.height;
-        const aspectRatio = canvasWidth / canvasHeight;
-
-        const imgWidth = pdfWidth; // Full width of the PDF
-        const imgHeight = imgWidth / aspectRatio; // Maintain aspect ratio
-
-        // If it's not the first slice, add a new page
-        if (totalHeightCaptured > 0) {
-          pdf.addPage();
+        if (y + messageLines.length * 6 > doc.internal.pageSize.height - 20) { 
+          doc.addPage();
+          y = 20; // Reset Y position on new page
         }
 
-        // Add the current slice of the content to the PDF
-        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-
-        // Update the total height captured
-        totalHeightCaptured += viewportHeight;
-      }
-
-      // Save the PDF
-      pdf.save(filename);
-    } catch (error) {
-      console.error('Error exporting to PDF:', error);
+        doc.text(messageLines, 10, y);
+        y += messageLines.length * 6 + 2; // Adjust line spacing
+      });
     }
+
+    // Save the PDF
+    doc.save('Report.pdf');
   };
 
   return (
-    <button onClick={exportToPDF} className="export-pdf-button">
-      {buttonText}
-    </button>
+    <div>
+      <button onClick={generatePDF} className="export-pdf-button">
+        Export to PDF
+      </button>
+    </div>
   );
 };
 
