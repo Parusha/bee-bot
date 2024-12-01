@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Draggable from 'react-draggable'; // Import Draggable
 import axios from 'axios';
 import testSuitDataStructure from '../data/testSuitDataStructure.json';
 import './BeeForm.css';
@@ -136,146 +137,147 @@ const BeeForm = () => {
   };
 
   return (
-    <div className={`bee-form ${isFormDisabled ? 'disabled' : ''}`}>
-      <div className="bee-form-header">
-        <h2 className="header-label">Bee Form</h2>
-        <button className="minimize-button" onClick={toggleMinimize}>
-          {isMinimized ? '+' : '-'}
-        </button>
-        <button className="toggle-button" onClick={toggleTestMode}>
-          {isTestMode ? 'Switch to Regular Form' : 'Switch to Test Mode'}
-        </button>
-      </div>
-
-      {!isMinimized && !isTestMode && (
-        <>
-          <div className="form-group">
-            <label>URL</label>
-            <input
-              type="text"
-              placeholder="Enter URL"
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-              disabled={isFormDisabled}
-            />
-          </div>
-          <div className="form-group">
-            <label>Punter Username</label>
-            <input
-              type="text"
-              placeholder="Enter Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              disabled={isFormDisabled}
-            />
-          </div>
-          <div className="form-group">
-            <label>Punter Password</label>
-            <input
-              type="password"
-              placeholder="Enter Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              disabled={isFormDisabled}
-            />
-          </div>
-          <div className="form-group">
-            <label>Device</label>
-            <div>
+    <Draggable>
+      <div className={`bee-form ${isFormDisabled ? 'disabled' : ''}`}>
+        <div className="bee-form-header">
+          <h2 className="header-label">Bee Form</h2>
+          <button className="minimize-button" onClick={toggleMinimize}>
+            {isMinimized ? '+' : '-'}
+          </button>
+          <button className="toggle-button" onClick={toggleTestMode}>
+            {isTestMode ? 'Switch to Regular Form' : 'Switch to Test Mode'}
+          </button>
+        </div>
+        {!isMinimized && !isTestMode && (
+          <>
+            <div className="form-group">
+              <label>URL</label>
               <input
-                type="radio"
-                value="desktop"
-                checked={device === 'desktop'}
-                onChange={() => setDevice('desktop')}
+                type="text"
+                placeholder="Enter URL"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
                 disabled={isFormDisabled}
               />
-              <label>Desktop</label>
-              <input
-                type="radio"
-                value="mobile"
-                checked={device === 'mobile'}
-                onChange={() => setDevice('mobile')}
-                disabled={isFormDisabled}
-              />
-              <label>Mobile</label>
             </div>
-          </div>
-          <div className="form-actions">
-            <button
-              className={`save-button ${isFormDisabled ? 'disabled' : ''}`}
-              onClick={handleSave}
-              disabled={isFormDisabled}
-            >
-              Save
-            </button>
-            <button className="clear-button" onClick={handleClear}>
-              Clear
-            </button>
-          </div>
-        </>
-      )}
-
-      {!isMinimized && isTestMode && (
-        <>
-          <div className="form-group">
-            <label>Test Suite Name</label>
-            <input
-              type="text"
-              placeholder="Enter Test Suite Name"
-              value={testSuit}
-              onChange={(e) => setTestSuit(e.target.value)}
-              list="testSuitOptions"
-            />
-            <datalist id="testSuitOptions">
-              {testSuitDataStructure.map((suit) => (
-                <option key={suit.testSuit} value={suit.testSuit}>
-                  {suit.testSuit}
-                </option>
-              ))}
-            </datalist>
-          </div>
-          <div className="form-group">
-            <label>Description</label>
-            <input
-              type="text"
-              placeholder="Enter Test Description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </div>
-          <div
-            className="drop-area"
-            onDrop={handleFileDrop}
-            onDragOver={handleDragOver}
-            style={{ border: '2px dashed #ffba00', padding: '20px', textAlign: 'center' }}
-          >
-            {file ? (
-              <p>{file.name} (File Ready)</p>
-            ) : (
-              <p>Drag and drop a test file here</p>
-            )}
-          </div>
-          <div className="form-actions">
-            {uploadMessage ? (
-              <div className={`upload-message ${uploadSuccess ? 'success' : 'error'}`}>
-                {uploadMessage}
+            <div className="form-group">
+              <label>Punter Username</label>
+              <input
+                type="text"
+                placeholder="Enter Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                disabled={isFormDisabled}
+              />
+            </div>
+            <div className="form-group">
+              <label>Punter Password</label>
+              <input
+                type="password"
+                placeholder="Enter Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                disabled={isFormDisabled}
+              />
+            </div>
+            <div className="form-group">
+              <label>Device</label>
+              <div>
+                <input
+                  type="radio"
+                  value="desktop"
+                  checked={device === 'desktop'}
+                  onChange={() => setDevice('desktop')}
+                  disabled={isFormDisabled}
+                />
+                <label>Desktop</label>
+                <input
+                  type="radio"
+                  value="mobile"
+                  checked={device === 'mobile'}
+                  onChange={() => setDevice('mobile')}
+                  disabled={isFormDisabled}
+                />
+                <label>Mobile</label>
               </div>
-            ) : (
+            </div>
+            <div className="form-actions">
               <button
-                className="save-button"
-                onClick={handleSaveTest}
-                disabled={!testSuit || !description || !file}
+                className={`save-button ${isFormDisabled ? 'disabled' : ''}`}
+                onClick={handleSave}
+                disabled={isFormDisabled}
               >
-                Save Test
+                Save
               </button>
-            )}
-            <button className="clear-button" onClick={handleClearTest}>
-              Clear Test
-            </button>
-          </div>
-        </>
-      )}
-    </div>
+              <button className="clear-button" onClick={handleClear}>
+                Clear
+              </button>
+            </div>
+          </>
+        )}
+
+        {!isMinimized && isTestMode && (
+          <>
+            <div className="form-group">
+              <label>Test Suite Name</label>
+              <input
+                type="text"
+                placeholder="Enter Test Suite Name"
+                value={testSuit}
+                onChange={(e) => setTestSuit(e.target.value)}
+                list="testSuitOptions"
+              />
+              <datalist id="testSuitOptions">
+                {testSuitDataStructure.map((suit) => (
+                  <option key={suit.testSuit} value={suit.testSuit}>
+                    {suit.testSuit}
+                  </option>
+                ))}
+              </datalist>
+            </div>
+            <div className="form-group">
+              <label>Description</label>
+              <input
+                type="text"
+                placeholder="Enter Test Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </div>
+            <div
+              className="drop-area"
+              onDrop={handleFileDrop}
+              onDragOver={handleDragOver}
+              style={{ border: '2px dashed #ffba00', padding: '20px', textAlign: 'center' }}
+            >
+              {file ? (
+                <p>{file.name} (File Ready)</p>
+              ) : (
+                <p>Drag and drop a test file here</p>
+              )}
+            </div>
+            <div className="form-actions">
+              {uploadMessage ? (
+                <div className={`upload-message ${uploadSuccess ? 'success' : 'error'}`}>
+                  {uploadMessage}
+                </div>
+              ) : (
+                <button
+                  className="save-button"
+                  onClick={handleSaveTest}
+                  disabled={!testSuit || !description || !file}
+                >
+                  Save Test
+                </button>
+              )}
+              <button className="clear-button" onClick={handleClearTest}>
+                Clear Test
+              </button>
+            </div>
+          </>
+        )}
+      </div>
+    </Draggable>
   );
 };
 
