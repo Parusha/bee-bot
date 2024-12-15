@@ -6,6 +6,7 @@ import DragItem from './DragItem';
 import DropZone from './DropZone';
 import AddItemForm from './AddItemForm';
 import dragDropData from '../../data/dragDropData.json';
+import testSuitDataStructure from '../../data/testSuitDataStructure.json';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave, faLightbulb, faEye, faEyeSlash, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -17,8 +18,10 @@ const CreateTest = () => {
     const [droppedItems, setDroppedItems] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [testSuiteName, setTestSuiteName] = useState('');
+    const [testName, setTestName] = useState('');
     const [description, setDescription] = useState('');
+    const [testSuit, setTestSuit] = useState('');  // Add this line for the testSuit state
+    const [testSuiteName, setTestSuiteName] = useState('');
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [contentMode, setContentMode] = useState('blocks');
     const [heading, setHeading] = useState('Code Blocks');
@@ -114,12 +117,16 @@ const CreateTest = () => {
     };
 
     const handleModalSave = () => {
-        console.log('Test Suite Name:', testSuiteName);
-        console.log('Description:', description);
-        console.log('Dropped items:', droppedItems);
+        // console.log('Test  Name:', testName);
+        // console.log('Test Suite Name:', testSuiteName);
+        // console.log('Description:', description);
+        // console.log('Dropped items:', droppedItems);
         setShowModal(false);
         setTestSuiteName('');
+        setTestName('');
         setDescription('');
+        const fileContent = generateFullPreview();
+        console.log(fileContent);
     };
 
     const generateFullPreview = () => {
@@ -265,7 +272,7 @@ module.exports = runTest;`;
                             </>
                         )}
                         {contentMode === 'hint' && (
-                            <HintTestTable/>
+                            <HintTestTable />
                         )}
                         {contentMode === 'preview' && (
                             <div className="code-preview">
@@ -316,6 +323,7 @@ module.exports = runTest;`;
                     <div className="modal">
                         <div className="modal-content">
                             <h3>Save Test Suite</h3>
+
                             <label>
                                 Test Suite Name:
                                 <input
@@ -324,6 +332,7 @@ module.exports = runTest;`;
                                     onChange={(e) => setTestSuiteName(e.target.value)}
                                 />
                             </label>
+
                             <label>
                                 Description:
                                 <input
@@ -332,11 +341,33 @@ module.exports = runTest;`;
                                     onChange={(e) => setDescription(e.target.value)}
                                 />
                             </label>
-                            <button onClick={handleModalSave}>Save</button>
-                            <button onClick={() => setShowModal(false)}>Cancel</button>
+
+                            <label htmlFor="testSuitOptions">
+                                Select Test Suite:
+                                <input
+                                    list="testSuitOptions"
+                                    type="text"
+                                    value={testSuit}
+                                    onChange={(e) => setTestSuit(e.target.value)}
+                                    required
+                                />
+                                <datalist id="testSuitOptions">
+                                    {testSuitDataStructure.map((suit) => (
+                                        <option key={suit.testSuit} value={suit.testSuit}>
+                                            {suit.testSuit}
+                                        </option>
+                                    ))}
+                                </datalist>
+                            </label>
+
+                            <div className="modal-actions">
+                                <button onClick={handleModalSave}>Save</button>
+                                <button onClick={() => setShowModal(false)}>Cancel</button>
+                            </div>
                         </div>
                     </div>
                 )}
+
                 {showErrorModal && (
                     <div className="modal">
                         <div className="modal-content">
