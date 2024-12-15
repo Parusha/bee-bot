@@ -21,6 +21,7 @@ const CreateTest = () => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [uploadMessage, setUploadMessage] = useState('');
     const [uploadSuccess, setUploadSuccess] = useState(false);
+    const [testSuitData, setTestSuitData] = useState(testSuitDataStructure);
     const [testName, setTestName] = useState('');
     const [description, setDescription] = useState('');
     const [testSuit, setTestSuit] = useState('');  // Add this line for the testSuit state
@@ -120,38 +121,86 @@ const CreateTest = () => {
     };
 
     const handleModalSave = () => {
+        // Close the modal and reset the state
         setShowModal(false);
         setTestSuiteName('');
         setTestName('');
         setDescription('');
+    
         const fileContent = generateFullPreview();
-
+    
         // Convert the content into a Blob and append to FormData
         const file = new Blob([fileContent], { type: 'application/javascript' });
         const formData = new FormData();
         formData.append('file', file, `${testSuiteName}.js`);
-        formData.append('testName', testSuit);
+        formData.append('testName', testName);  // Use the correct testName
         formData.append('description', description);
-
+    
         // Send the file to the server via POST request
         axios.post(`${process.env.REACT_APP_API_BASE_URL}/upload-test`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
         })
-            .then((response) => {
-                console.log('File uploaded successfully:', response.data.message);
-                // Optional: Update UI or state to reflect success
-                setUploadMessage(response.data.message);
-                setUploadSuccess(true);
-            })
-            .catch((error) => {
-                console.error('Error uploading the file:', error);
-                // Optional: Update UI or state to reflect failure
-                setUploadMessage('Error uploading the file');
-                setUploadSuccess(false);
-            });
+        .then((response) => {
+            console.log('File uploaded successfully:', response.data.message);
+            setUploadMessage(response.data.message);
+            setUploadSuccess(true);
+    
+            // Find the existing test suite by name (case-insensitive match)
+
+            const existingSuit = testSuitDataStructure.find(suit => suit.testSuit.toLowerCase() === testSuit.toLowerCase());
+    
+            if (existingSuit) {
+                console.log('update the test only');
+                // If the test suite exists, check if the testName already exists
+                const existingTest = existingSuit.tests.find(test => test.content.testName.toLowerCase() === testSuit.toLowerCase());
+    
+                if (!existingTest) {
+                    // If the test does not already exist, append it to the test suite
+                    existingSuit.tests.push({
+                        title: `${testSuiteName} Test`, // Dynamically create the title from the testName
+                        content: {
+                            testName: testSuiteName, // Use the testName from state
+                            description: description, // Use the description from state
+                        },
+                    });
+                } else {
+                    console.log(`Test '${testSuit}' already exists in the suite '${testSuiteName}'.`);
+                }
+            } else {
+                console.log('Create thje whole test suite');
+                // If the test suite doesn't exist, create a new test suite with the test
+                testSuitDataStructure.push({
+                    testSuit: testSuit, // Add the new test suite name
+                    tests: [{
+                        title: `${testSuiteName} Test`, // Dynamically create the title from the testName
+                        content: {
+                            testName: testSuiteName, // Use the testName from state
+                            description: description, // Use the description from state
+                        },
+                    }],
+                });
+            }
+    
+            // After modifying the data structure, update the state
+            setTestSuitData([...testSuitData]); // This triggers a re-render with the updated data structure
+            console.log(testSuitData);
+    
+            // Now send the updated testSuitDataStructure to the server to update the file
+            return axios.post(`${process.env.REACT_APP_API_BASE_URL}/update-accordion-data`, testSuitData);
+        })
+        .then((response) => {
+            console.log('Data updated successfully:', response.data.message);
+            setUploadMessage('Test suite updated successfully');
+        })
+        .catch((error) => {
+            console.error('Error uploading or updating data:', error);
+            setUploadMessage('Error uploading the file');
+            setUploadSuccess(false);
+        });
     };
+    
 
     const generateFullPreview = () => {
         let codeTemplate = `const puppeteer = require('puppeteer');
