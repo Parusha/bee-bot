@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import '../../styles/CreateTest.css';
@@ -18,6 +19,8 @@ const CreateTest = () => {
     const [droppedItems, setDroppedItems] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [uploadMessage, setUploadMessage] = useState('');
+    const [uploadSuccess, setUploadSuccess] = useState(false);
     const [testName, setTestName] = useState('');
     const [description, setDescription] = useState('');
     const [testSuit, setTestSuit] = useState('');  // Add this line for the testSuit state
@@ -117,16 +120,37 @@ const CreateTest = () => {
     };
 
     const handleModalSave = () => {
-        // console.log('Test  Name:', testName);
-        // console.log('Test Suite Name:', testSuiteName);
-        // console.log('Description:', description);
-        // console.log('Dropped items:', droppedItems);
         setShowModal(false);
         setTestSuiteName('');
         setTestName('');
         setDescription('');
         const fileContent = generateFullPreview();
-        console.log(fileContent);
+
+        // Convert the content into a Blob and append to FormData
+        const file = new Blob([fileContent], { type: 'application/javascript' });
+        const formData = new FormData();
+        formData.append('file', file, `${testSuiteName}.js`);
+        formData.append('testName', testSuit);
+        formData.append('description', description);
+
+        // Send the file to the server via POST request
+        axios.post(`${process.env.REACT_APP_API_BASE_URL}/upload-test`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+            .then((response) => {
+                console.log('File uploaded successfully:', response.data.message);
+                // Optional: Update UI or state to reflect success
+                setUploadMessage(response.data.message);
+                setUploadSuccess(true);
+            })
+            .catch((error) => {
+                console.error('Error uploading the file:', error);
+                // Optional: Update UI or state to reflect failure
+                setUploadMessage('Error uploading the file');
+                setUploadSuccess(false);
+            });
     };
 
     const generateFullPreview = () => {
