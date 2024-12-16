@@ -126,81 +126,82 @@ const CreateTest = () => {
         setTestSuiteName('');
         setTestName('');
         setDescription('');
-    
         const fileContent = generateFullPreview();
-    
-        // Convert the content into a Blob and append to FormData
         const file = new Blob([fileContent], { type: 'application/javascript' });
         const formData = new FormData();
         formData.append('file', file, `${testSuiteName}.js`);
-        formData.append('testName', testName);  // Use the correct testName
+        formData.append('testName', testName); // Use the correct testName
         formData.append('description', description);
-    
-        // Send the file to the server via POST request
+
+        window.alert('Uploading test file. Please wait...');
+
         axios.post(`${process.env.REACT_APP_API_BASE_URL}/upload-test`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
         })
-        .then((response) => {
-            console.log('File uploaded successfully:', response.data.message);
-            setUploadMessage(response.data.message);
-            setUploadSuccess(true);
-    
-            // Find the existing test suite by name (case-insensitive match)
+            .then((response) => {
+                console.log('File uploaded successfully:', response.data.message);
+                setUploadMessage(response.data.message);
+                setUploadSuccess(true);
 
-            const existingSuit = testSuitDataStructure.find(suit => suit.testSuit.toLowerCase() === testSuit.toLowerCase());
-    
-            if (existingSuit) {
-                console.log('update the test only');
-                // If the test suite exists, check if the testName already exists
-                const existingTest = existingSuit.tests.find(test => test.content.testName.toLowerCase() === testSuit.toLowerCase());
-    
-                if (!existingTest) {
-                    // If the test does not already exist, append it to the test suite
-                    existingSuit.tests.push({
-                        title: `${testSuiteName} Test`, // Dynamically create the title from the testName
-                        content: {
-                            testName: testSuiteName, // Use the testName from state
-                            description: description, // Use the description from state
-                        },
-                    });
+                window.alert('File uploaded successfully!');
+
+                const existingSuit = testSuitDataStructure.find(
+                    (suit) => suit.testSuit.toLowerCase() === testSuit.toLowerCase()
+                );
+
+                if (existingSuit) {
+                    console.log('Update the test only');
+                    const existingTest = existingSuit.tests.find(
+                        (test) => test.content.testName.toLowerCase() === testSuit.toLowerCase()
+                    );
+
+                    if (!existingTest) {
+                        existingSuit.tests.push({
+                            title: `${testSuiteName} Test`,
+                            content: {
+                                testName: testSuiteName,
+                                description: description,
+                            },
+                        });
+                    } else {
+                        console.log(`Test '${testSuit}' already exists in the suite '${testSuiteName}'.`);
+                        window.alert(`Test '${testSuit}' already exists in the suite '${testSuiteName}'.`);
+                    }
                 } else {
-                    console.log(`Test '${testSuit}' already exists in the suite '${testSuiteName}'.`);
+                    console.log('Create the whole test suite');
+                    testSuitDataStructure.push({
+                        testSuit: testSuit,
+                        tests: [
+                            {
+                                title: `${testSuiteName} Test`,
+                                content: {
+                                    testName: testSuiteName,
+                                    description: description,
+                                },
+                            },
+                        ],
+                    });
                 }
-            } else {
-                console.log('Create thje whole test suite');
-                // If the test suite doesn't exist, create a new test suite with the test
-                testSuitDataStructure.push({
-                    testSuit: testSuit, // Add the new test suite name
-                    tests: [{
-                        title: `${testSuiteName} Test`, // Dynamically create the title from the testName
-                        content: {
-                            testName: testSuiteName, // Use the testName from state
-                            description: description, // Use the description from state
-                        },
-                    }],
-                });
-            }
-    
-            // After modifying the data structure, update the state
-            setTestSuitData([...testSuitData]); // This triggers a re-render with the updated data structure
-            console.log(testSuitData);
-    
-            // Now send the updated testSuitDataStructure to the server to update the file
-            return axios.post(`${process.env.REACT_APP_API_BASE_URL}/update-accordion-data`, testSuitData);
-        })
-        .then((response) => {
-            console.log('Data updated successfully:', response.data.message);
-            setUploadMessage('Test suite updated successfully');
-        })
-        .catch((error) => {
-            console.error('Error uploading or updating data:', error);
-            setUploadMessage('Error uploading the file');
-            setUploadSuccess(false);
-        });
+
+                setTestSuitData([...testSuitData]);
+                console.log(testSuitData);
+
+                return axios.post(`${process.env.REACT_APP_API_BASE_URL}/update-accordion-data`, testSuitData);
+            })
+            .then((response) => {
+                console.log('Data updated successfully:', response.data.message);
+                setUploadMessage('Test suite updated successfully');
+                window.alert('Test suite updated successfully!');
+            })
+            .catch((error) => {
+                console.error('Error uploading or updating data:', error);
+                setUploadMessage('Error uploading the file');
+                setUploadSuccess(false);
+                window.alert('An error occurred while uploading or updating the data. Please try again.');
+            });
     };
-    
 
     const generateFullPreview = () => {
         let codeTemplate = `const puppeteer = require('puppeteer');
@@ -396,25 +397,6 @@ module.exports = runTest;`;
                     <div className="modal">
                         <div className="modal-content">
                             <h3>Save Test Suite</h3>
-
-                            <label>
-                                Test Suite Name:
-                                <input
-                                    type="text"
-                                    value={testSuiteName}
-                                    onChange={(e) => setTestSuiteName(e.target.value)}
-                                />
-                            </label>
-
-                            <label>
-                                Description:
-                                <input
-                                    type="text"
-                                    value={description}
-                                    onChange={(e) => setDescription(e.target.value)}
-                                />
-                            </label>
-
                             <label htmlFor="testSuitOptions">
                                 Select Test Suite:
                                 <input
@@ -432,6 +414,26 @@ module.exports = runTest;`;
                                     ))}
                                 </datalist>
                             </label>
+                            <p />
+                            <label>
+                                Test Name:
+                                <input
+                                    type="text"
+                                    value={testSuiteName}
+                                    onChange={(e) => setTestSuiteName(e.target.value)}
+                                />
+                            </label>
+                            <p />
+                            <label>
+                                Description:
+                                <input
+                                    type="text"
+                                    value={description}
+                                    onChange={(e) => setDescription(e.target.value)}
+                                />
+                            </label>
+
+
 
                             <div className="modal-actions">
                                 <button onClick={handleModalSave}>Save</button>
