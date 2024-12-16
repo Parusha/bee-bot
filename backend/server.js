@@ -225,6 +225,68 @@ app.post('/run-test', async (req, res) => {
   }
 });
 
+const hintTestTablePath = path.join(__dirname, '../src/data/hintTestTable.json');
+
+// Get hint tests
+app.get('/get-hint-tests', async (req, res) => {
+  try {
+    const data = await fs.readFile(hintTestTablePath, 'utf8');
+    const parsedData = JSON.parse(data); // Parsing the JSON
+    res.status(200).json(parsedData); // Sending the parsed data
+  } catch (error) {
+    console.error('Error reading hintTestTable.json:', error);
+    res.status(500).json({ message: 'Error reading hintTestTable.json' }); // Return a general error message
+  }
+});
+
+app.post('/add-hint-test', async (req, res) => {
+  const newTest = req.body;
+
+  // Basic validation: check if the necessary data is provided
+  if (!newTest || Object.keys(newTest).length === 0) {
+    return res.status(400).json({ message: 'Invalid input: Missing test data' });
+  }
+
+  try {
+    // Read existing tests
+    const data = await fs.readFile(hintTestTablePath, 'utf8');
+    const tests = JSON.parse(data);
+
+    // Add the new test
+    tests.push(newTest);
+
+    // Write the updated tests back to the file
+    await fs.writeFile(hintTestTablePath, JSON.stringify(tests, null, 2));
+
+    // Send the updated list of tests as response
+    res.status(200).json({ message: 'Test added successfully', tests });
+  } catch (error) {
+    // Enhanced error handling: log and return more specific error messages
+    console.error('Error writing to hintTestTable.json:', error);
+    res.status(500).json({ message: 'Error writing to hintTestTable.json', error: error.message });
+  }
+});
+
+app.post('/delete-hint-test', async (req, res) => {
+  const { index } = req.body;
+
+  try {
+    const data = await fs.readFile(hintTestTablePath, 'utf8');
+    const tests = JSON.parse(data);
+
+    if (index >= 0 && index < tests.length) {
+      tests.splice(index, 1); // Remove the test at the specified index
+      await fs.writeFile(hintTestTablePath, JSON.stringify(tests, null, 2));
+      res.status(200).json(tests); // Return the updated list
+    } else {
+      res.status(400).json({ message: 'Invalid index' });
+    }
+  } catch (error) {
+    console.error('Error writing to hintTestTable.json:', error);
+    res.status(500).json({ message: 'Error writing to hintTestTable.json' });
+  }
+});
+
 // Socket.IO connection handler
 io.on('connection', (socket) => {
   console.log('A user connected');

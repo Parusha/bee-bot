@@ -43,6 +43,14 @@
       "placeholder2": "height",
       "logMessage": "Setting the viewport dimensions",
       "codeBlock": "await page.setViewport({ width: ${placeholder}, height: ${placeholder2} });"
+    },
+    {
+      "drag": "Login snipet ",
+      "drop": "Login",
+      "placeholder": "",
+      "placeholder2": "",
+      "logMessage": "Logging In",
+      "codeBlock": "  // Handle login based on device type\n    if (device === 'desktop') {\n      io.emit('log', 'Waiting for login button...');\n      await page.waitForSelector('button[data-testid=\"login-btn\"]', { timeout: 5000 });\n\n      io.emit('log', 'Login button found, clicking the button...');\n      await page.click('button[data-testid=\"login-btn\"]');\n    } else {\n      io.emit('log', 'Waiting for login button...');\n      await page.waitForSelector('div[role=\"presentation\"]', { timeout: 5000 });\n\n      io.emit('log', 'Finding and clicking the login button...');\n      const buttonFound = await page.evaluate(() => {\n        const button = Array.from(document.querySelectorAll('div[role=\"presentation\"]'))\n          .find(div => div.innerText.trim() === 'Log in');\n        if (button) {\n          button.click();\n          return true;\n        }\n        return false;\n      });\n\n      if (!buttonFound) {\n        throw new Error('Login button not found');\n      }\n    }\n\n    io.emit('log', 'Entering username and password...');\n    await page.waitForSelector('#Username', { timeout: 5000 });\n    await page.type('#Username', username);\n    await page.type('#password', password);\n    await page.click('#btnLogin');\n\n    io.emit('log', 'Waiting for navigation...');\n    await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 10000 });\n"
     }
   ]
 }
